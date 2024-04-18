@@ -4,7 +4,7 @@ import { ButtonProps } from '../../interfaces/buttonProps';
 
 export const Container = styled(SafeAreaView)`
   width: 100%;
-  height: 120px;
+  height: 100px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

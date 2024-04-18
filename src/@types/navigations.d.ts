@@ -5,6 +5,7 @@ export declare global {
       exercise: undefined
       createExercise: undefined
       myExercise: undefined
+      calculation: undefined
     }
   }
 }
