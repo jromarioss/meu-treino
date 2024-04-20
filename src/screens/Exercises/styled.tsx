@@ -11,7 +11,7 @@ export const Main = styled.View`
   flex: 1;
   width: 100%;
   padding: 16px;
-  gap: 12px;
+  gap: 16px;
 `;
 
 export const AreaButtonBody = styled.View`
@@ -23,10 +23,28 @@ export const ButtonBody = styled.TouchableOpacity<ButtonProps>`
   padding: 2px 14px;
   border-radius: 4px;
   margin-right: 16px;
-  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};;
+  border: 2px solid transparent;
 `;
 
 export const ButtonBodyTxt = styled.Text`
   font-size: 18px;
+  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const AreaExercise = styled.View`
+  flex: 1;
+  gap: 12px;
+`;
+
+export const ButtonExercise = styled.TouchableOpacity<ButtonProps>`
+  width: 100%;
+  padding: 10px 0px;
+  margin-bottom: 16px;
+  border-bottom-width: 1px;
+  border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const ButtonExerciseTxt = styled.Text`
+  font-size: 24px;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;

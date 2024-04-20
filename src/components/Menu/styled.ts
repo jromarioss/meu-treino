@@ -16,13 +16,8 @@ export const MenuContainer = styled(SafeAreaView)`
 export const ButtonClose = styled.TouchableOpacity<ButtonProps>`
   padding: 10px;
   position: absolute;
-  top: 12px;
-  right: 12px;
-`;
-
-export const ButtonCloseTxt = styled.Text`
-  font-size: 52px;
-  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+  top: 32px;
+  right: 24px;
 `;
 
 export const Button = styled.TouchableOpacity<ButtonProps>`

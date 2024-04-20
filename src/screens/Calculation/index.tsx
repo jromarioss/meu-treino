@@ -61,7 +61,7 @@ export const Calculation = () => {
       setRightWeight(true);
       return text;
     } else if (value >= 35 && value <= 39.9) {
-      text = 'Você está com besidade grau II';
+      text = 'Você está com obesidade grau II';
       setRightWeight(true);
       return text;
     } else {

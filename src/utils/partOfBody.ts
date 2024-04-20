@@ -1,0 +1,1 @@
+export const partOfBody: string[] = ['Abdominal', 'Bíceps', 'Costa', 'Peito', 'Perna', 'Ombro', 'Tríceps'];

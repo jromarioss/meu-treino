@@ -1,8 +1,10 @@
-import { BackHandler, Text } from 'react-native';
-import { MenuContainer, Button, ButtonText, ButtonClose, ButtonCloseTxt } from './styled';
-import { useNavigation } from '@react-navigation/native'
-import { useContext } from 'react';
+import { BackHandler } from 'react-native';
+import { MenuContainer, Button, ButtonText, ButtonClose } from './styled';
+import { useNavigation } from '@react-navigation/native';
+import { useContext, useEffect } from 'react';
 import { GymContext } from '../../context/gymContext';
+import { Keyboard, Image } from 'react-native';
+import CloseImg from '../../assets/closeImg.png';
 
 export const Menu = () => {
   const { onShowMenu, showMenu } = useContext(GymContext);
@@ -38,10 +40,16 @@ export const Menu = () => {
     onShowMenu(!showMenu);
   }
 
+  useEffect(() => {
+    if (showMenu) {
+      Keyboard.dismiss();
+    }
+  }, [])
+
   return (
     <MenuContainer>
       <ButtonClose onPress={handleMenu}>
-        <ButtonCloseTxt>x</ButtonCloseTxt>
+        <Image source={CloseImg} />
       </ButtonClose>
       {buttons.map((button, index) => {
         return (

@@ -6,6 +6,10 @@ export declare global {
       createExercise: undefined
       myExercise: undefined
       calculation: undefined
+      exerciseDetail: {
+        type: string
+        exercise: string
+      }
     }
   }
 }
