@@ -114,7 +114,7 @@ export const Calculation = () => {
           </>
         }
         {rightWeight && 
-          <LabelText>Peso ideal para você: {idealWeight} KL</LabelText>
+          <LabelText>Peso ideal para você: {idealWeight} KG</LabelText>
         }
       </Main>
     </Container>

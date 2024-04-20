@@ -1,3 +1,4 @@
-const MY_TRAINING_LIST = '@my-training_list';
+const TRAINING_COLLECTION = '@training-exercise:list';
+const EXERCISE_COLLECTION = '@exercise:list';
 
-export { MY_TRAINING_LIST };
+export { TRAINING_COLLECTION, EXERCISE_COLLECTION };
