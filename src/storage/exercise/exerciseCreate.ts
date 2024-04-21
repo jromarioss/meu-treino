@@ -1,20 +1,20 @@
 import AsyncStorae from '@react-native-async-storage/async-storage';
-import { exerciseGetAll } from './exerciseGetAll';
+import { exerciseGetByTraining } from './exerciseGetByTraining';
 import { exerciseStorageDTO } from './exerciseStorageDTO';
 import { AppError } from '../../utils/appError';
-import { TRAINING_COLLECTION } from '../storageConfig';
+import { EXERCISE_COLLECTION } from '../storageConfig';
 
-export const exerciseCreate = async (newTraining: exerciseStorageDTO) => {
+export const exerciseCreate = async (newExercise: exerciseStorageDTO, training: string) => {
   try {
-    const storageTraining = await exerciseGetAll();
-    const trainingAlreadyExists = storageTraining.filter(training => training.name === newTraining.name);
+    const storageExercise = await exerciseGetByTraining(training);
+    const exerciseAlreadyExists = storageExercise.filter(exercise => exercise.title === newExercise.title);
 
-    if (trainingAlreadyExists.length > 0) {
-      throw new AppError('Já existe um treino criado com esse nome.');
+    if (exerciseAlreadyExists.length > 0) {
+      throw new AppError('Exercício já adicionado no seu traino.');
     }
 
-    const storage = JSON.stringify([...storageTraining, newTraining]);
-    await AsyncStorae.setItem(TRAINING_COLLECTION, storage);
+    const storage = JSON.stringify([...storageExercise, newExercise]);
+    await AsyncStorae.setItem(`${EXERCISE_COLLECTION}-${training}`, storage);
   } catch (error) {
     throw error;
   }

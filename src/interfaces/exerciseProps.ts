@@ -1,11 +1,11 @@
 export interface exerciseTypesProps {
-  id: number
-  type: string
-  exercise: string
+  id: number,
+  type: string,
+  exercise: string,
 }
 
 export interface ExerciseProps {
-  id: number
-  title: string
-  types: exerciseTypesProps[]
+  id: number,
+  title: string,
+  types: exerciseTypesProps[],
 }

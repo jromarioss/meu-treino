@@ -13,7 +13,7 @@ export const Menu = () => {
   const buttons = [
     { label: 'Home', value: 'home' },
     { label: 'Exercícios', value: 'exercise' },
-    { label: 'Montar Treino', value: 'createExercise' },
+    { label: 'Criar Treino', value: 'createTraining' },
     { label: 'Meu Treino', value: 'myExercise' },
     { label: 'Calculo IMC', value: 'calculation' },
     { label: 'Sair', value: 'exit' },
@@ -25,8 +25,8 @@ export const Menu = () => {
       navigate.navigate('home');
     } else if (goTo == 'exercise') {
       navigate.navigate('exercise');
-    } else if (goTo == 'createExercise') {
-      navigate.navigate('createExercise');
+    } else if (goTo == 'createTraining') {
+      navigate.navigate('createTraining');
     } else if (goTo == 'myExercise') {
       navigate.navigate('myExercise');
     } else if (goTo == 'calculation') {

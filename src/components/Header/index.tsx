@@ -6,8 +6,8 @@ import { useContext } from 'react';
 import { GymContext } from '../../context/gymContext';
 
 type HeaderProps = {
-  title: string
-  hasButtonBack?: boolean
+  title: string,
+  hasButtonBack?: boolean,
 }
 
 export const Header = ({ title, hasButtonBack }: HeaderProps) => {

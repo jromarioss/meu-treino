@@ -1,3 +1,13 @@
 export interface exerciseStorageDTO {
-  name: string
+  id?: string,
+  title: string,
+  types: exerciseTypes[],
+}
+
+interface exerciseTypes {
+  title: string,
+  image: string,
+  description: string[],
+  series: number,
+  repetition: number,
 }
