@@ -41,7 +41,7 @@ export const ExerciseDetail = () => {
 
   useEffect(() => {
     fetchExercise();
-  }, [])
+  }, []);
 
   return load ?
     <Loading />

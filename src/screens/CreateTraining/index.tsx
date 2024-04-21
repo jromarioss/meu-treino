@@ -69,8 +69,12 @@ export const CreateTraining = () => {
   }
 
   const handleOpenModalCreateExercise = () => {
-    setBlockBtnCreate(true);
-    setModalCreateExercise(true);
+    if (training != null) {
+      return;
+    } else {
+      setBlockBtnCreate(true);
+      setModalCreateExercise(true);
+    }
   }
 
   const handleCloseModalCreate = () => {
@@ -109,8 +113,9 @@ export const CreateTraining = () => {
                     />
                   </ButtonDelete>
                 </Div>
-                <Text>1. Agora clique no nome do treino que você criou para criar uma divisão, e na divisão você pode criar exercícios.</Text>
-                <Text>2. Divisões são como exercícios, exemplo divisão de perna, nessa divisão terá os exercícios de perna.</Text>
+                <Text>1. Agora clique no nome do treino que você criou para criar uma divisão.</Text>
+                <Text>2. Uma divisão pode conter muitos exercícios, um exemplo um divisão com o nome de perna, nessa divisão perna tem varios exercício para perna.</Text>
+                <Text>4. Só pode ser criado um treino por vez.</Text>
                 <Text>3. Caso deseje deletar o treino basta clica na lixeira.</Text>
               </>
               :
@@ -119,9 +124,11 @@ export const CreateTraining = () => {
           </TrainingArea>
         }
 
-        <ButtonCreate onPress={handleOpenModalCreateExercise} disabled={blockBtnCreate}>
-          <ButtonCreateTxt>Criar</ButtonCreateTxt>
-        </ButtonCreate>
+        {!blockBtnCreate&&
+          <ButtonCreate onPress={handleOpenModalCreateExercise}>
+            <ButtonCreateTxt>Criar</ButtonCreateTxt>
+          </ButtonCreate>
+        }
       </Main>
     </Container>
   );

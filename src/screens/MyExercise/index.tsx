@@ -5,7 +5,9 @@ import { Menu } from '../../components/Menu';
 import { GymContext } from '../../context/gymContext';
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 import { trainingGetAll } from '../../storage/training/trainingGetAll';
+import AsyncStorae from '@react-native-async-storage/async-storage';
 import { trainingToRemove } from '../../storage/training/trainingToRemove';
+import { TRAINING_COLLECTION } from '../../storage/storageConfig';
 
 export const MyExercise = () => {
   const { showMenu } = useContext(GymContext);
@@ -19,8 +21,9 @@ export const MyExercise = () => {
 
       const data = await trainingGetAll();
       //setTraining(data);
+
       console.log('data: ', data)
-      //await trainingToRemove('Treino A');
+      //await AsyncStorae.removeItem(TRAINING_COLLECTION);
       setLoad(false);
     } catch (error) {
       console.log(error)

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-import { ButtonProps } from '../../interfaces/buttonProps';
+import { TouchableOpacityProps } from 'react-native';
+import { ButtonProps } from '../../interfaces/buttonProps'
 
 export const Container = styled.View`
   flex: 1;
@@ -87,13 +88,17 @@ export const DivisionButtonDelete = styled.TouchableOpacity<ButtonProps>`
   margin-left: 16px;
 `;
 
-export const ButtonFinish = styled.TouchableOpacity<ButtonProps>`
+interface ButtonFinishProps extends TouchableOpacityProps {
+  type?: 'primary' | 'secondary'
+}
+
+export const ButtonFinish = styled.TouchableOpacity<ButtonFinishProps>`
   width: 100%;
   height: 52px;
   align-items: center;
   justify-content: center;
   padding-left: 12px;
-  background-color: ${({ theme }: any) => theme.COLORS.GREEN_500};;
+  background-color: ${({ type, theme }: any) => type === 'primary' ? theme.COLORS.GREEN_500 : theme.COLORS.ORANGE_400};
   border-radius: 8px;
 `;
 

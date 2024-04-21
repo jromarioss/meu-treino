@@ -1,14 +1,15 @@
 import { Container, Main, AreaInput, Input, ButtonDivision, ButtonDivisionTxt, AreaDivision, Division, Divisions, DivisionButton, DivisionButtonTxt, DivisionButtonDelete, ButtonFinish, ButtonFinishTxt } from './styled';
 import { Header } from '../../components/Header';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Menu } from '../../components/Menu';
 import { GymContext } from '../../context/gymContext';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { Alert, FlatList, Text } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { Image } from 'expo-image';
 import TrashImg from '../../assets/trashWhite.png';
 import { AppError } from '../../utils/appError';
 import { divisionProps } from '../../interfaces/divisionProps';
+import { ModalDoubt } from './components/ModalDoubt';
 
 interface RouteParamsProps {
   trainingName: string,
@@ -23,6 +24,7 @@ export const CreateDivision = () => {
   const [division, setDivision] = useState<divisionProps[]>([]);
   const [name, setName] = useState<string>('');
   const [blockBtnFinish, setBlockBtnFinish] = useState<boolean>(true);
+  const [modalDoubt, setModalDoubt] = useState<boolean>(false);
 
   const handleCreateDivisionName = () => {
     const newDivision: divisionProps = {
@@ -57,6 +59,21 @@ export const CreateDivision = () => {
   const handleGoToExercises = (name: string) => {
     navigate.navigate('createExercise', { divisionName: name })
   }
+
+  const handleOpenModalDoubt = () => {
+    setModalDoubt(false);
+  }
+
+  useEffect(() => {
+    if (division.length > 0) {
+      const hasExercise = division.some(item => item.exercises.length > 0);
+      if (hasExercise) {
+        setBlockBtnFinish(false)
+      } else {
+        setBlockBtnFinish(true);
+      }
+    }
+  }, [division, setBlockBtnFinish])
 
   return (
     <Container>
@@ -101,9 +118,17 @@ export const CreateDivision = () => {
           />
         </AreaDivision>
 
-        {division.length > 0 &&
-          <ButtonFinish disabled={blockBtnFinish}>
+        {modalDoubt && 
+          <ModalDoubt />
+        }
+
+        {division.length > 0 ?
+          <ButtonFinish type='primary' disabled={blockBtnFinish}>
             <ButtonFinishTxt>Finalizar</ButtonFinishTxt>
+          </ButtonFinish>
+          :
+          <ButtonFinish onPress={handleOpenModalDoubt} type='secondary'>
+            <ButtonFinishTxt>Como criar divisão</ButtonFinishTxt>
           </ButtonFinish>
         }
       </Main>

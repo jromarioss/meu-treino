@@ -1,8 +1,10 @@
 import { ReactNode, createContext, useState } from 'react';
+import { exercisesProps } from '../interfaces/divisionProps';
+import { Alert } from 'react-native';
 
 export type GymContextDataProps = {
-  showMenu: boolean;
-  onShowMenu: (value: boolean) => void;
+  showMenu: boolean,
+  onShowMenu: (value: boolean) => void,
 }
 
 type GymContextProviderProps = {

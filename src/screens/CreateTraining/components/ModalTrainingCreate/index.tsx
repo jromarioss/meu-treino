@@ -1,5 +1,5 @@
 import { Container, Input, LabelText, Form, InfoText, Main, ButtonClose, ButtonNext, ButtonNextTxt } from './styled';
-import CloseImg from './image/closeBack.png'
+import CloseImg from '../../../../assets/closeBack.png';
 import { Alert, Image } from 'react-native';
 import { useEffect, useState } from 'react';
 import { AppError } from '../../../../utils/appError';

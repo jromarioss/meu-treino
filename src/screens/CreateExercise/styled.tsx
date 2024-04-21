@@ -14,6 +14,11 @@ export const Main = styled.View`
   gap: 16px;
 `;
 
+export const DivisionNameTxt = styled.Text`
+  font-size: 18px;
+  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
 export const AreaButtonBody = styled.View`
   flex-direction: row;
   width: 100%;
@@ -46,5 +51,20 @@ export const ButtonExercise = styled.TouchableOpacity<ButtonProps>`
 
 export const ButtonExerciseTxt = styled.Text`
   font-size: 24px;
+  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const ButtonFinish = styled.TouchableOpacity<ButtonProps>`
+  width: 100%;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: ${({ theme }: any) => theme.COLORS.GREEN_500};
+`;
+
+export const ButtonFinishtxt = styled.Text`
+  font-size: 32px;
+  font-weight: 700;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
