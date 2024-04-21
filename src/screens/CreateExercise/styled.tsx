@@ -14,75 +14,37 @@ export const Main = styled.View`
   gap: 16px;
 `;
 
-export const AreaInput = styled.View`
-  width: 100%;
+export const AreaButtonBody = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
 `;
 
-export const Input = styled.TextInput`
-  flex: 1;
-  height: 42px;
-  padding-left: 8px;
+export const ButtonBody = styled.TouchableOpacity<ButtonProps>`
+  padding: 2px 14px;
+  border-radius: 4px;
+  margin-right: 16px;
+  border: 2px solid transparent;
+`;
+
+export const ButtonBodyTxt = styled.Text`
   font-size: 18px;
-  border-radius: 6px;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
-export const ButtonDivision = styled.TouchableOpacity<ButtonProps>`
-  width: 100px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 12px;
-  border-radius: 6px;
-  background-color: ${({ theme }: any) => theme.COLORS.GREEN_500};
-`;
-
-export const ButtonDivisionTxt = styled.Text`
-  font-size: 24px;
-  font-weight: 700;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
-export const AreaDivision = styled.View`
+export const AreaExercise = styled.View`
   flex: 1;
-  width: 100%;
+  gap: 12px;
 `;
 
-export const Division = styled.View`
-  flex-direction: row;
+export const ButtonExercise = styled.TouchableOpacity<ButtonProps>`
   width: 100%;
-  height: 48px;
-  align-items: center;
-  justify-content: space-between;
+  padding: 10px 0px;
+  margin-bottom: 16px;
   border-bottom-width: 1px;
   border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
-export const Divisions = styled.View`
-  flex: 1;
-  width: 100%;
-  height: 48px;
-`;
-
-export const DivisionButton = styled.TouchableOpacity<ButtonProps>`
-  flex: 1;
-  width: 100%;
-  height: 42px;
-  justify-content: center;
-  padding-left: 12px;
-`;
-
-export const DivisionButtonTxt = styled.Text`
+export const ButtonExerciseTxt = styled.Text`
   font-size: 24px;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
-export const DivisionButtonDelete = styled.TouchableOpacity<ButtonProps>`
-  width: 48px;
-  height: 48px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 16px;
 `;

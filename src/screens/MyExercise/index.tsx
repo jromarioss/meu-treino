@@ -20,7 +20,7 @@ export const MyExercise = () => {
       const data = await trainingGetAll();
       //setTraining(data);
       console.log('data: ', data)
-      //await trainingToRemove('Gduh');
+      //await trainingToRemove('Treino A');
       setLoad(false);
     } catch (error) {
       console.log(error)

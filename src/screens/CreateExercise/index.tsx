@@ -1,94 +1,93 @@
-import { Container, Main, AreaInput, Input, ButtonDivision, ButtonDivisionTxt, AreaDivision, Division, Divisions, DivisionButton, DivisionButtonTxt, DivisionButtonDelete } from './styled';
+import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt } from './styled';
 import { Header } from '../../components/Header';
 import { useContext, useState } from 'react';
+import { exercise } from '../../utils/exercises';
 import { Menu } from '../../components/Menu';
 import { GymContext } from '../../context/gymContext';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { Alert, FlatList, Text } from 'react-native';
-import { Image } from 'expo-image';
-import TrashImg from '../../assets/trashWhite.png';
-import { AppError } from '../../utils/appError';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
+import { FlatList } from 'react-native';
+import { partOfBody } from '../../utils/partOfBody';
+import { theme } from '../../styles/theme';
+import { ModalExercise } from './components/ModalExercise';
 
 interface RouteParamsProps {
-  trainingName: string,
+  divisionName: string,
 }
 
 export const CreateExercise = () => {
   const { showMenu } = useContext(GymContext);
+  const navigate = useNavigation();
   const route = useRoute();
-  const { trainingName } = route.params as RouteParamsProps;
+  const { divisionName } = route.params as RouteParamsProps;
 
-  const [divisionNames, setDivisionNames] = useState<string[]>([]);
-  const [name, setName] = useState<string>('');
+  const [buttonSelected, setButtonSelected] = useState<string | null>(null);
+  const [exerciseSelected, setExerciseSelected] = useState<ExerciseProps | null>(null);
+  const [modalExercise, setModalExercise] = useState<boolean>(false);
+  const [exerciseSelectedToModal, setExerciseSelectedToModal] = useState<string>('');
 
-  const handleCreateDivisionName = () => {
-    setDivisionNames(state => [...state, name]);
-    setName('');
-  }
+  const handleSelectBody = (value: string) => {
+    const findExercise = exercise.find(item => item.title === value);
 
-  const deleteDivision = async (name: string) => {
-    try {
-      const filterDivision = divisionNames.filter(item => item !== name);
-      setDivisionNames(filterDivision);
-      Alert.alert('Deletar divisão', 'Divisão deletada com sucesso.');
-    } catch (error) {
-      if (error instanceof AppError) {
-        Alert.alert('Deletar divisão', error.message);
-      } else {
-        Alert.alert('Deletar divisão', 'Não foi possível deletar essa divisão.');
-      }
+    if (findExercise) {
+      setExerciseSelected(findExercise)
     }
+
+    setButtonSelected(value);
   }
 
-  const handleDeleteDivision= async (name: string) => {
-    Alert.alert('Deletar divisão', 'Deseja deletar este divisão?', [
-      { text: 'Não', style: 'cancel' },
-      { text: 'Sim', onPress: () => deleteDivision(name) }
-    ]);
+  const handleOpenModalExercise = (name: string) => {
+    setExerciseSelectedToModal(name);
+    setModalExercise(true);
+  }
+
+  const handleGoExerciseDetail = (value: exerciseTypesProps) => {
+    navigate.navigate('exerciseDetail', { type: value.type, exercise: value.exercise })
   }
 
   return (
     <Container>
-      <Header title='Criar divisão e exercícios' />
+      <Header title='Adicionar exercícios' />
       {showMenu && <Menu />}
 
       <Main>
-        <AreaInput>
-          <Input
-            placeholder='Nome da divisão'
-            onChangeText={setName}
-            value={name}
-            maxLength={20}
+        {modalExercise ?
+          <ModalExercise
+            exercise={exerciseSelectedToModal}
           />
+          :
+          <>
+            <AreaButtonBody>
+              <FlatList
+                data={partOfBody}        
+                extraData={(item: string) => item}
+                renderItem={({ item }) => (
+                  <ButtonBody
+                    onPress={() => handleSelectBody(item)}
+                    style={{ borderColor: buttonSelected === item ? theme.COLORS.GREEN_400 : theme.COLORS.GRAY_100 }}
+                  >
+                    <ButtonBodyTxt>{item}</ButtonBodyTxt>
+                  </ButtonBody>
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              />
+            </AreaButtonBody>
 
-          <ButtonDivision onPress={handleCreateDivisionName}>
-            <ButtonDivisionTxt>Criar</ButtonDivisionTxt>
-          </ButtonDivision>
-        </AreaInput>
-
-        <AreaDivision>
-          <FlatList 
-            data={divisionNames}
-            extraData={(item: string) => item}
-            renderItem={({ item }) => (
-              <Division>
-                <Divisions>
-                  <DivisionButton>
-                    <DivisionButtonTxt>{item}</DivisionButtonTxt>
-                  </DivisionButton>
-                </Divisions>
-
-                <DivisionButtonDelete onPress={() => handleDeleteDivision(item)}>
-                  <Image
-                    source={TrashImg}
-                    contentFit='cover'
-                    style={{ width: 28, height: 28 }}
-                  />
-                </DivisionButtonDelete>
-              </Division>
-            )}
-          />
-        </AreaDivision>
+            <AreaExercise>
+              <FlatList
+                data={exerciseSelected?.types}       
+                extraData={(item: exerciseTypesProps) => item}
+                renderItem={({ item }) => (
+                  <ButtonExercise onPress={() => handleOpenModalExercise(item.exercise)}>
+                    <ButtonExerciseTxt>{item.exercise}</ButtonExerciseTxt>
+                  </ButtonExercise>
+                )}
+                showsHorizontalScrollIndicator={false}
+              />
+            </AreaExercise>
+          </>
+        }
       </Main>
     </Container>
   );

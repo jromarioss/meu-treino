@@ -4,8 +4,11 @@ export declare global {
       home: undefined,
       exercise: undefined,
       createTraining: undefined,
-      createExercise: {
+      createDivision: {
         trainingName: string,
+      },
+      createExercise: {
+        divisionName: string,
       },
       myExercise: undefined,
       calculation: undefined,

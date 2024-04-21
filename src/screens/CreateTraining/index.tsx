@@ -65,7 +65,7 @@ export const CreateTraining = () => {
   }
 
   const handleGoToCreateExercise = () => {
-    nagivate.navigate('createExercise', { trainingName: trainingName })
+    nagivate.navigate('createDivision', { trainingName: trainingName })
   }
 
   const handleOpenModalCreateExercise = () => {
@@ -105,12 +105,12 @@ export const CreateTraining = () => {
                     <Image
                       source={TrashImg}
                       contentFit='cover'
-                      style={{ width: 28, height: 28 }}
+                      style={{ width: 24, height: 24 }}
                     />
                   </ButtonDelete>
                 </Div>
                 <Text>1. Agora clique no nome do treino que você criou para criar uma divisão, e na divisão você pode criar exercícios.</Text>
-                <Text>2. Divisões são como exercícios, exemplo divisão de peito, nessa divisão terá os exercício de peito.</Text>
+                <Text>2. Divisões são como exercícios, exemplo divisão de perna, nessa divisão terá os exercícios de perna.</Text>
                 <Text>3. Caso deseje deletar o treino basta clica na lixeira.</Text>
               </>
               :
