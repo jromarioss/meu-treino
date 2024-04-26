@@ -14,6 +14,14 @@ export const Main = styled.View`
   gap: 16px;
 `;
 
+export const ButtonDivisionName = styled.TouchableOpacity<ButtonProps>`
+  width: 100%;
+  align-items: center;
+  padding: 10px 4px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
 export const DivisionNameTxt = styled.Text`
   font-size: 18px;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};

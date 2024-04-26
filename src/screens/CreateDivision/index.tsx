@@ -1,4 +1,4 @@
-import { Container, Main, AreaInput, Input, ButtonDivision, ButtonDivisionTxt, AreaDivision, Division, Divisions, DivisionButton, DivisionButtonTxt, DivisionButtonDelete, ButtonFinish, ButtonFinishTxt } from './styled';
+import { Container, Main, AreaInput, Input, ButtonDivision, ButtonDivisionTxt, AreaDivision, Division, Divisions, DivisionButton, DivisionButtonTxt, DivisionButtonDelete, ButtonFinish, ButtonFinishTxt, DivisionTxt } from './styled';
 import { Header } from '../../components/Header';
 import { useContext, useEffect, useState } from 'react';
 import { Menu } from '../../components/Menu';
@@ -8,31 +8,56 @@ import { Alert, FlatList } from 'react-native';
 import { Image } from 'expo-image';
 import TrashImg from '../../assets/trashWhite.png';
 import { AppError } from '../../utils/appError';
-import { divisionProps } from '../../interfaces/divisionProps';
+import { divisionWithTrueProps } from '../../interfaces/divisionProps';
 import { ModalDoubt } from './components/ModalDoubt';
+import { exerciseStorageDTO } from '../../storage/exercise/exerciseStorageDTO';
+import { exerciseCreate } from '../../storage/exercise/exerciseCreate';
 
 interface RouteParamsProps {
   trainingName: string,
+  divisionName: string,
 }
 
 export const CreateDivision = () => {
-  const { showMenu } = useContext(GymContext);
+  const { showMenu, divisionDatas } = useContext(GymContext);
   const navigate = useNavigation();
   const route = useRoute();
-  const { trainingName } = route.params as RouteParamsProps;
+  const { trainingName, divisionName } = route.params as RouteParamsProps;
 
-  const [division, setDivision] = useState<divisionProps[]>([]);
+  const [division, setDivision] = useState<divisionWithTrueProps[]>([]);
   const [name, setName] = useState<string>('');
   const [blockBtnFinish, setBlockBtnFinish] = useState<boolean>(true);
   const [modalDoubt, setModalDoubt] = useState<boolean>(false);
 
   const handleCreateDivisionName = () => {
-    const newDivision: divisionProps = {
+    const newDivision: divisionWithTrueProps = {
       division: name,
       exercises: [],
+      showExercise: false,
     }
     setDivision(state => [...state, newDivision]);
     setName('');
+  }
+
+  const handleSaveDivision = async () => {
+    try {
+      const id = String(new Date().getTime())
+
+      const newExercise: exerciseStorageDTO = {
+        id: id,
+        training: trainingName,
+        divisions: divisionDatas,
+      }
+      console.log(newExercise);//hoje fazer a parte de pegar o treino criado e salva no contexto o training name pq ele fica undefined sempre
+      //await exerciseCreate(newExercise, trainingName);
+      //navigate.navigate('home');
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Error', error.message);
+      } else {
+        Alert.alert('Error', 'Não foi possível criar está divisão.');
+      }
+    }
   }
 
   const deleteDivision = async (name: string) => {
@@ -64,16 +89,31 @@ export const CreateDivision = () => {
     setModalDoubt(false);
   }
 
+  const loadExerciseData = () => {
+    // const updateDivision = division.map(item => {
+    //   if (item.division === divisionName) {
+    //     return { ...item, showExercise: true }
+    //   }
+    //   return item;
+    // });
+
+    // setDivision(updateDivision);
+  }
+
   useEffect(() => {
-    if (division.length > 0) {
-      const hasExercise = division.some(item => item.exercises.length > 0);
-      if (hasExercise) {
+    if (divisionDatas.length > 0) {
+      const hasDivisionDatas = division.some(item => item.division.length > 0);
+      if (hasDivisionDatas) {
         setBlockBtnFinish(false)
       } else {
         setBlockBtnFinish(true);
       }
     }
-  }, [division, setBlockBtnFinish])
+  }, [divisionDatas, setBlockBtnFinish]);
+
+  useEffect(() => {
+    loadExerciseData();
+  }, [divisionName]);
 
   return (
     <Container>
@@ -97,13 +137,16 @@ export const CreateDivision = () => {
         <AreaDivision>
           <FlatList 
             data={division}
-            extraData={(item: divisionProps) => item}
+            extraData={(item: divisionWithTrueProps) => item}
             renderItem={({ item }) => (
               <Division>
                 <Divisions>
                   <DivisionButton onPress={() => handleGoToExercises(item.division)}>
                     <DivisionButtonTxt>{item.division}</DivisionButtonTxt>
                   </DivisionButton>
+                  {item.showExercise &&
+                    <DivisionTxt>{divisionDatas.length} {division.length < 1 ? 'exercício' : 'exercícios'}</DivisionTxt>
+                  }
                 </Divisions>
 
                 <DivisionButtonDelete onPress={() => handleDeleteDivision(item.division)}>
@@ -123,7 +166,7 @@ export const CreateDivision = () => {
         }
 
         {division.length > 0 ?
-          <ButtonFinish type='primary' disabled={blockBtnFinish}>
+          <ButtonFinish onPress={handleSaveDivision} type='primary' disabled={blockBtnFinish}>
             <ButtonFinishTxt>Finalizar</ButtonFinishTxt>
           </ButtonFinish>
           :

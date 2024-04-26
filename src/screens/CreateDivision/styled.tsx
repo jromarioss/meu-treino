@@ -63,8 +63,10 @@ export const Division = styled.View`
 
 export const Divisions = styled.View`
   flex: 1;
+  flex-direction: row;
   width: 100%;
   height: 48px;
+  align-items: center;
 `;
 
 export const DivisionButton = styled.TouchableOpacity<ButtonProps>`
@@ -80,12 +82,16 @@ export const DivisionButtonTxt = styled.Text`
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
+export const DivisionTxt = styled.Text`
+  font-size: 14px;
+  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
 export const DivisionButtonDelete = styled.TouchableOpacity<ButtonProps>`
   width: 48px;
   height: 48px;
   align-items: center;
   justify-content: center;
-  margin-left: 16px;
 `;
 
 interface ButtonFinishProps extends TouchableOpacityProps {

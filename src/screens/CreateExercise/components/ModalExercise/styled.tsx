@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { ButtonProps } from '../../../../interfaces/buttonProps';
 
 export const Container = styled.View`
-  flex: 1;
+  height: 600px;
   width: 100%;
   padding: 16px;
   z-index: 2;
@@ -19,14 +19,14 @@ export const ButtonClose = styled.TouchableOpacity<ButtonProps>`
 
 export const Main = styled.View`
   flex: 1;
-  gap: 16px;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const Title = styled.Text`
-  margin-top: 32px;
+  margin-top: 16px;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 `;
 
@@ -83,4 +83,28 @@ export const ButtonFinishtxt = styled.Text`
   font-size: 32px;
   font-weight: 700;
   color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const ExerciseDiv = styled.View`
+  width: 100%;
+  height: 48px;
+  flex-direction: row;
+  margin-bottom: 16px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom-width: 1px;
+  border-color: ${({ theme }: any) => theme.COLORS.GRAY_800};
+`;
+
+export const ExerciseText = styled.Text`
+  flex: 1;
+  font-size: 16px;
+  color: ${({ theme }: any) => theme.COLORS.GRAY_800};
+`;
+
+export const ExerciseBtDelete = styled.TouchableOpacity<ButtonProps>`
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
 `;

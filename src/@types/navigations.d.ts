@@ -5,7 +5,8 @@ export declare global {
       exercise: undefined,
       createTraining: undefined,
       createDivision: {
-        trainingName: string,
+        trainingName?: string,
+        divisionName?: string,
       },
       createExercise: {
         divisionName: string,

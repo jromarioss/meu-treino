@@ -1,36 +1,41 @@
 import { Image } from 'expo-image';
-import { Alert, Image as Image2 } from 'react-native';
-import { Container, ButtonClose, Main, Title, AreaImage, Form, Input, LabelText, LabelArea, ButtonFinish, ButtonFinishtxt, LabelStrongText } from './styled';
+import { Alert, FlatList, Image as Image2, Text, View } from 'react-native';
+import { Container, ButtonClose, ExerciseDiv, ExerciseBtDelete, ExerciseText, Main, Title, AreaImage, Form, Input, LabelText, LabelArea, ButtonFinish, ButtonFinishtxt, LabelStrongText } from './styled';
 import { useEffect, useState } from 'react';
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
 import { exerciseDetails } from '../../../../utils/exerciseDetails';
 import { exerciseTypesProps } from '../../../../interfaces/exerciseProps';
-
+import TrashImg from '../../../../assets/trashBlack.png';
 import CloseImg from '../../../../assets/closeBack.png';
 import { exercisesProps } from '../../../../interfaces/divisionProps';
 
 interface ModalExerciseProps {
   exercise: exerciseTypesProps | null,
+  exercises: exercisesProps[],
+  deleteExercise: boolean,
   onExercise: (value: exercisesProps) => void,
   onClose: () => void,
+  onDeleteExercise: (value: string) => void,
 }
 /* parei na parte do modal de criar o exercisio e salva */
-export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExerciseProps) => {
+export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise, onClose, onDeleteExercise }: ModalExerciseProps) => {
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
   const [serieTxt, setSerieTxt] = useState<string>('');
+  const [exercisesaName, setExercisesName] = useState<string[]>([]);
   const [repetitionTxt, setRepetitionTxt] = useState<string>('');
-  const [load, setLoad] = useState<boolean>(false);
 
   const fetchExercise = () => {
-    setLoad(true);
+    if (!deleteExercise) {
 
-    const findExerciseType = exerciseDetails.find(item => item.type === exercise?.type);
-    const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.exercise);
-    setExerciseInfo(findExerciseInfo);
-
-    setLoad(false);
+      const findExerciseType = exerciseDetails.find(item => item.type === exercise?.type);
+      const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.exercise);
+      setExerciseInfo(findExerciseInfo);
+    } else {
+      setExercisesName([]);
+      const exercisesToAdd = exercises.map(exercise => exercise.title);
+      setExercisesName(exercisesToAdd);
+    }
   }
-
 
   const handleAddExercise = () => {
     if (serieTxt === '' || repetitionTxt === '') {
@@ -49,6 +54,10 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
     }
   }
 
+  const handleDeleteExercise = (value: string) => {
+    onDeleteExercise(value);
+  }
+
   const handleCloseModal = () => {
     onClose();
   }
@@ -56,6 +65,11 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
   useEffect(() => {
     fetchExercise();
   }, []);
+
+  useEffect(() => {
+    fetchExercise();
+  }, [exercises]);
+
   return (
     <Container>
       <ButtonClose onPress={handleCloseModal}>
@@ -65,45 +79,74 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
       </ButtonClose>
 
       <Main>
-        <Title>{exercise?.exercise}</Title>
+        {!deleteExercise ?
+          <>
+            <Title>{exercise?.exercise}</Title>
 
-        <AreaImage>
-          {exerciseInfo?.image &&
-            <Image
-              source={exerciseInfo?.image}
-              contentFit='cover'
-              style={{ width: '100%', height: '100%' }}
-            />
-          }
-        </AreaImage>
+            <AreaImage>
+              {exerciseInfo?.image &&
+                <Image
+                  source={exerciseInfo?.image}
+                  contentFit='cover'
+                  style={{ width: '100%', height: '100%' }}
+                />
+              }
+            </AreaImage>
 
-        <Form>
-          <LabelArea>
-            <LabelText>Serie</LabelText>
-            <Input
-              keyboardType='number-pad'
-              onChangeText={setSerieTxt}
-              value={serieTxt}
-              maxLength={2}
-            />
-          </LabelArea>
-          
-          <LabelArea>
-            <LabelText>Repetição</LabelText>
-            <Input
-              keyboardType='number-pad'
-              onChangeText={setRepetitionTxt}
-              value={repetitionTxt}
-              maxLength={2}
-            />
-          </LabelArea>
-        </Form>
+            <Form>
+              <LabelArea>
+                <LabelText>Serie</LabelText>
+                <Input
+                  keyboardType='number-pad'
+                  onChangeText={setSerieTxt}
+                  value={serieTxt}
+                  maxLength={2}
+                />
+              </LabelArea>
+              
+              <LabelArea>
+                <LabelText>Repetição</LabelText>
+                <Input
+                  keyboardType='number-pad'
+                  onChangeText={setRepetitionTxt}
+                  value={repetitionTxt}
+                  maxLength={2}
+                />
+              </LabelArea>
+            </Form>
 
-        <LabelText>Deseja adicionar <LabelStrongText>{exercise?.exercise}</LabelStrongText> na divisão <LabelStrongText>{exercise?.type}</LabelStrongText></LabelText>
+            <LabelText>Deseja adicionar <LabelStrongText>{exercise?.exercise}</LabelStrongText> na divisão <LabelStrongText>{exercise?.type}</LabelStrongText></LabelText>
 
-        <ButtonFinish onPress={handleAddExercise}>
-          <ButtonFinishtxt>Adicionar</ButtonFinishtxt>
-        </ButtonFinish>
+            <ButtonFinish onPress={handleAddExercise}>
+              <ButtonFinishtxt>Adicionar</ButtonFinishtxt>
+            </ButtonFinish>
+          </>
+          :
+          <>
+            <Title>Exercícios</Title>
+
+            <View>
+              <FlatList
+                data={exercisesaName}      
+                extraData={(item: string) => item}
+                renderItem={({ item }) => (
+                  <ExerciseDiv>
+                    <ExerciseText numberOfLines={1}>{item}</ExerciseText>
+
+                    <ExerciseBtDelete onPress={() => handleDeleteExercise(item)}>
+                      <Image
+                        source={TrashImg}
+                        contentFit='cover'
+                        style={{ width: 28, height: 28 }}
+                      />
+                    </ExerciseBtDelete>
+                  </ExerciseDiv>
+                )}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          </>
+        }
       </Main>
     </Container>
   );

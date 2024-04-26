@@ -1,12 +1,12 @@
-import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt, DivisionNameTxt, ButtonFinish, ButtonFinishtxt } from './styled';
+import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt, DivisionNameTxt, ButtonFinish, ButtonFinishtxt, ButtonDivisionName } from './styled';
 import { Header } from '../../components/Header';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { exercise } from '../../utils/exercises';
 import { Menu } from '../../components/Menu';
 import { GymContext } from '../../context/gymContext';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
-import { FlatList, Text } from 'react-native';
+import { Alert, FlatList, Text } from 'react-native';
 import { partOfBody } from '../../utils/partOfBody';
 import { theme } from '../../styles/theme';
 import { ModalExercise } from './components/ModalExercise';
@@ -17,7 +17,7 @@ interface RouteParamsProps {
 }
 /* lembrar finalizar a parte de adicione exerciios na divisao e depois salvar */
 export const CreateExercise = () => {
-  const { showMenu } = useContext(GymContext);
+  const { showMenu, onSetDivisionDatas } = useContext(GymContext);
   const navigate = useNavigation();
   const route = useRoute();
   const { divisionName } = route.params as RouteParamsProps;
@@ -25,8 +25,9 @@ export const CreateExercise = () => {
   const [buttonSelected, setButtonSelected] = useState<string | null>(null);
   const [exerciseSelected, setExerciseSelected] = useState<ExerciseProps | null>(null);
   const [exerciseArray, setExerciseArray] = useState<exercisesProps[]>([]);
-  const [exerciseToAdd, setExerciseToAdd] = useState<divisionProps | null>(null);
   const [modalExercise, setModalExercise] = useState<boolean>(false);
+  const [modalDelete, setModalDelete] = useState<boolean>(false);
+  const [buttonFinishDisabled, setButtonFinishDisabled] = useState<boolean>(true);
   const [exerciseSelectedToModal, setExerciseSelectedToModal] = useState<exerciseTypesProps | null>(null);
 
   const handleSelectBody = (value: string) => {
@@ -44,25 +45,66 @@ export const CreateExercise = () => {
     setModalExercise(true);
   }
 
-  const handleAddExerciseArray = (value: exercisesProps) => {
-    setExerciseArray(state => [...state, value])
+  const handleOpenModalDelete = () => {
+    if (exerciseArray.length <= 0) {
+      return;
+    } else {
+      setModalDelete(true);
+      setModalExercise(true);
+    }
   }
-  console.log('exerciseArray: ', exerciseArray);
+
+  const handleAddExerciseArray = (value: exercisesProps) => {
+    const exerciseArrayExists = exerciseArray.find(item => item.title === value.title);
+
+    if (exerciseArrayExists) {
+      Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
+    } else {
+      setExerciseArray(state => [...state, value])
+    }
+  }
 
   const handleCloseModalExercise = () => {
     setModalExercise(false);
-    
-    //aqui ele nao chega o item atualizado que é o add exercise
+    setModalDelete(false);
+  }
+
+  const deleteExerciseFromDivision = (value: string) => {
+    const exercisesFilter = exerciseArray.filter(item => item.title !== value);
+    setExerciseArray(exercisesFilter);
+  }
+
+  const handleDeleteExerciseFromDivision = (value: string) => {
+    Alert.alert('Excluir', `Deseja excluir o exercício ${value} da sua divisão?`, [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: () => deleteExerciseFromDivision(value) }
+    ]);
+  }
+
+  const finishDivision = (data: divisionProps) => {
+    onSetDivisionDatas(data);
+    navigate.navigate('createDivision', { divisionName: divisionName });
   }
   
   const handleAddExercisesToDivision = () => {
-    //onCleanExercise();
     const newExercise: divisionProps = {
       division: divisionName,
       exercises: exerciseArray,
     }
-    console.log('newExercise: ', newExercise);
+
+    Alert.alert('Exercício', `Deseja adicionar esses ${newExercise.exercises.length < 1 ? 'exercício' : 'exercícios'} na divisão ${divisionName}?`, [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: () => finishDivision(newExercise) }
+    ]);
   }
+
+  useEffect(() => {
+    if (exerciseArray.length > 0) {
+      setButtonFinishDisabled(false);
+    } else {
+      setButtonFinishDisabled(true);
+    }
+  }, [exerciseArray])
 
   return (
     <Container>
@@ -73,12 +115,18 @@ export const CreateExercise = () => {
         {modalExercise ?
           <ModalExercise
             exercise={exerciseSelectedToModal}
+            exercises={exerciseArray}
+            deleteExercise={modalDelete}
             onExercise={handleAddExerciseArray}
             onClose={handleCloseModalExercise}
+            onDeleteExercise={handleDeleteExerciseFromDivision}
           />
           :
           <>
-            <DivisionNameTxt>{exerciseArray.length} {exerciseArray.length > 1 ? 'exercícios' : 'exercicio'} adicionado na {divisionName}</DivisionNameTxt>
+            <ButtonDivisionName onPress={handleOpenModalDelete}>
+              <DivisionNameTxt>{exerciseArray.length} {exerciseArray.length > 1 ? 'exercícios' : 'exercicio'} adicionado na {divisionName}</DivisionNameTxt>
+            </ButtonDivisionName>
+
             <AreaButtonBody>
               <FlatList
                 data={partOfBody}        
@@ -98,7 +146,7 @@ export const CreateExercise = () => {
 
             <AreaExercise>
               <FlatList
-                data={exerciseSelected?.types}       
+                data={exerciseSelected?.types}
                 extraData={(item: exerciseTypesProps) => item}
                 renderItem={({ item }) => (
                   <ButtonExercise onPress={() => handleOpenModalExercise(item)}>
@@ -110,10 +158,12 @@ export const CreateExercise = () => {
             </AreaExercise>
           </>
         }
-
-        <ButtonFinish onPress={handleAddExercisesToDivision}>
-          <ButtonFinishtxt>Finalizar</ButtonFinishtxt>
-        </ButtonFinish>
+        
+        {!modalExercise &&
+          <ButtonFinish onPress={handleAddExercisesToDivision} disabled={buttonFinishDisabled}>
+            <ButtonFinishtxt>Finalizar</ButtonFinishtxt>
+          </ButtonFinish>
+        }
       </Main>
     </Container>
   );

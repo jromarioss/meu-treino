@@ -7,7 +7,7 @@ import { EXERCISE_COLLECTION } from '../storageConfig';
 export const exerciseCreate = async (newExercise: exerciseStorageDTO, training: string) => {
   try {
     const storageExercise = await exerciseGetByTraining(training);
-    const exerciseAlreadyExists = storageExercise.filter(exercise => exercise.title === newExercise.title);
+    const exerciseAlreadyExists = storageExercise.filter(exercise => exercise.training === newExercise.training);
 
     if (exerciseAlreadyExists.length > 0) {
       throw new AppError('Exercício já adicionado no seu traino.');
