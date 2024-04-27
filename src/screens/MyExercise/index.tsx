@@ -1,18 +1,19 @@
-import { Container } from './styled';
-import { Header } from '../../components/Header';
 import { useContext, useEffect, useState } from 'react';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
+import { Text, FlatList } from 'react-native';
+
+import { Container } from '../../components';
+
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 import { trainingGetAll } from '../../storage/training/trainingGetAll';
 import AsyncStorae from '@react-native-async-storage/async-storage';
 import { trainingToRemove } from '../../storage/training/trainingToRemove';
 import { TRAINING_COLLECTION } from '../../storage/storageConfig';
 
-export const MyExercise = () => {
-  const { showMenu } = useContext(GymContext);
+import { Main } from './styled';
 
-  const [training, setTraining] = useState<trainingStorageDTO[] | null>([]);
+export const MyExercise = () => {
+
+  const [trainings, setTrainings] = useState<trainingStorageDTO[] | null>([]);
   const [load, setLoad] = useState<boolean>(false);
 
   const fetchTraining = async () => {
@@ -20,9 +21,7 @@ export const MyExercise = () => {
       setLoad(true);
 
       const data = await trainingGetAll();
-      //setTraining(data);
-
-      console.log('data: ', data)
+      setTrainings(data);
       //await AsyncStorae.removeItem(TRAINING_COLLECTION);
       setLoad(false);
     } catch (error) {
@@ -35,9 +34,16 @@ export const MyExercise = () => {
   }, [])
 
   return (
-    <Container>
-      <Header title='Meu Treino' />
-      {showMenu && <Menu />}
+    <Container titleText='Meu treino'>
+      <Main>
+        <FlatList
+          data={trainings}
+          extraData={(item: trainingStorageDTO) => item}
+          renderItem={({ item }) => (
+            <Text style={{ color: 'white'}}>{item.name}</Text>
+          )}
+        />
+      </Main>
     </Container>
-  )
+  );
 }

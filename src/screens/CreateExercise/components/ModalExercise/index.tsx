@@ -26,7 +26,6 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
 
   const fetchExercise = () => {
     if (!deleteExercise) {
-
       const findExerciseType = exerciseDetails.find(item => item.type === exercise?.type);
       const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.exercise);
       setExerciseInfo(findExerciseInfo);
@@ -38,16 +37,23 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
   }
 
   const handleAddExercise = () => {
-    if (serieTxt === '' || repetitionTxt === '') {
+    const series = serieTxt.replace(/[,.]/g, '');
+    const repetitions = repetitionTxt.replace(/[,.]/g, '');
+
+    if (series === '' || repetitions === '') {
       return Alert.alert('Error', 'Informe o número de serie e de repetição.');
+    }
+
+    if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
+      return Alert.alert('Error', 'Valor máximo para serie é 10 e repetição é 20.');
     }
 
     if (exercise) {
       const newExercise: exercisesProps = {
         type: exercise?.type,
         title: exercise?.exercise,
-        series: parseInt(serieTxt),
-        repetition: parseInt(repetitionTxt),
+        series: parseInt(series),
+        repetition: parseInt(repetitions),
       }
       onExercise(newExercise);
       handleCloseModal();

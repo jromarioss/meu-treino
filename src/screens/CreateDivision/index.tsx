@@ -1,40 +1,49 @@
-import { Container, Main, AreaInput, Input, ButtonDivision, ButtonDivisionTxt, AreaDivision, Division, Divisions, DivisionButton, DivisionButtonTxt, DivisionButtonDelete, ButtonFinish, ButtonFinishTxt, DivisionTxt } from './styled';
-import { Header } from '../../components/Header';
-import { useContext, useEffect, useState } from 'react';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
-import { useRoute, useNavigation } from '@react-navigation/native';
 import { Alert, FlatList } from 'react-native';
-import { Image } from 'expo-image';
-import TrashImg from '../../assets/trashWhite.png';
+import { useEffect, useState } from 'react';
+import { useRoute, useNavigation } from '@react-navigation/native';
+
+import { Container, ButtonDelete, Text, ButtonCreate } from '../../components';
+
 import { AppError } from '../../utils/appError';
 import { divisionWithTrueProps } from '../../interfaces/divisionProps';
-import { ModalDoubt } from './components/ModalDoubt';
 import { exerciseStorageDTO } from '../../storage/exercise/exerciseStorageDTO';
 import { exerciseCreate } from '../../storage/exercise/exerciseCreate';
+import { useGym } from '../../hooks/useGym';
+
+
+import { Main, AreaInput, Input, AreaDivision, Division, Divisions, DivisionButton, DivisionTxt } from './styled';
+import { theme } from '../../styles/theme';
 
 interface RouteParamsProps {
-  trainingName: string,
   divisionName: string,
 }
 
 export const CreateDivision = () => {
-  const { showMenu, divisionDatas } = useContext(GymContext);
+  const _gym = useGym();
   const navigate = useNavigation();
   const route = useRoute();
-  const { trainingName, divisionName } = route.params as RouteParamsProps;
+  const { divisionName } = route.params as RouteParamsProps;
+  const { COLORS } = theme;
 
   const [division, setDivision] = useState<divisionWithTrueProps[]>([]);
   const [name, setName] = useState<string>('');
   const [blockBtnFinish, setBlockBtnFinish] = useState<boolean>(true);
-  const [modalDoubt, setModalDoubt] = useState<boolean>(false);
 
   const handleCreateDivisionName = () => {
+    const divisionExists = division.find(item => item.division === name);
+
+    if (divisionExists) {
+      Alert.alert('Error', 'Já existe um divísão com esse nome.');
+      setName('');
+      return;
+    }
+
     const newDivision: divisionWithTrueProps = {
       division: name,
       exercises: [],
       showExercise: false,
     }
+
     setDivision(state => [...state, newDivision]);
     setName('');
   }
@@ -45,8 +54,8 @@ export const CreateDivision = () => {
 
       const newExercise: exerciseStorageDTO = {
         id: id,
-        training: trainingName,
-        divisions: divisionDatas,
+        training: _gym.trainingName,
+        divisions: _gym.divisionDatas,
       }
       console.log(newExercise);//hoje fazer a parte de pegar o treino criado e salva no contexto o training name pq ele fica undefined sempre
       //await exerciseCreate(newExercise, trainingName);
@@ -75,7 +84,7 @@ export const CreateDivision = () => {
   }
 
   const handleDeleteDivision= async (name: string) => {
-    Alert.alert('Deletar divisão', 'Deseja deletar este divisão?', [
+    Alert.alert('Deletar divisão', `Deseja deletar a divisão ${name}?`, [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => deleteDivision(name) }
     ]);
@@ -83,10 +92,6 @@ export const CreateDivision = () => {
 
   const handleGoToExercises = (name: string) => {
     navigate.navigate('createExercise', { divisionName: name })
-  }
-
-  const handleOpenModalDoubt = () => {
-    setModalDoubt(false);
   }
 
   const loadExerciseData = () => {
@@ -101,7 +106,11 @@ export const CreateDivision = () => {
   }
 
   useEffect(() => {
-    if (divisionDatas.length > 0) {
+    _gym.onSetDoubtType('Create division');
+  }, []);
+
+  useEffect(() => {
+    if (_gym.divisionDatas.length > 0) {
       const hasDivisionDatas = division.some(item => item.division.length > 0);
       if (hasDivisionDatas) {
         setBlockBtnFinish(false)
@@ -109,29 +118,32 @@ export const CreateDivision = () => {
         setBlockBtnFinish(true);
       }
     }
-  }, [divisionDatas, setBlockBtnFinish]);
-
+  }, [_gym.divisionDatas, setBlockBtnFinish]);
+  // deixa para fazer aqu idepois que é a parte de criar divisão 
   useEffect(() => {
     loadExerciseData();
   }, [divisionName]);
 
   return (
-    <Container>
-      <Header title='Criar divisão' />
-      {showMenu && <Menu />}
-
+    <Container titleText='Criar divisão' doubt>
       <Main>
         <AreaInput>
           <Input
             placeholder='Nome da divisão'
             onChangeText={setName}
             value={name}
-            maxLength={20}
+            maxLength={24}
           />
 
-          <ButtonDivision onPress={handleCreateDivisionName}>
-            <ButtonDivisionTxt>Criar</ButtonDivisionTxt>
-          </ButtonDivision>
+          <ButtonCreate
+            w={100}
+            h={42}
+            text='Criar'
+            bg={COLORS.GREEN_600}
+            fs={24}
+            fw={700}
+            op={handleCreateDivisionName}
+          />
         </AreaInput>
 
         <AreaDivision>
@@ -142,38 +154,39 @@ export const CreateDivision = () => {
               <Division>
                 <Divisions>
                   <DivisionButton onPress={() => handleGoToExercises(item.division)}>
-                    <DivisionButtonTxt>{item.division}</DivisionButtonTxt>
+                    <Text text={item.division} fs={24} cl={COLORS.GRAY_100} nol={1} />
                   </DivisionButton>
                   {item.showExercise &&
-                    <DivisionTxt>{divisionDatas.length} {division.length < 1 ? 'exercício' : 'exercícios'}</DivisionTxt>
+                    <Text
+                      text={`${_gym.divisionDatas.length} ${division.length < 1 ? 'exercício' : 'exercícios'}`}
+                      fs={14}
+                      cl={COLORS.GRAY_100}
+                    />
                   }
                 </Divisions>
 
-                <DivisionButtonDelete onPress={() => handleDeleteDivision(item.division)}>
-                  <Image
-                    source={TrashImg}
-                    contentFit='cover'
-                    style={{ width: 28, height: 28 }}
-                  />
-                </DivisionButtonDelete>
+                <ButtonDelete
+                  op={() => handleDeleteDivision(item.division)}
+                  h={36}
+                  w={36}
+                  ic='white'
+                  ih={16}
+                  iw={16}
+                  bg={COLORS.RED_600}
+                />
               </Division>
             )}
           />
         </AreaDivision>
 
-        {modalDoubt && 
-          <ModalDoubt />
-        }
-
-        {division.length > 0 ?
-          <ButtonFinish onPress={handleSaveDivision} type='primary' disabled={blockBtnFinish}>
-            <ButtonFinishTxt>Finalizar</ButtonFinishTxt>
-          </ButtonFinish>
-          :
-          <ButtonFinish onPress={handleOpenModalDoubt} type='secondary'>
-            <ButtonFinishTxt>Como criar divisão</ButtonFinishTxt>
-          </ButtonFinish>
-        }
+        <ButtonCreate
+          text='Finalizar'
+          bg={COLORS.GREEN_600}
+          fs={32}
+          fw={700}
+          op={handleSaveDivision}
+          ds={blockBtnFinish}
+        />
       </Main>
     </Container>
   );

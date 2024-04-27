@@ -3,9 +3,11 @@ export declare global {
     interface RootParamList {
       home: undefined,
       exercise: undefined,
-      createTraining: undefined,
+      createTraining: {
+        name?: string,
+      },
+      createTrainingName: undefined,
       createDivision: {
-        trainingName?: string,
         divisionName?: string,
       },
       createExercise: {

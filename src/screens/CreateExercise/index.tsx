@@ -1,16 +1,19 @@
-import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt, DivisionNameTxt, ButtonFinish, ButtonFinishtxt, ButtonDivisionName } from './styled';
-import { Header } from '../../components/Header';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Alert, FlatList, Text } from 'react-native';
+
+import { Header } from '../../components/Header';
 import { exercise } from '../../utils/exercises';
 import { Menu } from '../../components/Menu';
 import { GymContext } from '../../context/gymContext';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
-import { Alert, FlatList, Text } from 'react-native';
-import { partOfBody } from '../../utils/partOfBody';
-import { theme } from '../../styles/theme';
 import { ModalExercise } from './components/ModalExercise';
+
+import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
+import { partOfBody } from '../../utils/partOfBody';
 import { divisionProps, exercisesProps } from '../../interfaces/divisionProps';
+
+import { theme } from '../../styles/theme';
+import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt, DivisionNameTxt, ButtonFinish, ButtonFinishtxt, ButtonDivisionName } from './styled';
 
 interface RouteParamsProps {
   divisionName: string,

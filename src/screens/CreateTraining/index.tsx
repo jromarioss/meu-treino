@@ -1,53 +1,67 @@
-import { ButtonCreate, ButtonCreateTxt, ButtonDelete, TrainingDiv, ButtonTrainingTxt, Container, Div, Main, TrainingArea, TrainingTxt, DataTxt, ButtonTraining, Text } from './styled';
-import { Header } from '../../components/Header';
-import { useContext, useEffect, useState } from 'react';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
-import { ModalTrainingCreate } from './components/ModalTrainingCreate';
-import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
-import { trainingGeByName } from '../../storage/training/trainingGetByName';
-import { Image } from 'expo-image';
-import TrashImg from '../../assets/trashWhite.png';
-import { AppError } from '../../utils/appError';
 import { Alert } from 'react-native';
+import {  useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import { Container, ButtonCreate, Text, ButtonDelete, Loading } from '../../components';
+
+import { useGym } from '../../hooks/useGym';
+import { AppError } from '../../utils/appError';
 import { trainingToRemove } from '../../storage/training/trainingToRemove';
-import { useNavigation } from '@react-navigation/native';
+import { trainingGeByName } from '../../storage/training/trainingGetByName';
+import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
+
+import { TrainingDiv, Div, Main, TrainingArea, ButtonTraining } from './styled';
+import { theme } from '../../styles/theme';
+
+interface RouteParamsProps {
+  name: string,
+}
 
 export const CreateTraining = () => {
-  const { showMenu } = useContext(GymContext);
-  const nagivate = useNavigation();
+  const _gym = useGym();
+  const { COLORS } = theme;
+  const { navigate } = useNavigation();
+  const route = useRoute();
+  const { name } = route.params as RouteParamsProps;
 
-  const [trainingName, setTrainingName] = useState<string>('');
   const [training, setTraining] = useState<trainingStorageDTO | null>(null);
-  const [modalCreateExercise, setModalCreateExercise] = useState<boolean>(false);
   const [blockBtnCreate, setBlockBtnCreate] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(false);
 
-  const findName = async (name: string) => {
+  const fetchName = async () => {
     try {
       setLoad(true);
 
-      setTrainingName(name);
-      const data = await trainingGeByName(name);
+      let hasThisName = '';
+
+      if (name) {
+        hasThisName = name
+      } else {
+        hasThisName = _gym.trainingName
+      }
+
+      const data = await trainingGeByName(hasThisName);
       setTraining(data);
 
       setLoad(false);
     } catch (error) {
-      
+      if (error instanceof AppError) {
+        Alert.alert('Error', error.message);
+      } else {
+        Alert.alert('Error', 'Não foi possível encontrar este traino.');
+      }
+    } finally {
+      setLoad(false);
     }
   }
 
   const deleteTraining = async () => {
     try {
-      setLoad(true);
-
-      if (training?.name) {
+      if (training !== null) {
         await trainingToRemove(training.name);
         Alert.alert('Deletar treino', 'Treino deletado com sucesso.');
         setTraining(null);
       }
-
-      setLoad(false);
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert('Deletar treino', error.message);
@@ -58,78 +72,67 @@ export const CreateTraining = () => {
   }
 
   const handleDeleteTraining = async () => {
-    Alert.alert('Deletar traino', 'Deseja deletar este treino?', [
+    Alert.alert('Deletar treino', 'Deseja deletar este treino?', [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => deleteTraining() }
     ]);
   }
 
-  const handleGoToCreateExercise = () => {
-    nagivate.navigate('createDivision', { trainingName: trainingName })
+  const handleGoToCreateDivision = () => {
+    navigate('createDivision', {});
+    _gym.onCleanDoubtType();
   }
 
-  const handleOpenModalCreateExercise = () => {
-    if (training != null) {
-      return;
-    } else {
-      setBlockBtnCreate(true);
-      setModalCreateExercise(true);
+  const handleGoToCreateTrainingName = () => {
+    navigate('createTrainingName');
+  }
+
+  useEffect(() => {
+    _gym.onSetDoubtType('Create training');
+  }, []);
+
+  useEffect(() => {
+    if (name || _gym.trainingName) {
+      fetchName();
     }
-  }
+  }, [name, _gym.trainingName]);
 
-  const handleCloseModalCreate = () => {
-    setBlockBtnCreate(false);
-    setModalCreateExercise(false);
-  }  
+  useEffect(() => {
+    if (training != null) {
+      setBlockBtnCreate(true);
+    } else {
+      setBlockBtnCreate(false);
+    }
+  }, [training, setBlockBtnCreate]);
 
-  return (
-    <Container>
-      <Header title='Criar treino' />
-      {showMenu && <Menu />}
-
+  return load ?
+    <Loading />
+    :
+    <Container titleText='Criar Treino' doubt>
       <Main>
-        {modalCreateExercise ?
-          <ModalTrainingCreate
-            onOpenAndClose={handleCloseModalCreate}
-            onNameTraining={findName}
-          />
-          :
-          <TrainingArea>
-            {training != null ?
-              <>
-                <Div>
-                  <TrainingDiv>
-                    <ButtonTraining onPress={handleGoToCreateExercise}>
-                      <ButtonTrainingTxt numberOfLines={1}>{training?.name}</ButtonTrainingTxt>
-                    </ButtonTraining>
-                    <DataTxt>{training?.createdAt}</DataTxt>
-                  </TrainingDiv>
+        <TrainingArea>
+          {training != null &&
+            <Div>
+              <TrainingDiv>
+                <ButtonTraining onPress={handleGoToCreateDivision}>
+                  <Text text={training?.name} fs={24} cl={COLORS.GRAY_100} nol={1} />
+                </ButtonTraining>
+                <Text text={training?.createdAt} fs={16} cl={COLORS.GRAY_100} />
+              </TrainingDiv>
 
-                  <ButtonDelete onPress={handleDeleteTraining}>
-                    <Image
-                      source={TrashImg}
-                      contentFit='cover'
-                      style={{ width: 24, height: 24 }}
-                    />
-                  </ButtonDelete>
-                </Div>
-                <Text>1. Agora clique no nome do treino que você criou para criar uma divisão.</Text>
-                <Text>2. Uma divisão pode conter muitos exercícios, um exemplo um divisão com o nome de perna, nessa divisão perna tem varios exercício para perna.</Text>
-                <Text>4. Só pode ser criado um treino por vez.</Text>
-                <Text>3. Caso deseje deletar o treino basta clica na lixeira.</Text>
-              </>
-              :
-              <TrainingTxt>Clique em Criar para criar um treino.</TrainingTxt>
-            }
-          </TrainingArea>
-        }
+              <ButtonDelete op={handleDeleteTraining} h={36} w={36} ic='white' ih={16} iw={16} bg={COLORS.RED_600} />
+            </Div>
+          }
+        </TrainingArea>
 
-        {!blockBtnCreate&&
-          <ButtonCreate onPress={handleOpenModalCreateExercise}>
-            <ButtonCreateTxt>Criar</ButtonCreateTxt>
-          </ButtonCreate>
-        }
+        <ButtonCreate
+          text='Criar'
+          bg={COLORS.GREEN_600}
+          fs={32}
+          fw={700}
+          op={handleGoToCreateTrainingName}
+          ds={blockBtnCreate}
+        />
       </Main>
     </Container>
-  );
 }

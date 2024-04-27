@@ -1,20 +1,31 @@
 import { Image,  } from 'react-native';
-import { Container, Title, ButtonMenu } from './styled';
+import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt } from './styled';
 import menuImg from '../../assets/menu.png';
 import arrowLeftImg from '../../assets/arrowLeft.png';
-import { useContext } from 'react';
-import { GymContext } from '../../context/gymContext';
+import { useGym } from '../../hooks/useGym';
+import { Title } from '../'
+import { theme } from '../../styles/theme';
 
 type HeaderProps = {
   title: string,
   hasButtonBack?: boolean,
+  hasButtonDoubt?: boolean,
 }
 
-export const Header = ({ title, hasButtonBack }: HeaderProps) => {
-  const { showMenu, onShowMenu } = useContext(GymContext);
+export const Header = ({ title, hasButtonBack, hasButtonDoubt }: HeaderProps) => {
+  const _gym = useGym();
+  const { COLORS } = theme;
 
   const handleMenu = () => {
-    onShowMenu(!showMenu);
+    _gym.onShowMenu(!_gym.showMenu);
+
+    if (_gym.showDoubt) {
+      _gym.onSetShowDoubt(false);
+    }
+  }
+
+  const handleDoubt = () => {
+    _gym.onSetShowDoubt(!_gym.showDoubt);
   }
 
   return (
@@ -22,11 +33,17 @@ export const Header = ({ title, hasButtonBack }: HeaderProps) => {
       <ButtonMenu onPress={handleMenu}>
         <Image source={menuImg} />
       </ButtonMenu>
-      <Title>{title}</Title>
+      <Title fx1={1} cl={COLORS.GRAY_50} fs={24} text={title} ta='center' />
 
       {hasButtonBack &&
         <Image source={arrowLeftImg} />
       }
+
+      {hasButtonDoubt &&
+        <ButtonDoubt onPress={handleDoubt}>
+          <ButtonDoubtTxt>?</ButtonDoubtTxt>
+        </ButtonDoubt>
+      }
     </Container>
-  )
+  );
 }

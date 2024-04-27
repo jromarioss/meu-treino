@@ -1,4 +1,4 @@
-import { divisionProps } from "../../interfaces/divisionProps";
+import { divisionProps } from '../../interfaces/divisionProps';
 
 export interface exerciseStorageDTO {
   id?: string,

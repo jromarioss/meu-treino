@@ -1,14 +1,13 @@
-import { BackHandler } from 'react-native';
 import { MenuContainer, Button, ButtonText, ButtonClose } from './styled';
 import { useNavigation } from '@react-navigation/native';
-import { useContext, useEffect } from 'react';
-import { GymContext } from '../../context/gymContext';
-import { Keyboard, Image } from 'react-native';
+import { useEffect } from 'react';
+import { Keyboard, Image, BackHandler } from 'react-native';
 import CloseImg from '../../assets/closeImg.png';
+import { useGym } from '../../hooks/useGym';
 
 export const Menu = () => {
-  const { onShowMenu, showMenu } = useContext(GymContext);
-  const navigate = useNavigation();
+  const _gym = useGym();
+  const { navigate } = useNavigation();
 
   const buttons = [
     { label: 'Home', value: 'home' },
@@ -20,28 +19,29 @@ export const Menu = () => {
   ]
 
   const handleGoTo = (goTo: string) => {
-    onShowMenu(!showMenu);
+    _gym.onShowMenu(!_gym.showMenu);
+
     if (goTo == 'home') {
-      navigate.navigate('home');
+      navigate('home');
     } else if (goTo == 'exercise') {
-      navigate.navigate('exercise');
+      navigate('exercise');
     } else if (goTo == 'createTraining') {
-      navigate.navigate('createTraining');
+      navigate('createTraining', {});
     } else if (goTo == 'myExercise') {
-      navigate.navigate('myExercise');
+      navigate('myExercise');
     } else if (goTo == 'calculation') {
-      navigate.navigate('calculation')
+      navigate('calculation')
     } else {
       BackHandler.exitApp();
     }
   }
 
   const handleMenu = () => {
-    onShowMenu(!showMenu);
+    _gym.onShowMenu(!_gym.showMenu);
   }
 
   useEffect(() => {
-    if (showMenu) {
+    if (_gym.showMenu) {
       Keyboard.dismiss();
     }
   }, [])
@@ -59,5 +59,5 @@ export const Menu = () => {
         )
       })}
     </MenuContainer>
-  )
+  );
 }

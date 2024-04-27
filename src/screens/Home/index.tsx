@@ -1,16 +1,9 @@
-import { Container } from './styled';
-import { Header } from '../../components/Header';
-import { useContext } from 'react';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
+import { Container } from '../../components/Container';
 
 export const Home = () => {
-  const { showMenu } = useContext(GymContext);
-
   return (
-    <Container>
-      <Header title='Bem Vindo' />
-      {showMenu && <Menu />}
+    <Container titleText='Home'>
+      <></>
     </Container>
   )
 }
