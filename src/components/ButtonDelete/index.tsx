@@ -1,3 +1,5 @@
+import { TouchableOpacityProps } from 'react-native';
+
 import { Image } from 'expo-image';
 
 import TrashBackImg from '../../assets/trashBlack.png';
@@ -5,19 +7,18 @@ import TrashWhiteImg from '../../assets/trashWhite.png';
 
 import { ContainerButton } from './styled';
 
-interface TitleProps {
+interface TitleProps extends TouchableOpacityProps {
   w: number,
   h: number,
   iw: number,
   ih: number,
   ic: 'white' | 'black',
   bg?: string,
-  op: () => void,
 }
 
-export const ButtonDelete = ({ w, h, iw, ih, ic, op, bg }: TitleProps) => {
+export const ButtonDelete = ({ w, h, iw, ih, ic, bg, ...rest }: TitleProps) => {
   return (
-    <ContainerButton onPress={op} style={{
+    <ContainerButton {...rest} style={{
       width: w,
       height: h,
       backgroundColor: bg,

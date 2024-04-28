@@ -5,5 +5,5 @@ export const Loading = () => {
     <Container>
       <LoadIndicator />
     </Container>
-  )
+  );
 }

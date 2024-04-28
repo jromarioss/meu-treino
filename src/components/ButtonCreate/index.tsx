@@ -1,26 +1,27 @@
-import { ContainerButton } from './styled';
+import { TouchableOpacityProps } from 'react-native';
+
 import { Text } from '..';
+
+import { ContainerButton } from './styled';
 import { theme } from '../../styles/theme';
 
-interface TitleProps {
+interface TitleProps extends TouchableOpacityProps {
   text: string,
-  bg: string,
+  bg?: string,
   w?: number,
   h?: number,
   fs: number,
   fw?: number,
-  ds?: boolean,
-  op: () => void,
 }
 
-export const ButtonCreate = ({ text, w, h, fs, fw, op, ds, bg }: TitleProps) => {
+export const ButtonCreate = ({ text, w, h, fs, fw, bg, ...rest }: TitleProps) => {
   const { COLORS } = theme;
 
   return (
-    <ContainerButton onPress={op} disabled={ds} style={{
+    <ContainerButton {...rest} style={{
       width: w ? w : '100%',
       height: h ? h : 64,
-      backgroundColor: bg,
+      backgroundColor: bg ? bg : 'transparent',
     }}>
       <Text text={text} fs={fs} fw={fw} cl={`${COLORS.GRAY_100}`} />
     </ContainerButton>

@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { MainContainer } from './styled';
-import { Header } from '../Header';
-import { Menu } from '../Menu';
-import { ModalDoubt } from '../ModalDoubt';
+
+import { Header, Menu, ModalDoubt } from '../';
+
 import { useGym } from '../../hooks/useGym';
+
+import { MainContainer } from './styled';
 
 interface CreateDivisionProps {
   children: ReactNode,

@@ -11,7 +11,6 @@ import { trainingGeByName } from '../../storage/training/trainingGetByName';
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 
 import { TrainingDiv, Div, Main, TrainingArea, ButtonTraining } from './styled';
-import { theme } from '../../styles/theme';
 
 interface RouteParamsProps {
   name: string,
@@ -19,7 +18,6 @@ interface RouteParamsProps {
 
 export const CreateTraining = () => {
   const _gym = useGym();
-  const { COLORS } = theme;
   const { navigate } = useNavigation();
   const route = useRoute();
   const { name } = route.params as RouteParamsProps;
@@ -115,23 +113,24 @@ export const CreateTraining = () => {
             <Div>
               <TrainingDiv>
                 <ButtonTraining onPress={handleGoToCreateDivision}>
-                  <Text text={training?.name} fs={24} cl={COLORS.GRAY_100} nol={1} />
+                  <Text text={training?.name} fs={24} cl={_gym.COLORS.GRAY_100} nol={1} />
                 </ButtonTraining>
-                <Text text={training?.createdAt} fs={16} cl={COLORS.GRAY_100} />
+                <Text text={training?.createdAt} fs={16} cl={_gym.COLORS.GRAY_100} />
               </TrainingDiv>
 
-              <ButtonDelete op={handleDeleteTraining} h={36} w={36} ic='white' ih={16} iw={16} bg={COLORS.RED_600} />
+              <ButtonDelete
+                h={36} w={36} ic='white' ih={16} iw={16} bg={_gym.COLORS.RED_600}
+                onPress={handleDeleteTraining}
+              />
             </Div>
           }
         </TrainingArea>
 
         <ButtonCreate
+          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
           text='Criar'
-          bg={COLORS.GREEN_600}
-          fs={32}
-          fw={700}
-          op={handleGoToCreateTrainingName}
-          ds={blockBtnCreate}
+          onPress={handleGoToCreateTrainingName}
+          disabled={blockBtnCreate}
         />
       </Main>
     </Container>

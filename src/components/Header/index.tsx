@@ -1,10 +1,15 @@
 import { Image,  } from 'react-native';
-import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt } from './styled';
+
+import { Text } from '../';
+
+import { useGym } from '../../hooks/useGym';
+
 import menuImg from '../../assets/menu.png';
 import arrowLeftImg from '../../assets/arrowLeft.png';
-import { useGym } from '../../hooks/useGym';
-import { Title } from '../'
+
+
 import { theme } from '../../styles/theme';
+import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt } from './styled';
 
 type HeaderProps = {
   title: string,
@@ -33,7 +38,7 @@ export const Header = ({ title, hasButtonBack, hasButtonDoubt }: HeaderProps) =>
       <ButtonMenu onPress={handleMenu}>
         <Image source={menuImg} />
       </ButtonMenu>
-      <Title fx1={1} cl={COLORS.GRAY_50} fs={24} text={title} ta='center' />
+      <Text fx1={1} cl={COLORS.GRAY_50} fs={24} text={title} ta='center' />
 
       {hasButtonBack &&
         <Image source={arrowLeftImg} />

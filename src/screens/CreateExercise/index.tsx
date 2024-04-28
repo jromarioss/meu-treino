@@ -1,27 +1,26 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Alert, FlatList, Text } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 
-import { Header } from '../../components/Header';
-import { exercise } from '../../utils/exercises';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
+import { ButtonCreate, Text, Container } from '../../components';
 import { ModalExercise } from './components/ModalExercise';
 
+import { useGym } from '../../hooks/useGym';
+import { exercise } from '../../utils/exercises';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
 import { partOfBody } from '../../utils/partOfBody';
 import { divisionProps, exercisesProps } from '../../interfaces/divisionProps';
 
 import { theme } from '../../styles/theme';
-import { Container, Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonBodyTxt, ButtonExercise, ButtonExerciseTxt, DivisionNameTxt, ButtonFinish, ButtonFinishtxt, ButtonDivisionName } from './styled';
+import { Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonExercise, ButtonDivisionName } from './styled';
 
 interface RouteParamsProps {
   divisionName: string,
 }
 /* lembrar finalizar a parte de adicione exerciios na divisao e depois salvar */
 export const CreateExercise = () => {
-  const { showMenu, onSetDivisionDatas } = useContext(GymContext);
-  const navigate = useNavigation();
+  const _gym = useGym();
+  const { navigate } = useNavigation();
   const route = useRoute();
   const { divisionName } = route.params as RouteParamsProps;
 
@@ -32,6 +31,14 @@ export const CreateExercise = () => {
   const [modalDelete, setModalDelete] = useState<boolean>(false);
   const [buttonFinishDisabled, setButtonFinishDisabled] = useState<boolean>(true);
   const [exerciseSelectedToModal, setExerciseSelectedToModal] = useState<exerciseTypesProps | null>(null);
+
+  const fetchExercisesFromDivision = () => {
+    const filterDivisionFromName = _gym.divisionDatas.find(item => item.division === divisionName);
+
+    if (filterDivisionFromName) {
+      setExerciseArray(filterDivisionFromName?.exercises)
+    }
+  }
 
   const handleSelectBody = (value: string) => {
     const findExercise = exercise.find(item => item.title === value);
@@ -73,6 +80,7 @@ export const CreateExercise = () => {
   }
 
   const deleteExerciseFromDivision = (value: string) => {
+    _gym.onRemoveExercisesFromDivisionData(divisionName, value);
     const exercisesFilter = exerciseArray.filter(item => item.title !== value);
     setExerciseArray(exercisesFilter);
   }
@@ -85,8 +93,10 @@ export const CreateExercise = () => {
   }
 
   const finishDivision = (data: divisionProps) => {
-    onSetDivisionDatas(data);
-    navigate.navigate('createDivision', { divisionName: divisionName });
+    _gym.onSetDivisionDatas(data);
+    _gym.onCleanDoubtType();
+    setExerciseArray([]);
+    navigate('createDivision', {});
   }
   
   const handleAddExercisesToDivision = () => {
@@ -102,18 +112,20 @@ export const CreateExercise = () => {
   }
 
   useEffect(() => {
+    _gym.onSetDoubtType('Create exercises');
+    fetchExercisesFromDivision();
+  }, []);
+
+  useEffect(() => {
     if (exerciseArray.length > 0) {
       setButtonFinishDisabled(false);
     } else {
       setButtonFinishDisabled(true);
     }
-  }, [exerciseArray])
+  }, [exerciseArray]);
 
   return (
-    <Container>
-      <Header title='Adicionar exercícios' />
-      {showMenu && <Menu />}
-
+    <Container titleText='Adicionar exercícios' doubt>
       <Main>
         {modalExercise ?
           <ModalExercise
@@ -127,7 +139,10 @@ export const CreateExercise = () => {
           :
           <>
             <ButtonDivisionName onPress={handleOpenModalDelete}>
-              <DivisionNameTxt>{exerciseArray.length} {exerciseArray.length > 1 ? 'exercícios' : 'exercicio'} adicionado na {divisionName}</DivisionNameTxt>
+              <Text
+                fs={18} cl={_gym.COLORS.GRAY_100} nol={1}
+                text={`${exerciseArray.length} ${exerciseArray.length > 1 ? 'exercícios' : 'exercicio'} adicionado na ${divisionName}`}
+              />
             </ButtonDivisionName>
 
             <AreaButtonBody>
@@ -139,7 +154,10 @@ export const CreateExercise = () => {
                     onPress={() => handleSelectBody(item)}
                     style={{ borderColor: buttonSelected === item ? theme.COLORS.GREEN_400 : theme.COLORS.GRAY_100 }}
                   >
-                    <ButtonBodyTxt>{item}</ButtonBodyTxt>
+                    <Text
+                      fs={18} cl={_gym.COLORS.GRAY_100}
+                      text={item}
+                    />
                   </ButtonBody>
                 )}
                 horizontal
@@ -153,7 +171,10 @@ export const CreateExercise = () => {
                 extraData={(item: exerciseTypesProps) => item}
                 renderItem={({ item }) => (
                   <ButtonExercise onPress={() => handleOpenModalExercise(item)}>
-                    <ButtonExerciseTxt>{item.exercise}</ButtonExerciseTxt>
+                    <Text
+                      fs={24} cl={_gym.COLORS.GRAY_100}
+                      text={item.exercise}
+                    />
                   </ButtonExercise>
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -163,9 +184,12 @@ export const CreateExercise = () => {
         }
         
         {!modalExercise &&
-          <ButtonFinish onPress={handleAddExercisesToDivision} disabled={buttonFinishDisabled}>
-            <ButtonFinishtxt>Finalizar</ButtonFinishtxt>
-          </ButtonFinish>
+          <ButtonCreate
+            bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
+            text='Finalizar'
+            onPress={handleAddExercisesToDivision}
+            disabled={buttonFinishDisabled}
+          />
         }
       </Main>
     </Container>

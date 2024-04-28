@@ -1,28 +1,26 @@
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 
-import { Container, Text, ButtonCreate } from '../../components';
+import { Container, Text, ButtonCreate, Input } from '../../components';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
 import { trainingCreate } from '../../storage/training/trainingCreate';
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 
-import { AreaInput, Input, Main } from './styled';
-import { theme } from '../../styles/theme';
+import { AreaInput, Main } from './styled';
 
 export const CreateTrainingName = () => {
   const _gym = useGym();
   const { navigate } = useNavigation();
-  const { COLORS } = theme;
 
   const [name, setName] = useState<string>('');
 
   const handleSaveName = async () => {
     try {
-      if (name == '') {
+      if (name === '') {
         return Alert.alert('Error', 'Seu treino precisa ter um nome.');
       }
 
@@ -41,19 +39,20 @@ export const CreateTrainingName = () => {
       navigate('createTraining', { name: nameFormated });
     } catch (error) {
       if (error instanceof AppError) {
-        Alert.alert('Deletar treino', error.message);
+        Alert.alert('Error', error.message);
       } else {
-        Alert.alert('Deletar treino', 'Não foi possível criar um traino.');
+        Alert.alert('Error', 'Não foi possível criar um traino.');
       }
     }
   }
 
   return (
-    <Container titleText='Criar nome para o treino'>
+    <Container titleText='Criar treino'>
       <Main>
         <AreaInput>
-          <Text text='Informe um nome para o seu treino.' fs={18} cl={COLORS.GRAY_100} />
+          <Text text='Informe um nome para o seu treino.' fs={18} cl={_gym.COLORS.GRAY_100} />
           <Input
+            fs={18} bg={_gym.COLORS.GRAY_100} h={42} w='100%' br={4} pl={16}
             onChangeText={setName}
             value={name}
             maxLength={30}
@@ -61,11 +60,9 @@ export const CreateTrainingName = () => {
         </AreaInput>
 
         <ButtonCreate
+          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
           text='Salvar'
-          bg={COLORS.GREEN_600}
-          fs={32}
-          fw={700}
-          op={handleSaveName}
+          onPress={handleSaveName}
         />
       </Main>
     </Container>

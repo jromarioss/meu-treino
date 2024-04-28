@@ -1,9 +1,12 @@
-import { MenuContainer, Button, ButtonText, ButtonClose } from './styled';
-import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Keyboard, Image, BackHandler } from 'react-native';
-import CloseImg from '../../assets/closeImg.png';
+
 import { useGym } from '../../hooks/useGym';
+
+import CloseImg from '../../assets/closeImg.png';
+
+import { MenuContainer, Button, ButtonText, ButtonClose } from './styled';
 
 export const Menu = () => {
   const _gym = useGym();
@@ -44,7 +47,7 @@ export const Menu = () => {
     if (_gym.showMenu) {
       Keyboard.dismiss();
     }
-  }, [])
+  }, []);
 
   return (
     <MenuContainer>

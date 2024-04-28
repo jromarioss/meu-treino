@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { TouchableOpacityProps } from 'react-native';
 import { ButtonProps } from '../../interfaces/buttonProps'
 
 export const Main = styled.View`
@@ -15,15 +14,6 @@ export const AreaInput = styled.View`
   flex-direction: row;
   justify-content: space-between;
   gap: 16px;
-`;
-
-export const Input = styled.TextInput`
-  flex: 1;
-  height: 42px;
-  padding-left: 8px;
-  font-size: 18px;
-  border-radius: 6px;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
 export const AreaDivision = styled.View`
@@ -55,9 +45,4 @@ export const DivisionButton = styled.TouchableOpacity<ButtonProps>`
   height: 42px;
   justify-content: center;
   padding-left: 12px;
-`;
-
-export const DivisionTxt = styled.Text`
-  font-size: 14px;
-  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;

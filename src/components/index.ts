@@ -3,7 +3,7 @@ export { ButtonCreate } from './ButtonCreate';
 export { ButtonDelete } from './ButtonDelete';
 export { Header } from './Header';
 export { Loading } from './Loading';
+export { Input } from './Input';
 export { Menu } from './Menu';
 export { ModalDoubt } from './ModalDoubt';
 export { Text } from './Text';
-export { Title } from './Title';

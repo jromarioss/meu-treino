@@ -1,13 +1,18 @@
 import { Image } from 'expo-image';
-import { Alert, FlatList, Image as Image2, Text, View } from 'react-native';
-import { Container, ButtonClose, ExerciseDiv, ExerciseBtDelete, ExerciseText, Main, Title, AreaImage, Form, Input, LabelText, LabelArea, ButtonFinish, ButtonFinishtxt, LabelStrongText } from './styled';
+import { Alert, FlatList, Image as Image2 } from 'react-native';
 import { useEffect, useState } from 'react';
+
+import { Text, Input, ButtonCreate, ButtonDelete } from '../../../../components'
+
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
 import { exerciseDetails } from '../../../../utils/exerciseDetails';
 import { exerciseTypesProps } from '../../../../interfaces/exerciseProps';
-import TrashImg from '../../../../assets/trashBlack.png';
-import CloseImg from '../../../../assets/closeBack.png';
+import { useGym } from '../../../../hooks/useGym';
 import { exercisesProps } from '../../../../interfaces/divisionProps';
+
+import CloseImg from '../../../../assets/closeBack.png';
+
+import { Container, ButtonClose, AreaFlat, ExerciseDiv, Main, AreaImage, Form, LabelArea } from './styled';
 
 interface ModalExerciseProps {
   exercise: exerciseTypesProps | null,
@@ -17,8 +22,10 @@ interface ModalExerciseProps {
   onClose: () => void,
   onDeleteExercise: (value: string) => void,
 }
-/* parei na parte do modal de criar o exercisio e salva */
+
 export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise, onClose, onDeleteExercise }: ModalExerciseProps) => {
+  const _gym = useGym();
+
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
   const [serieTxt, setSerieTxt] = useState<string>('');
   const [exercisesaName, setExercisesName] = useState<string[]>([]);
@@ -79,15 +86,13 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
   return (
     <Container>
       <ButtonClose onPress={handleCloseModal}>
-        <Image2
-          source={CloseImg}
-        />
+        <Image2 source={CloseImg} />
       </ButtonClose>
 
       <Main>
         {!deleteExercise ?
           <>
-            <Title>{exercise?.exercise}</Title>
+            <Text text={exercise?.exercise} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
 
             <AreaImage>
               {exerciseInfo?.image &&
@@ -101,8 +106,9 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
 
             <Form>
               <LabelArea>
-                <LabelText>Serie</LabelText>
+                <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
                 <Input
+                  bg={_gym.COLORS.WHITE} br={6} pl={12} h={44} fs={20}
                   keyboardType='number-pad'
                   onChangeText={setSerieTxt}
                   value={serieTxt}
@@ -111,8 +117,9 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
               </LabelArea>
               
               <LabelArea>
-                <LabelText>Repetição</LabelText>
+                <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
                 <Input
+                  bg={_gym.COLORS.WHITE} br={6} pl={12} h={42} fs={20}
                   keyboardType='number-pad'
                   onChangeText={setRepetitionTxt}
                   value={repetitionTxt}
@@ -121,36 +128,33 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
               </LabelArea>
             </Form>
 
-            <LabelText>Deseja adicionar <LabelStrongText>{exercise?.exercise}</LabelStrongText> na divisão <LabelStrongText>{exercise?.type}</LabelStrongText></LabelText>
-
-            <ButtonFinish onPress={handleAddExercise}>
-              <ButtonFinishtxt>Adicionar</ButtonFinishtxt>
-            </ButtonFinish>
+            <ButtonCreate
+              bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
+              text='Adicionar'
+              onPress={handleAddExercise}
+            />
           </>
           :
           <>
-            <Title>Exercícios</Title>
+            <Text text='Exercícios' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
 
-            <View>
+            <AreaFlat>
               <FlatList
                 data={exercisesaName}      
                 extraData={(item: string) => item}
                 renderItem={({ item }) => (
                   <ExerciseDiv>
-                    <ExerciseText numberOfLines={1}>{item}</ExerciseText>
+                    <Text text={item} fs={16} cl={_gym.COLORS.GRAY_800} nol={1} fx1={1} />
 
-                    <ExerciseBtDelete onPress={() => handleDeleteExercise(item)}>
-                      <Image
-                        source={TrashImg}
-                        contentFit='cover'
-                        style={{ width: 28, height: 28 }}
-                      />
-                    </ExerciseBtDelete>
+                    <ButtonDelete
+                      w={32} h ={32} ih={18} iw={18} ic='white' bg={_gym.COLORS.RED_500}
+                      onPress={() => handleDeleteExercise(item)}
+                    />
                   </ExerciseDiv>
                 )}
                 showsHorizontalScrollIndicator={false}
               />
-            </View>
+            </AreaFlat>
           </>
         }
       </Main>
