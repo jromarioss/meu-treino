@@ -3,14 +3,13 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, Text, ButtonCreate, Input } from '../../components';
+import { Container, Text, ButtonCreate, Input, Main } from '../../components';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
-import { trainingCreate } from '../../storage/training/trainingCreate';
-import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
+import { trainingCreate, trainingStorageDTO } from '../../storage';
 
-import { AreaInput, Main } from './styled';
+import { AreaInput } from './styled';
 
 export const CreateTrainingName = () => {
   const _gym = useGym();
@@ -48,7 +47,7 @@ export const CreateTrainingName = () => {
 
   return (
     <Container titleText='Criar treino'>
-      <Main>
+      <Main gap={24} jc='space-between'>
         <AreaInput>
           <Text text='Informe um nome para o seu treino.' fs={18} cl={_gym.COLORS.GRAY_100} />
           <Input

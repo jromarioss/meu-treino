@@ -1,14 +1,14 @@
-import { AreaImage, AreaText, ButtonBack, ButtonBackTxt, Container, InfoText, Main, Title } from './styled';
-import { Header } from '../../components/Header';
-import { useContext, useEffect, useState } from 'react';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { exerciseDetails } from '../../utils/exerciseDetails';
-import { exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
-import { ScrollView } from 'react-native';
 import { Image } from 'expo-image';
-import { Loading } from '../../components/Loading';
+import { ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useRoute, useNavigation } from '@react-navigation/native';
+
+import { Loading, Container, Main, Text, ButtonCreate } from '../../components';
+import { exerciseDetails } from '../../utils';
+import { useGym } from '../../hooks/useGym';
+import { exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
+
+import { AreaImage, AreaText } from './styled';
 
 interface RouteParamsProps {
   type: string
@@ -16,7 +16,7 @@ interface RouteParamsProps {
 }
 
 export const ExerciseDetail = () => {
-  const { showMenu } = useContext(GymContext);
+  const _gym = useGym();
   const navigate = useNavigation();
   const route = useRoute();
   const { type, exercise } = route.params as RouteParamsProps;
@@ -46,13 +46,10 @@ export const ExerciseDetail = () => {
   return load ?
     <Loading />
     :
-    <Container>
-      <Header title='Detalhe do exercício' />
-      {showMenu && <Menu />}
-
+    <Container titleText='Detalhe do exercício'>
       <ScrollView>
-        <Main>
-          <Title>{exerciseInfo?.title}</Title>
+        <Main gap={16} mb={16} ai='center'>
+          <Text text={exerciseInfo?.title} fs={32} ta='center' />
 
           <AreaImage>
             {exerciseInfo?.image &&
@@ -67,14 +64,16 @@ export const ExerciseDetail = () => {
           <AreaText>
             {exerciseInfo?.description.map((text, index) => {
               return (
-                <InfoText key={index}>{index + 1}. {text}</InfoText>
+                <Text key={index} text={`${index + 1}. ${text}`} fs={16} />
               )
             })}
           </AreaText>
 
-          <ButtonBack onPress={handleGoback}>
-            <ButtonBackTxt>Voltar</ButtonBackTxt>
-          </ButtonBack>
+          <ButtonCreate
+            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            text='Voltar'
+            onPress={handleGoback}
+          />
         </Main>
       </ScrollView>
     </Container>

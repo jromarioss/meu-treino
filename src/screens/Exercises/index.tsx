@@ -1,17 +1,15 @@
-import { Container, Main, ButtonBody, ButtonBodyTxt, AreaButtonBody, AreaExercise, ButtonExercise, ButtonExerciseTxt } from './styled';
-import { Header } from '../../components/Header';
-import { useContext, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { Menu } from '../../components/Menu';
-import { GymContext } from '../../context/gymContext';
 import { FlatList } from 'react-native';
-import { theme } from '../../styles/theme';
-import { exercise } from '../../utils/exercises';
-import { partOfBody } from '../../utils/partOfBody';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
+import { Container, Main, Text } from '../../components';
+import { exercise, partOfBody } from '../../utils';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
 
+import { ButtonBody, AreaButtonBody, AreaExercise, ButtonExercise } from './styled';
+import { theme } from '../../styles/theme';
+
 export const Exercises = () => {
-  const { showMenu } = useContext(GymContext);
   const navigate = useNavigation();
 
   const [buttonSelected, setButtonSelected] = useState<string | null>(null);
@@ -32,11 +30,8 @@ export const Exercises = () => {
   }
 
   return (
-    <Container>
-      <Header title='Exercícios' />
-      {showMenu && <Menu />}
-
-      <Main>
+    <Container titleText='Exercícios'>
+      <Main gap={16}>
         <AreaButtonBody>
           <FlatList
             data={partOfBody}        
@@ -46,7 +41,7 @@ export const Exercises = () => {
                 onPress={() => handleSelectBody(item)}
                 style={{ borderColor: buttonSelected === item ? theme.COLORS.GREEN_400 : theme.COLORS.GRAY_100 }}
               >
-                <ButtonBodyTxt>{item}</ButtonBodyTxt>
+                <Text text={item} fs={18} />
               </ButtonBody>
             )}
             horizontal
@@ -60,7 +55,7 @@ export const Exercises = () => {
             extraData={(item: exerciseTypesProps) => item}
             renderItem={({ item }) => (
               <ButtonExercise onPress={() => handleGoExerciseDetail(item)}>
-                <ButtonExerciseTxt>{item.exercise}</ButtonExerciseTxt>
+                <Text text={item.exercise} fs={24} />
               </ButtonExercise>
             )}
             showsHorizontalScrollIndicator={false}
@@ -68,5 +63,5 @@ export const Exercises = () => {
         </AreaExercise>
       </Main>
     </Container>
-  )
+  );
 }

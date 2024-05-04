@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { Container, ButtonDelete, Text, ButtonCreate, Input } from '../../components';
+import { Container, ButtonDelete, Text, ButtonCreate, Input, Main } from '../../components';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
@@ -10,7 +10,7 @@ import { divisionProps } from '../../interfaces/divisionProps';
 import { exerciseCreate } from '../../storage/exercise/exerciseCreate';
 import { exerciseStorageDTO } from '../../storage/exercise/exerciseStorageDTO';
 
-import { Main, AreaInput, AreaDivision, Division, Divisions, DivisionButton } from './styled';
+import { AreaInput, AreaDivision, Division, Divisions, DivisionButton } from './styled';
 
 interface RouteParamsProps {
   divisionName: string,
@@ -129,10 +129,10 @@ export const CreateDivision = () => {
 
   return (
     <Container titleText='Criar divisão' doubt>
-      <Main>
+      <Main gap={16} ai='center'>
         <AreaInput>
           <Input
-            fx1={1} h={42} fs={18} br={6} pl={8} bg={_gym.COLORS.GRAY_100}
+            fx1={1} h={42} fs={18} br={6} pl={8}
             placeholder='Nome da divisão'
             onChangeText={setName}
             value={name}

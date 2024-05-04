@@ -1,18 +1,5 @@
 import styled from 'styled-components/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ButtonProps } from '../../interfaces/buttonProps';
-
-export const Container = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${({ theme }: any) => theme.COLORS.ZINC_800};
-`;
-
-export const Main = styled.View`
-  flex: 1;
-  width: 100%;
-  padding: 16px;
-  gap: 16px;
-`;
 
 export const AreaButtonBody = styled.View`
   flex-direction: row;
@@ -26,11 +13,6 @@ export const ButtonBody = styled.TouchableOpacity<ButtonProps>`
   border: 2px solid transparent;
 `;
 
-export const ButtonBodyTxt = styled.Text`
-  font-size: 18px;
-  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
 export const AreaExercise = styled.View`
   flex: 1;
   gap: 12px;
@@ -42,9 +24,4 @@ export const ButtonExercise = styled.TouchableOpacity<ButtonProps>`
   margin-bottom: 16px;
   border-bottom-width: 1px;
   border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
-export const ButtonExerciseTxt = styled.Text`
-  font-size: 24px;
-  color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;

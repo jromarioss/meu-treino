@@ -1,13 +1,9 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-  flex: 1;
-  background-color: ${({ theme }: any) => theme.COLORS.ZINC_800};
-`;
-
-export const Main = styled.View`
-  flex: 1;
-  width: 100%;
-  align-items: center;
-  padding-top: 100px;
+export const ButtonTraining = styled.TouchableOpacity`
+  height: 64px;
+  justify-content: center;
+  padding-left: 16px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;

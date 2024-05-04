@@ -1,14 +1,6 @@
 import styled from 'styled-components/native';
 import { ButtonProps } from '../../interfaces/buttonProps'
 
-export const Main = styled.View`
-  flex: 1;
-  width: 100%;
-  align-items: center;
-  padding: 16px;
-  gap: 16px;
-`;
-
 export const AreaInput = styled.View`
   width: 100%;
   flex-direction: row;

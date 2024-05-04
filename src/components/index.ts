@@ -4,6 +4,7 @@ export { ButtonDelete } from './ButtonDelete';
 export { Header } from './Header';
 export { Loading } from './Loading';
 export { Input } from './Input';
+export { Main } from './Main';
 export { Menu } from './Menu';
 export { ModalDoubt } from './ModalDoubt';
 export { Text } from './Text';

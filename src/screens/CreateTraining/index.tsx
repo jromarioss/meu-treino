@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import {  useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { Container, ButtonCreate, Text, ButtonDelete, Loading } from '../../components';
+import { Container, ButtonCreate, Text, ButtonDelete, Loading, Main } from '../../components';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
@@ -10,7 +10,7 @@ import { trainingToRemove } from '../../storage/training/trainingToRemove';
 import { trainingGeByName } from '../../storage/training/trainingGetByName';
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 
-import { TrainingDiv, Div, Main, TrainingArea, ButtonTraining } from './styled';
+import { TrainingDiv, Div, TrainingArea, ButtonTraining } from './styled';
 
 interface RouteParamsProps {
   name: string,
@@ -107,7 +107,7 @@ export const CreateTraining = () => {
     <Loading />
     :
     <Container titleText='Criar Treino' doubt>
-      <Main>
+      <Main gap={16} ai='center' jc='flex-end'>
         <TrainingArea>
           {training != null &&
             <Div>

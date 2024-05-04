@@ -1,12 +1,13 @@
-import { Container, Main, Input, DivInput, Label, LabelText, ButtonCalculate, ButtonText, Form } from './styled';
-import { Header } from '../../components/Header';
+import { Alert } from 'react-native';
 import { useContext, useState } from 'react';
-import { Menu } from '../../components/Menu';
+
+import { Container, Text, ButtonCreate, Input, Main } from '../../components';
 import { GymContext } from '../../context/gymContext';
-import { Alert } from 'react-native'
+
+import { DivInput, Label, Form } from './styled';
 
 export const Calculation = () => {
-  const { showMenu } = useContext(GymContext);
+  const _gym = useContext(GymContext);
 
   const [weight, setWeight] = useState<string>('');
   const [height, setHeight] = useState<string>('');
@@ -72,16 +73,14 @@ export const Calculation = () => {
   }
 
   return (
-    <Container>
-      <Header title='Calculo IMC' />
-      {showMenu && <Menu />}
-
+    <Container titleText='Calculo IMC'>
       <Main>
         <Form>
           <DivInput>
             <Label>
-              <LabelText>Informe o peso</LabelText>
+              <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
               <Input
+                fs={18} h={36} w={150} br={4} pl={8}
                 placeholder='Quilo'
                 keyboardType='number-pad'
                 onChangeText={setWeight}
@@ -91,8 +90,9 @@ export const Calculation = () => {
             </Label>
 
             <Label>
-              <LabelText>Informe a altura</LabelText>
+              <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
               <Input
+                fs={18} h={36} w={150} br={4} pl={8}
                 placeholder='1.85cm'
                 keyboardType='number-pad'
                 onChangeText={setHeight}
@@ -102,21 +102,22 @@ export const Calculation = () => {
             </Label>
           </DivInput>
 
-          <ButtonCalculate onPress={handleCalculateImc}>
-            <ButtonText>Calcular</ButtonText>
-          </ButtonCalculate>
+          <ButtonCreate
+            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            text='Calcular'
+            onPress={handleCalculateImc}
+          />
         </Form>
         {resultImc &&
           <>
-            <LabelText>imc = {resultImc.toFixed(2)}</LabelText>
-            <LabelText>{resultText}</LabelText>
-           
+            <Text text={`imc = ${resultImc.toFixed(2)}`} fs={18} cl={_gym.COLORS.GRAY_100} />
+            <Text text={resultText != null ? resultText : ''} fs={18} cl={_gym.COLORS.GRAY_100} />
           </>
         }
-        {rightWeight && 
-          <LabelText>Peso ideal para você: {idealWeight} KG</LabelText>
+        {rightWeight &&
+          <Text text={`Peso ideal para você: ${idealWeight} KG`} fs={18} cl={_gym.COLORS.GRAY_100} />
         }
       </Main>
     </Container>
-  )
+  );
 }

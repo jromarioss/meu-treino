@@ -6,13 +6,13 @@ import { useGym } from '../../hooks/useGym';
 
 import { MainContainer } from './styled';
 
-interface CreateDivisionProps {
+interface ContainerProps {
   children: ReactNode,
   titleText: string,
   doubt?: boolean,
 }
 
-export const Container = ({ children, titleText, doubt }: CreateDivisionProps) => {
+export const Container = ({ children, titleText, doubt }: ContainerProps) => {
   const _gym = useGym();
 
   return (

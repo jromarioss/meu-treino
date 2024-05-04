@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, FlatList } from 'react-native';
 
-import { ButtonCreate, Text, Container } from '../../components';
+import { ButtonCreate, Text, Container, Main } from '../../components';
 import { ModalExercise } from './components/ModalExercise';
 
 import { useGym } from '../../hooks/useGym';
@@ -12,7 +12,7 @@ import { partOfBody } from '../../utils/partOfBody';
 import { divisionProps, exercisesProps } from '../../interfaces/divisionProps';
 
 import { theme } from '../../styles/theme';
-import { Main, AreaButtonBody, AreaExercise, ButtonBody, ButtonExercise, ButtonDivisionName } from './styled';
+import { AreaButtonBody, AreaExercise, ButtonBody, ButtonExercise, ButtonDivisionName } from './styled';
 
 interface RouteParamsProps {
   divisionName: string,
@@ -126,7 +126,7 @@ export const CreateExercise = () => {
 
   return (
     <Container titleText='Adicionar exercícios' doubt>
-      <Main>
+      <Main gap={16} ai='center'>
         {modalExercise ?
           <ModalExercise
             exercise={exerciseSelectedToModal}

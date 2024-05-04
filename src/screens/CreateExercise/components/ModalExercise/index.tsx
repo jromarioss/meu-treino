@@ -108,7 +108,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
               <LabelArea>
                 <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
                 <Input
-                  bg={_gym.COLORS.WHITE} br={6} pl={12} h={44} fs={20}
+                  br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
                   keyboardType='number-pad'
                   onChangeText={setSerieTxt}
                   value={serieTxt}
@@ -119,7 +119,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
               <LabelArea>
                 <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
                 <Input
-                  bg={_gym.COLORS.WHITE} br={6} pl={12} h={42} fs={20}
+                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
                   keyboardType='number-pad'
                   onChangeText={setRepetitionTxt}
                   value={repetitionTxt}
