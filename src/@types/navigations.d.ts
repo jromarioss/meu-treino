@@ -14,6 +14,9 @@ export declare global {
         divisionName: string,
       },
       myExercise: undefined,
+      myExerciseOpen: {
+        trainingName: string,
+      },
       calculation: undefined,
       exerciseDetail: {
         type: string,

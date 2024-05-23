@@ -6,7 +6,7 @@ import { Container, Main, Text } from '../../components';
 import { exercise, partOfBody } from '../../utils';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
 
-import { ButtonBody, AreaButtonBody, AreaExercise, ButtonExercise } from './styled';
+import { ButtonBody, AreaButtonBody, AreaExercise, ButtonExercise, EmptyArea } from './styled';
 import { theme } from '../../styles/theme';
 
 export const Exercises = () => {
@@ -59,6 +59,11 @@ export const Exercises = () => {
               </ButtonExercise>
             )}
             showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyArea>
+                <Text text="Selecione uma opção!" fs={24} nol={1} />
+              </EmptyArea>
+            )}
           />
         </AreaExercise>
       </Main>

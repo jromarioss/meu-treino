@@ -6,6 +6,7 @@ import { CreateTrainingName } from '../screens/CreateTrainingName';
 import { MyExercise } from '../screens/MyExercise';
 import { Calculation } from '../screens/Calculation';
 import { ExerciseDetail } from '../screens/ExerciseDetail';
+import { MyExerciseOpen } from '../screens/MyExerciseOpen';
 import { CreateDivision } from '../screens/CreateDivision';
 import { CreateExercise } from '../screens/CreateExercise';
 
@@ -24,6 +25,7 @@ export function AppRouter() {
       <Screen name='createDivision' component={CreateDivision} />
       <Screen name='createExercise' component={CreateExercise} />
       <Screen name='myExercise' component={MyExercise} />
+      <Screen name='myExerciseOpen' component={MyExerciseOpen} />
       <Screen name='calculation' component={Calculation} />
       <Screen name='exerciseDetail' component={ExerciseDetail} />
     </Navigator>

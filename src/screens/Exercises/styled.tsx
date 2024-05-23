@@ -25,3 +25,10 @@ export const ButtonExercise = styled.TouchableOpacity<ButtonProps>`
   border-bottom-width: 1px;
   border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
+
+export const EmptyArea = styled.View`
+  flex: 1;
+  height: 500px;
+  align-items: center;
+  justify-content: center;
+`;
