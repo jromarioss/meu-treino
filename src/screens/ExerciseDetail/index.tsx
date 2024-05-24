@@ -3,7 +3,12 @@ import { ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { Loading, Container, Main, Text, ButtonCreate } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
+import { Loading } from '../../components/Loading';
+
 import { exerciseDetails } from '../../utils';
 import { useGym } from '../../hooks/useGym';
 import { exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';

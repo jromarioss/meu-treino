@@ -5,6 +5,7 @@ import { EXERCISE_COLLECTION, TRAINING_COLLECTION } from '../storageConfig';
 export const trainingToRemove = async (trainingToRemove: string) => {
   try {
     const storageTraining = await trainingGetAll();
+  
     const filterTraining = storageTraining.filter(training => training.name !== trainingToRemove);
 
     await AsyncStorae.setItem(TRAINING_COLLECTION, JSON.stringify(filterTraining));

@@ -1,7 +1,13 @@
 import { Alert } from 'react-native';
 import { useContext, useState } from 'react';
 
-import { Container, Text, ButtonCreate, Input, Main } from '../../components';
+import { Input} from '../../components/Input';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
+
+
 import { GymContext } from '../../context/gymContext';
 
 import { DivInput, Label, Form } from './styled';

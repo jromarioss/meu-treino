@@ -2,7 +2,10 @@ import { Image } from 'expo-image';
 import { Alert, FlatList, Image as Image2 } from 'react-native';
 import { useEffect, useState } from 'react';
 
-import { Text, Input, ButtonCreate, ButtonDelete } from '../../../../components'
+import { Text } from '../../../../components/Text';
+import { Input } from '../../../../components/Input';
+import { ButtonCreate } from '../../../../components/ButtonCreate';
+import { ButtonDelete } from '../../../../components/ButtonDelete';
 
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
 import { exerciseDetails } from '../../../../utils/exerciseDetails';

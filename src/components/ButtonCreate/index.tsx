@@ -1,6 +1,6 @@
 import { TouchableOpacityProps } from 'react-native';
 
-import { Text } from '..';
+import { Text } from '../Text';
 
 import { ContainerButton } from './styled';
 import { theme } from '../../styles/theme';

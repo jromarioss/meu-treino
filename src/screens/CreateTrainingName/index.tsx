@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, Text, ButtonCreate, Input, Main } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
+import { Input } from '../../components/Input';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';

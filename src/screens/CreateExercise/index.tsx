@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, FlatList } from 'react-native';
 
-import { ButtonCreate, Text, Container, Main } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
 import { ModalExercise } from './components/ModalExercise';
 
 import { useGym } from '../../hooks/useGym';
@@ -39,7 +42,7 @@ export const CreateExercise = () => {
       setExerciseArray(filterDivisionFromName?.exercises)
     }
   }
-
+  console.log(exerciseArray)
   const handleSelectBody = (value: string) => {
     const findExercise = exercise.find(item => item.title === value);
 
@@ -68,10 +71,14 @@ export const CreateExercise = () => {
     const exerciseArrayExists = exerciseArray.find(item => item.title === value.title);
 
     if (exerciseArrayExists) {
-      Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
-    } else {
-      setExerciseArray(state => [...state, value])
+      return Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
     }
+
+    if (exerciseArray.length > 7) {
+      return Alert.alert('Error', 'Cada divisão pode ter no maxímo 8 exercícios.');
+    }
+
+    setExerciseArray(state => [...state, value])
   }
 
   const handleCloseModalExercise = () => {

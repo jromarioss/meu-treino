@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 
-import { Header, Menu, ModalDoubt } from '../';
+import { Header } from '../Header';
+import { Menu } from '../Menu';
+import { ModalDoubt } from '../ModalDoubt';
 
 import { useGym } from '../../hooks/useGym';
 

@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { Container, ButtonDelete, Text, ButtonCreate, Input, Main } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
+import { ButtonDelete } from '../../components/ButtonDelete';
+import { Input } from '../../components/Input';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
@@ -22,16 +27,21 @@ export const CreateDivision = () => {
   const route = useRoute();
   const { divisionName } = route.params as RouteParamsProps;
 
-  const [division, setDivision] = useState<divisionProps[]>([]);
+  const [divisions, setDivisions] = useState<divisionProps[]>([]);
   const [name, setName] = useState<string>('');
   const [blockBtnFinish, setBlockBtnFinish] = useState<boolean>(true);
-
+  console.log(divisions)
   const handleCreateDivisionName = () => {
     if (name === '') {
       return Alert.alert('Error', 'Você precisa dar um nome para sua divisão.');
     }
 
-    const divisionExists = division.find(item => item.division === name);
+    if (divisions.length > 3) {
+      setName('');
+      return Alert.alert('Error', 'Cada treino pode ter no maxímo 4 divisões.');
+    }
+
+    const divisionExists = divisions.find(item => item.division === name);
 
     if (divisionExists) {
       setName('');
@@ -43,7 +53,7 @@ export const CreateDivision = () => {
       exercises: [],
     }
 
-    setDivision(state => [...state, newDivision]);
+    setDivisions(state => [...state, newDivision]);
     _gym.onSetDivisionDatas(newDivision);
     setName('');
   }
@@ -51,8 +61,8 @@ export const CreateDivision = () => {
   const deleteDivision = async (name: string) => {
     try {
       _gym.onRemoveDivisionDatas(name);
-      const filterDivision = division.filter(item => item.division !== name);
-      setDivision(filterDivision);
+      const filterDivision = divisions.filter(item => item.division !== name);
+      setDivisions(filterDivision);
       Alert.alert('Deletar divisão', 'Divisão deletada com sucesso.');
     } catch (error) {
       if (error instanceof AppError) {
@@ -117,7 +127,7 @@ export const CreateDivision = () => {
 
   useEffect(() => {
     if (_gym.divisionDatas.length > 0) {
-      const hasDivisionDatas = division.some(item => item.division.length > 0);
+      const hasDivisionDatas = divisions.some(item => item.division.length > 0);
       if (hasDivisionDatas) {
         setBlockBtnFinish(false)
       } else {
@@ -148,7 +158,7 @@ export const CreateDivision = () => {
 
         <AreaDivision>
           <FlatList 
-            data={division}
+            data={divisions}
             extraData={(item: divisionProps) => item}
             renderItem={({ item }) => (
               <Division>

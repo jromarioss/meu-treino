@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
-import { Text } from '../';
+import { Text } from '../Text';
 
 import { doubtInfos } from '../../utils/doubtInfos'
 import { doubtInfosProps } from '../../interfaces/doubtInfosProps';

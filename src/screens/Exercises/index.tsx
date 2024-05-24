@@ -2,7 +2,11 @@ import { FlatList } from 'react-native';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, Main, Text } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+
+
 import { exercise, partOfBody } from '../../utils';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
 

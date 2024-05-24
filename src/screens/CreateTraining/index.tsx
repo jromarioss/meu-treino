@@ -2,7 +2,12 @@ import { Alert } from 'react-native';
 import {  useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { Container, ButtonCreate, Text, ButtonDelete, Loading, Main } from '../../components';
+import { Container} from '../../components/Container';
+import { Text } from '../../components/Text';
+import { Main } from '../../components/Main';
+import { ButtonCreate } from '../../components/ButtonCreate';
+import { ButtonDelete } from '../../components/ButtonDelete';
+import { Loading } from '../../components/Loading';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';

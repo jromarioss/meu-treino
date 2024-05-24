@@ -1,6 +1,6 @@
 import { Image,  } from 'react-native';
 
-import { Text } from '../';
+import { Text } from '../Text';
 
 import { useGym } from '../../hooks/useGym';
 

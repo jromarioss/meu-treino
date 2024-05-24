@@ -1,11 +1,19 @@
 import styled from 'styled-components/native';
 
+export const ButtonArea = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+`;
+
 export const ButtonTraining = styled.TouchableOpacity`
-  height: 64px;
+  flex: 1;
+  height: 58px;
   justify-content: center;
   padding-left: 16px;
   border-radius: 8px;
-  margin-bottom: 16px;
   border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
