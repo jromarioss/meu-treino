@@ -1,4 +1,4 @@
 export interface trainingStorageDTO {
-  name: string,
-  createdAt: string,
+  name: string;
+  createdAt: string;
 }

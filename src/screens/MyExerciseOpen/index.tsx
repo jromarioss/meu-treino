@@ -17,6 +17,7 @@ import ArrowDownImg from '../../assets/down.png';
 import ArrowUpImg from '../../assets/up.png';
 
 import { DivisionButtonDrop, DivisionArea, EmptyArea, Division, DivisionOutSide, DivisionDroped, ButtonExercises } from './styled';
+import { Loading } from '../../components/Loading';
 
 interface RouteParamsProps {
   trainingName: string;
@@ -25,7 +26,7 @@ interface RouteParamsProps {
 export const MyExerciseOpen = () => {
   const route = useRoute();
   const _gym = useGym();
-  const navigate = useNavigation();
+  const { navigate, goBack } = useNavigation();
   const { trainingName } = route.params as RouteParamsProps;
 
   const [divisions, setDivisions] = useState<divisionProps[]>([]);
@@ -39,12 +40,14 @@ export const MyExerciseOpen = () => {
       const data: exerciseStorageDTO[] = await exerciseGetByTraining(trainingName);
 
       if (data) {
+        _gym.onSetMyDivisionsShow(data);
         setDivisions(data[0].divisions);
 
         const getAllExercises = data[0].divisions.map((item: divisionProps) => item.exercises);
         const arrayOfBool = Array.from({ length: getAllExercises.length }, () => false);
         setDropExercisesIndex(arrayOfBool);
       }
+      _gym.onCleanMyExerciseShow();
 
       setLoad(false);
     } catch (error) {
@@ -73,20 +76,38 @@ export const MyExerciseOpen = () => {
     setDropExercisesIndex(changeIndexTrue);
   }
 
-  const handleGoToExercise = (exerciseName: string) => {
-    console.log(exerciseName)
-    //fazer a gora a parte q manda para tela do exercicio e mostra e puchar o exercício pelo nome.
+  const handleGoToExercise = (divisionName: string, divisionIndex: number, exerciseName: string) => {
+    const findExercise: exercisesProps[] = divisions[divisionIndex].exercises.filter((item: exercisesProps) => {
+      return item.title === exerciseName
+    });
+
+    const newObj: exercisesProps = {
+      title: findExercise[0].title,
+      repetition: findExercise[0].repetition,
+      series: findExercise[0].series,
+      type: findExercise[0].type,
+      done: findExercise[0].done,
+    }
+
+    _gym.onSetMyExerciseShow(newObj);
+    navigate('myExerciseShow', {
+      divisionName: divisionName,
+      divisionIndex: divisionIndex,
+      exerciseName: exerciseName
+    });
   }
 
   const handleGoback = () => {
-    navigate.goBack();
+    goBack();
   }
 
   useEffect(() => {
     fetchTraining();
   }, []);
 
-  return (
+  return load ?
+    <Loading />
+    :
     <Container titleText={`Treino ${trainingName}`}>
       <Main gap={16}>
         <DivisionArea>
@@ -118,9 +139,15 @@ export const MyExerciseOpen = () => {
                       return (
                         <ButtonExercises
                           key={indexInside}
-                          onPress={() => handleGoToExercise(exercises.title)}
+                          onPress={() => handleGoToExercise(item.division, index, exercises.title)}
                         >
-                          <Text text={exercises.title} fs={18} nol={1} />
+                          <Text
+                            text={exercises.title}
+                            fs={18} nol={1}
+                            style={{
+                              textDecorationLine: (exercises.done ?? 0) ? 'line-through' : 'none'
+                            }}
+                          />
                         </ButtonExercises>
                       )
                     })}
@@ -144,5 +171,4 @@ export const MyExerciseOpen = () => {
         />
       </Main>
     </Container>
-  );
 }

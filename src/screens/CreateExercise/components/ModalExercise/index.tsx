@@ -74,6 +74,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
         title: exercise?.exercise,
         series: parseInt(series),
         repetition: parseInt(repetitions),
+        done: false
       }
 
       onExercise(newExercise);

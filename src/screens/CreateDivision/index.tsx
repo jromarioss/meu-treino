@@ -32,7 +32,7 @@ export const CreateDivision = () => {
 
     if (divisions.length > 4) {
       setName('');
-      return Alert.alert('Error', 'Cada treino pode ter no maxímo 4 divisões.');
+      return Alert.alert('Error', 'Cada treino pode ter no maxímo 5 divisões.');
     }
 
     const divisionExists = divisions.find(item => item.division === name);
@@ -45,6 +45,7 @@ export const CreateDivision = () => {
     const newDivision: divisionProps = {
       division: name.trim(),
       exercises: [],
+      done: false,
     }
 
     setDivisions(state => [...state, newDivision]);

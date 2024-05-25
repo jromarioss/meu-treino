@@ -11,13 +11,13 @@ import { Loading } from '../../components/Loading';
 
 import { exerciseDetails } from '../../utils';
 import { useGym } from '../../hooks/useGym';
-import { exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
+import { exerciseDetailsProps, exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
 
 import { AreaImage, AreaText } from './styled';
 
 interface RouteParamsProps {
-  type: string
-  exercise: string
+  type: string;
+  exercise: string;
 }
 
 export const ExerciseDetail = () => {
@@ -33,8 +33,8 @@ export const ExerciseDetail = () => {
   const fetchExercise = () => {
     setLoad(true);
 
-    const findExerciseType = exerciseDetails.find(item => item.type === type);
-    const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise);
+    const findExerciseType: exerciseDetailsProps | undefined = exerciseDetails.find((item: exerciseDetailsProps) => item.type === type);
+    const findExerciseInfo: exercisesInfoProps | undefined = findExerciseType?.exercises.find((item: exercisesInfoProps) => item.title === exercise);
     setExerciseInfo(findExerciseInfo);
 
     setLoad(false);
@@ -52,34 +52,32 @@ export const ExerciseDetail = () => {
     <Loading />
     :
     <Container titleText='Detalhe do exercício'>
-      <ScrollView>
-        <Main gap={16} mb={16} ai='center'>
-          <Text text={exerciseInfo?.title} fs={32} ta='center' />
+      <Main gap={16} mb={16} ai='center'>
+        <Text text={exerciseInfo?.title} fs={32} ta='center' />
 
-          <AreaImage>
-            {exerciseInfo?.image &&
-              <Image
-                source={exerciseInfo.image}
-                contentFit='cover'
-                style={{ width: '100%', height: '100%' }}
-              />
-            }
-          </AreaImage>
+        <AreaImage>
+          {exerciseInfo?.image &&
+            <Image
+              source={exerciseInfo.image}
+              contentFit='cover'
+              style={{ width: '100%', height: '100%' }}
+            />
+          }
+        </AreaImage>
 
-          <AreaText>
-            {exerciseInfo?.description.map((text, index) => {
-              return (
-                <Text key={index} text={`${index + 1}. ${text}`} fs={16} />
-              )
-            })}
-          </AreaText>
+        <AreaText>
+          {exerciseInfo?.description.map((text, index) => {
+            return (
+              <Text key={index} text={`${index + 1}. ${text}`} fs={16} />
+            )
+          })}
+        </AreaText>
 
-          <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
-            text='Voltar'
-            onPress={handleGoback}
-          />
-        </Main>
-      </ScrollView>
+        <ButtonCreate
+          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+          text='Voltar'
+          onPress={handleGoback}
+        />
+      </Main>
     </Container>
 }

@@ -16,7 +16,7 @@ export const AreaDivision = styled.View`
 export const Division = styled.View`
   flex-direction: row;
   width: 100%;
-  height: 48px;
+  height: 64px;
   align-items: center;
   justify-content: space-between;
   border-bottom-width: 1px;

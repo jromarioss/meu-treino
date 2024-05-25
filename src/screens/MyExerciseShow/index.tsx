@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
@@ -11,33 +11,80 @@ import { Loading } from '../../components/Loading';
 
 import { exerciseDetails } from '../../utils';
 import { useGym } from '../../hooks/useGym';
-import { exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
+import { exerciseDetailsProps, exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
 
-import { AreaImage, AreaText } from './styled';
+import { AreaImage, AreaText, AreaInfos, AreaInfosText, AreaButtons, ButtonSerie } from './styled';
+import { CheckBox } from '../../components/CheckBox';
 
 interface RouteParamsProps {
-  type: string
-  exercise: string
+  divisionName?: string;
+  divisionIndex?: number;
+  exerciseName?: string;
 }
 
 export const MyExerciseShow = () => {
   const _gym = useGym();
   const navigate = useNavigation();
   const route = useRoute();
-  const { type, exercise } = route.params as RouteParamsProps;
+  const { divisionIndex, divisionName, exerciseName } = route.params as RouteParamsProps;
 
   const [load, setLoad] = useState<boolean>(false);
 
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
+  const [series, setSeries] = useState<number>(0);
 
   const fetchExercise = () => {
     setLoad(true);
 
-    const findExerciseType = exerciseDetails.find(item => item.type === type);
-    const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise);
-    setExerciseInfo(findExerciseInfo);
+    if (_gym.myExerciseShow) {
+      const findExercise: exerciseDetailsProps | undefined = exerciseDetails.find((item: exerciseDetailsProps) => item.type === _gym.myExerciseShow?.type)
+      const findExerciseInfo: exercisesInfoProps | undefined = findExercise?.exercises.find((item: exercisesInfoProps) => item.title === _gym.myExerciseShow?.title);
+
+      setExerciseInfo(findExerciseInfo);
+    }
 
     setLoad(false);
+  }
+
+  const handleAddSerie = () => {
+    if (_gym.myExerciseShow?.series === series) {
+      return;
+    }
+
+    return Alert.alert('Série', 'Deseja adicionar uma série como concluído?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: addSerie }
+    ]);
+  }
+
+  const addSerie = () => {
+    setSeries(state => state + 1)
+  }
+
+  const handleMakeExerciseDone = () => {
+    // if (_gym.myExerciseShow?.done) {
+    //   return;
+    // }
+
+    if (_gym.myExerciseShow?.series === series) {
+      return Alert.alert('Exercício', 'Deseja tornar este exercício como feito?', [
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: makeExerciseDone }
+      ]);
+    } else {
+      return Alert.alert('Error', 'Só pode finalizar o exercício quando finalizar sua série!');
+    }
+  }
+
+  const makeExerciseDone = () => {
+    if (_gym.myExerciseShow) {
+      const newValue = _gym.myExerciseShow;
+      newValue.done = true;
+
+      //agora falta fazer salvar no banco como feito o exercicio e nao so no local e pega os valroes do parametros
+      _gym.onSetMyExerciseShow(newValue);
+      fetchExercise();
+    }
   }
 
   const handleGoback = () => {
@@ -52,34 +99,68 @@ export const MyExerciseShow = () => {
     <Loading />
     :
     <Container titleText='Detalhe do exercício'>
-      <ScrollView>
-        <Main gap={16} mb={16} ai='center'>
-          <Text text={exerciseInfo?.title} fs={32} ta='center' />
+      <Main gap={16} ai='center'>
+        <Text text={exerciseInfo?.title} fs={18} ta='center' />
 
-          <AreaImage>
-            {exerciseInfo?.image &&
-              <Image
-                source={exerciseInfo.image}
-                contentFit='cover'
-                style={{ width: '100%', height: '100%' }}
-              />
-            }
-          </AreaImage>
+        <AreaImage>
+          {exerciseInfo?.image &&
+            <Image
+              source={exerciseInfo.image}
+              contentFit='cover'
+              style={{ width: '100%', height: '100%' }}
+            />
+          }
+        </AreaImage>
 
-          <AreaText>
-            {exerciseInfo?.description.map((text, index) => {
-              return (
-                <Text key={index} text={`${index + 1}. ${text}`} fs={16} />
-              )
-            })}
-          </AreaText>
+        <AreaInfos>
+          <AreaInfosText>
+            <Text
+              text={`${(_gym.myExerciseShow?.series ?? 0) <= 1 ? 'Série' : 'Séries'}:`}
+              fs={24}
+              fw={700}
+            />
 
-          <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
-            text='Voltar'
-            onPress={handleGoback}
+            <Text
+              text={`${_gym.myExerciseShow?.series}`}
+              fs={24}
+            />
+          </AreaInfosText>
+
+          <AreaInfosText>
+            <Text
+              text={`${(_gym.myExerciseShow?.repetition ?? 0) <= 1 ? 'Repetição' : 'Repetições'}:`}
+              fs={24}
+              fw={700}
+            />
+
+            <Text text={`${_gym.myExerciseShow?.series}`} fs={24} />
+          </AreaInfosText>
+        </AreaInfos>
+
+        <AreaButtons>
+          <ButtonSerie onPress={handleAddSerie}>
+            <Text text={`${series} ${series <= 1 ? 'série' : 'séries'} concluída`} fs={24} />
+          </ButtonSerie>
+
+          <CheckBox
+            onPress={handleMakeExerciseDone}
+            onIsCheck={_gym.myExerciseShow?.done}
           />
-        </Main>
-      </ScrollView>
+        </AreaButtons>
+
+        <AreaText>
+          {exerciseInfo?.description.map((text, index) => {
+            return (
+              <Text key={index} mt={(index ?? 0 === 0) && 16} text={`${index + 1}. ${text}`} fs={16} />
+            )
+          })}
+        </AreaText>
+
+        <ButtonCreate
+          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+          text='Voltar'
+          onPress={handleGoback}
+        />
+      </Main>
     </Container>
 }

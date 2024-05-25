@@ -1,41 +1,10 @@
-import { ReactNode, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-import { divisionProps } from '../interfaces/divisionProps';
+import { divisionProps, exercisesProps } from '../interfaces/divisionProps';
 import { exerciseStorageDTO } from '../storage/exercise/exerciseStorageDTO';
 
 import { theme } from '../styles/theme';
-
-export type GymContextDataProps = {
-  COLORS: any,
-  trainingName: string,
-  trainingSelected: string,
-  divisionSelected: string,
-  doubtType: string,
-  showMenu: boolean,
-  showDoubt: boolean,
-  divisionDatas: divisionProps[],
-  trainingToCreate: exerciseStorageDTO | null,
-  onShowMenu: (value: boolean) => void,
-  onSetShowDoubt: (value: boolean) => void,
-  onSetDivisionDatas: (data: divisionProps) => void,
-  onCleanDivisionDatas: () => void,
-  onSetTrainingToCreate: (value: exerciseStorageDTO) => void,
-  onCleanTrainingToCreate: () => void,
-  onSetTrainingName: (value: string) => void,
-  onCleanTrainingName: () => void,
-  onSetDoubtType: (value: string) => void,
-  onCleanDoubtType: () => void,
-  onSetTrainingSelected: (value: string) => void,
-  onCleanTrainingSelected: () => void,
-  onSetDivisionSelected: (value: string) => void,
-  onRemoveDivisionDatas: (name: string) => void,
-  onCleanDivisionSelected: () => void,
-  onRemoveExercisesFromDivisionData: (name: string, title: string) => void,
-}
-
-type GymContextProviderProps = {
-  children: ReactNode
-}
+import { GymContextDataProps, GymContextProviderProps } from '../interfaces/gymContextProps';
 
 export const GymContext = createContext<GymContextDataProps>({} as GymContextDataProps);
 
@@ -52,11 +21,14 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   const [trainingToCreate, setTrainingToCreate] = useState<exerciseStorageDTO | null>(null);
   const [trainingName, setTainingName] = useState<string>('');
   const [trainingSelected, setTrainingSelected] = useState<string>('');
+  //My exercise
+  const [myExerciseShow, setMyExerciseShow] = useState<exercisesProps | null>(null);
+  const [myDivisionsShow, setMyDivisionsShow] = useState<exerciseStorageDTO[]>([]);
   //Header
   const onShowMenu = (value: boolean) => {
     setShowMenu(value);
   }
-
+  console.log(myDivisionsShow)
   const onSetShowDoubt = (value: boolean) => {
     setShowDoubt(value);
   }
@@ -147,6 +119,22 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   const onCleanTrainingSelected = () => {
     setTrainingSelected('');
   }
+  //My exercise
+  const onSetMyExerciseShow = (value: exercisesProps) => {
+    setMyExerciseShow(value);
+  }
+
+  const onCleanMyExerciseShow = () => {
+    setMyExerciseShow(null);
+  }
+
+  const onSetMyDivisionsShow = (value: exerciseStorageDTO[]) => {
+    setMyDivisionsShow(value);
+  }
+
+  const onCleanMyDivisionsShow = () => {
+    setMyDivisionsShow([]);
+  }
 
   return (
     <GymContext.Provider value={{
@@ -157,6 +145,8 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
       trainingToCreate,
       trainingName,
       trainingSelected,
+      myExerciseShow,
+      myDivisionsShow,
       divisionSelected,
       doubtType,
       onShowMenu,
@@ -164,9 +154,13 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
       onCleanDivisionDatas,
       onSetTrainingToCreate,
       onCleanTrainingToCreate,
+      onCleanMyDivisionsShow,
       onSetTrainingName,
+      onSetMyDivisionsShow,
       onCleanTrainingName,
+      onSetMyExerciseShow,
       onSetTrainingSelected,
+      onCleanMyExerciseShow,
       onCleanTrainingSelected,
       onSetDivisionSelected,
       onCleanDivisionSelected,

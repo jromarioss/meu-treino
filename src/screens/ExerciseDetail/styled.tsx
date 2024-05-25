@@ -9,7 +9,7 @@ export const AreaImage = styled.View`
   overflow: hidden;
 `;
 
-export const AreaText = styled.View`
+export const AreaText = styled.ScrollView`
   width: 100%;
   gap: 8px;
 `;
