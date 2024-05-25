@@ -1,11 +1,13 @@
 import { Image } from 'expo-image';
-import { Alert, FlatList, Image as Image2 } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { Text } from '../../../../components/Text';
 import { Input } from '../../../../components/Input';
 import { ButtonCreate } from '../../../../components/ButtonCreate';
+import { Main } from '../../../../components/Main';
 import { ButtonDelete } from '../../../../components/ButtonDelete';
+import { ButtonCloseModal } from '../../../../components/ButtonCloseModal';
 
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
 import { exerciseDetails } from '../../../../utils/exerciseDetails';
@@ -13,9 +15,7 @@ import { exerciseTypesProps } from '../../../../interfaces/exerciseProps';
 import { useGym } from '../../../../hooks/useGym';
 import { exercisesProps } from '../../../../interfaces/divisionProps';
 
-import CloseImg from '../../../../assets/closeBack.png';
-
-import { Container, ButtonClose, AreaFlat, ExerciseDiv, Main, AreaImage, Form, LabelArea } from './styled';
+import { Container, AreaFlat, ExerciseDiv, AreaImage, Form, LabelArea } from './styled';
 import { Loading } from '../../../../components/Loading';
 
 interface ModalExerciseProps {
@@ -35,7 +35,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
   const [exercisesaName, setExercisesName] = useState<string[]>([]);
   const [repetitionTxt, setRepetitionTxt] = useState<string>('');
   const [load, setLoad] = useState<boolean>(false);
-  //Função que busca o exercíos para exibir na tela
+
   const fetchExercise = () => {
     if (!deleteExercise) {
       setLoad(true);
@@ -55,19 +55,19 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
       setLoad(false);
     }
   }
-  //Função que add o exercício
+
   const handleAddExercise = () => {
     const series = serieTxt.replace(/[,.]/g, '');
     const repetitions = repetitionTxt.replace(/[,.]/g, '');
-    // Verificaçã ode campo vazio
+
     if (series === '' || repetitions === '') {
       return Alert.alert('Error', 'Informe o número de serie e de repetição.');
     }
-    //Verificação de campo não pode ser maior
+
     if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
       return Alert.alert('Error', 'Valor máximo para serie é 10 e repetição é 20.');
     }
-    //Prepara o obj se tem exercício
+
     if (exercise) {
       const newExercise: exercisesProps = {
         type: exercise?.type,
@@ -75,16 +75,16 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
         series: parseInt(series),
         repetition: parseInt(repetitions),
       }
-      //Fecha o modal e manda o exercício como props
+
       onExercise(newExercise);
       handleCloseModal();
     }
   }
-  //Função que deleta o exercício
+
   const handleDeleteExercise = (value: string) => {
     onDeleteExercise(value);
   }
-  //Função fecha o modal
+
   const handleCloseModal = () => {
     onClose();
   }
@@ -101,11 +101,9 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
     <Loading />
     :
     <Container>
-      <ButtonClose onPress={handleCloseModal}>
-        <Image2 source={CloseImg} />
-      </ButtonClose>
+      <ButtonCloseModal t={1} r={1} cl={'black'} onPress={handleCloseModal} />
 
-      <Main>
+      <Main jc='space-between' ai='center' pd={0} >
         {!deleteExercise ?
           <>
             <Text text={exercise?.exercise} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />

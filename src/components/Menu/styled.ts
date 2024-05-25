@@ -13,13 +13,6 @@ export const MenuContainer = styled(SafeAreaView)`
   background-color: ${({ theme }: any) => theme.COLORS.ZINC_600};
 `;
 
-export const ButtonClose = styled.TouchableOpacity<ButtonProps>`
-  padding: 10px;
-  position: absolute;
-  top: 32px;
-  right: 24px;
-`;
-
 export const Button = styled.TouchableOpacity<ButtonProps>`
   padding: 3px 12px;
 `;

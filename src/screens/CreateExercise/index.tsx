@@ -88,7 +88,7 @@ export const CreateExercise = () => {
     setExerciseArray(state => [...state, value]);
     setShowButtonFinish(true);
   }
-  console.log(exerciseArray.length)
+
   const handleCloseModalExercise = () => {
     setModalExercise(false);
     setModalDelete(false);

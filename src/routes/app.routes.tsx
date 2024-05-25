@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { Home } from '../screens/Home';
 import { Exercises } from '../screens/Exercises';
 import { CreateTraining } from '../screens/CreateTraining';
@@ -8,6 +9,7 @@ import { ExerciseDetail } from '../screens/ExerciseDetail';
 import { MyExerciseOpen } from '../screens/MyExerciseOpen';
 import { CreateDivision } from '../screens/CreateDivision';
 import { CreateExercise } from '../screens/CreateExercise';
+import { MyExerciseShow } from '../screens/MyExerciseShow';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -24,6 +26,7 @@ export function AppRouter() {
       <Screen name='createExercise' component={CreateExercise} />
       <Screen name='myExercise' component={MyExercise} />
       <Screen name='myExerciseOpen' component={MyExerciseOpen} />
+      <Screen name='myExerciseShow' component={MyExerciseShow} />
       <Screen name='calculation' component={Calculation} />
       <Screen name='exerciseDetail' component={ExerciseDetail} />
     </Navigator>

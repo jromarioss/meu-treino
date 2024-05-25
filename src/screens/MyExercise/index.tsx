@@ -1,23 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
+import { Loading } from '../../components/Loading';
+import { Container} from '../../components/Container';
 import { ButtonDelete } from '../../components/ButtonDelete';
 
-import { trainingStorageDTO, trainingGetAll, exerciseRemoveByTraining, trainingToRemove } from '../../storage';
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils';
+import { trainingStorageDTO, trainingGetAll, exerciseRemoveByTraining, trainingToRemove } from '../../storage';
 
-import { ButtonTraining, EmptyArea, ButtonArea } from './styled';
+import { ButtonTraining, EmptyArea, ButtonArea, Div } from './styled';
 
 export const MyExercise = () => {
   const { navigate } = useNavigation();
   const _gym = useGym();
 
-  const [trainings, setTrainings] = useState<trainingStorageDTO[] | null>([]);
+  const [trainings, setTrainings] = useState<trainingStorageDTO[]>([]);
   const [load, setLoad] = useState<boolean>(false);
 
   const fetchTraining = async () => {
@@ -67,35 +68,36 @@ export const MyExercise = () => {
     fetchTraining();
   }, []);
 
-  return (
-    <Container titleText={`${(trainings?.length ?? 0) <= 1 ? 'Meu treino' : 'Meus treinos'}`}>
+  return load ?
+    <Loading />
+    :
+    <Container titleText={`${trainings.length <= 1 ? 'Meu treino' : 'Meus treinos'}`}>
       <Main>
-        <FlatList
-          data={trainings}
-          extraData={(item: trainingStorageDTO) => item}
-          renderItem={({ item }) => (
-            <ButtonArea>
-              <ButtonTraining onPress={() => handleGoToMyExerciseOpen(item.name)}>
-                <Text text={item.name} fs={24} nol={1} />
-                <Text text={item.createdAt} fs={12} />
-              </ButtonTraining>
+        {trainings.length > 0 ?
+          <Div>
+            {trainings.map((item: trainingStorageDTO, index: number) => {
+              return (
+                <ButtonArea key={index}>
+                  <ButtonTraining onPress={() => handleGoToMyExerciseOpen(item.name)}>
+                    <Text text={item.name} fs={24} nol={1} />
+                    <Text text={item.createdAt} fs={12} />
+                  </ButtonTraining>
 
-                <ButtonDelete
-                  h={36} w={36} ih={16} iw={16}
-                  ic='white'
-                  onPress={() => handleDeleteTraining(item.name)}
-                  bg={_gym.COLORS.RED_600}
-                />
-            </ButtonArea>
-          )}
-          
-          ListEmptyComponent={() => (
-            <EmptyArea>
-              <Text text="Nenhum treino cadastrardo!" fs={24} nol={1} />
-            </EmptyArea>
-          )}
-        />
+                  <ButtonDelete
+                    h={36} w={36} ih={16} iw={16}
+                    ic='white'
+                    onPress={() => handleDeleteTraining(item.name)}
+                    bg={_gym.COLORS.RED_600}
+                  />
+                </ButtonArea>
+              )
+            })}
+          </Div>
+          :
+          <EmptyArea>
+            <Text text="Nenhum treino cadastrardo!" fs={24} nol={1} />
+          </EmptyArea>
+        }
       </Main>
     </Container>
-  );
 }

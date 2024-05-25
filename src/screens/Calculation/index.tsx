@@ -7,7 +7,6 @@ import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
 
-
 import { GymContext } from '../../context/gymContext';
 
 import { DivInput, Label, Form } from './styled';

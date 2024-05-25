@@ -5,11 +5,6 @@ export const Container = styled.View`
   height: 100%;
   align-items: center;
   padding: 16px;
-  gap: 16px;
+  gap: 1px;
   background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
-export const Main = styled.View`
-  flex: 1;
-  width: 300px;
 `;

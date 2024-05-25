@@ -3,7 +3,7 @@ import { ButtonProps } from '../../interfaces/buttonProps';
 
 export const Container = styled.View`
   width: 100%;
-  height: 100px;
+  height: 84px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

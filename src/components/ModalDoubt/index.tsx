@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { Text } from '../Text';
+import { ButtonCloseModal } from '../ButtonCloseModal';
+import { Main } from '../Main';
 
 import { doubtInfos } from '../../utils/doubtInfos'
 import { doubtInfosProps } from '../../interfaces/doubtInfosProps';
 import { useGym } from '../../hooks/useGym';
 
-import { Container, Main } from './styled';
+import { Container } from './styled';
 
 export const ModalDoubt = () => {
   const _gym = useGym();
@@ -22,19 +24,38 @@ export const ModalDoubt = () => {
     }
   }
 
+  const handleDoubt = () => {
+    _gym.onSetShowDoubt(!_gym.showDoubt);
+  }
+
   useEffect(() => {
     fetchDoubt();
   }, []);
 
   return (
     <Container>
-      <Text text={doubtInfoData?.infos.title} fs={24} fw={700} cl={`${_gym.COLORS.GRAY_800}`} />
+      <ButtonCloseModal t={4} r={8} cl={'black'} onPress={handleDoubt} />
+
+      <Text
+        text={doubtInfoData?.infos.title}
+        mt={18}
+        fs={24}
+        fw={700}
+        ta='center'
+        cl={`${_gym.COLORS.GRAY_800}`}
+      />
+
       <Main>
         <FlatList
           data={doubtInfoData?.infos.texts}
           extraData={(item: string) => item}
           renderItem={({ item, index }: any) => (
-            <Text key={item} text={`${index + 1} - ${item}`} fs={18} cl={`${_gym.COLORS.GRAY_800}`} />
+            <Text
+              key={item}
+              text={`${index + 1} - ${item}`}
+              fs={18}
+              cl={`${_gym.COLORS.GRAY_800}`}
+            />
           )}
         />
       </Main>

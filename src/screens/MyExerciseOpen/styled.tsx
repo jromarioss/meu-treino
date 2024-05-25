@@ -6,25 +6,41 @@ export const DivisionArea = styled.View`
   align-items: center;
 `;
 
-export const Division = styled.View`
+export const DivisionOutSide = styled.View`
   width: 300px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const Division = styled.View`
+  width: 100%;
   height: 58px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
   padding-left: 16px;
   padding-right: 16px;
-  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
-  border-radius: 8px;
 `;
 
-export const ButtonTraining = styled.TouchableOpacity`
-  height: 64px;
+export const DivisionDroped = styled.View`
+  width: 100%;
+  border-top-width: 1px;
+  gap: 4px;
+  border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const DivisionButtonDrop = styled.TouchableOpacity`
+  height: 100%;
   justify-content: center;
-  padding-left: 16px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_100};
+`;
+
+export const ButtonExercises = styled.TouchableOpacity`
+  padding: 16px;
+  justify-content: center;
 `;
 
 export const EmptyArea = styled.View`

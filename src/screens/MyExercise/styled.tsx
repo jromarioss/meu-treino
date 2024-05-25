@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
+export const Div = styled.View`
+  flex: 1;
+`;
+
 export const ButtonArea = styled.View`
   flex-direction: row;
   align-items: center;

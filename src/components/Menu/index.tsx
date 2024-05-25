@@ -4,9 +4,9 @@ import { Keyboard, Image, BackHandler } from 'react-native';
 
 import { useGym } from '../../hooks/useGym';
 
-import CloseImg from '../../assets/closeImg.png';
+import { ButtonCloseModal } from "../ButtonCloseModal";
 
-import { MenuContainer, Button, ButtonText, ButtonClose } from './styled';
+import { MenuContainer, Button, ButtonText } from './styled';
 
 export const Menu = () => {
   const _gym = useGym();
@@ -16,7 +16,7 @@ export const Menu = () => {
     { label: 'Home', value: 'home' },
     { label: 'Exercícios', value: 'exercise' },
     { label: 'Criar Treino', value: 'createTraining' },
-    { label: 'Meu Treino', value: 'myExercise' },
+    { label: 'Meus Treinos', value: 'myExercise' },
     { label: 'Calculo IMC', value: 'calculation' },
     { label: 'Sair', value: 'exit' },
   ]
@@ -29,7 +29,7 @@ export const Menu = () => {
     } else if (goTo == 'exercise') {
       navigate('exercise');
     } else if (goTo == 'createTraining') {
-      navigate('createTraining', {});
+      navigate('createTraining');
     } else if (goTo == 'myExercise') {
       navigate('myExercise');
     } else if (goTo == 'calculation') {
@@ -51,9 +51,8 @@ export const Menu = () => {
 
   return (
     <MenuContainer>
-      <ButtonClose onPress={handleMenu}>
-        <Image source={CloseImg} />
-      </ButtonClose>
+      <ButtonCloseModal t={36} r={8} cl={'white'} onPress={handleMenu} />
+
       {buttons.map((button, index) => {
         return (
           <Button key={index} onPress={() => handleGoTo(button.value)}>

@@ -7,7 +7,6 @@ import { useGym } from '../../hooks/useGym';
 import menuImg from '../../assets/menu.png';
 import arrowLeftImg from '../../assets/arrowLeft.png';
 
-
 import { theme } from '../../styles/theme';
 import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt } from './styled';
 

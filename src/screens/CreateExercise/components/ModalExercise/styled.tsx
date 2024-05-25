@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { ButtonProps } from '../../../../interfaces/buttonProps';
 
 export const Container = styled.View`
   width: 100%;
@@ -8,19 +7,6 @@ export const Container = styled.View`
   z-index: 2;
   border-radius: 8px;
   background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
-`;
-
-export const ButtonClose = styled.TouchableOpacity<ButtonProps>`
-  padding: 10px;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-`;
-
-export const Main = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 export const AreaImage = styled.View`

@@ -110,9 +110,9 @@ export const CreateTraining = () => {
   }
 
   const handleGoToCreateDivision = () => {
-    navigate('createDivision');
     _gym.onCleanDivisionDatas();
     _gym.onCleanDoubtType();
+    navigate('createDivision');
   }
 
   useEffect(() => {
