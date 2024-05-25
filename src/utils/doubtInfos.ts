@@ -6,7 +6,7 @@ export const doubtInfos: doubtInfosProps[] = [
     name: 'Create training',
     infos: {
       title: 'Como criar um treino',
-      texts: ['Clique no botão criar para criar um treino.', 'Só pode ser criado um treino por vez.', 'Você precisa dar um nome para o seu treino.','Depois clique em cima do nome do treino que você acabou de criar, para adicionar as divisões no seu treino.','Você também pode excluir o treino clicando na lixeira.']
+      texts: ['Só pode ser criado um treino por vez.','Informe um nome para o seu treino.','Clique no botão salvar.','Depois clique em cima do nome do treino que você acabou de criar, para adicionar as divisões no seu treino.','Você também pode excluir o treino clicando na lixeira.']
     }
   },
   {

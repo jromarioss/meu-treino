@@ -16,6 +16,7 @@ import { exercisesProps } from '../../../../interfaces/divisionProps';
 import CloseImg from '../../../../assets/closeBack.png';
 
 import { Container, ButtonClose, AreaFlat, ExerciseDiv, Main, AreaImage, Form, LabelArea } from './styled';
+import { Loading } from '../../../../components/Loading';
 
 interface ModalExerciseProps {
   exercise: exerciseTypesProps | null,
@@ -33,31 +34,40 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
   const [serieTxt, setSerieTxt] = useState<string>('');
   const [exercisesaName, setExercisesName] = useState<string[]>([]);
   const [repetitionTxt, setRepetitionTxt] = useState<string>('');
-
+  const [load, setLoad] = useState<boolean>(false);
+  //Função que busca o exercíos para exibir na tela
   const fetchExercise = () => {
     if (!deleteExercise) {
+      setLoad(true);
+
       const findExerciseType = exerciseDetails.find(item => item.type === exercise?.type);
       const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.exercise);
       setExerciseInfo(findExerciseInfo);
+
+      setLoad(false);
     } else {
+      setLoad(true);
+      
       setExercisesName([]);
       const exercisesToAdd = exercises.map(exercise => exercise.title);
       setExercisesName(exercisesToAdd);
+
+      setLoad(false);
     }
   }
-
+  //Função que add o exercício
   const handleAddExercise = () => {
     const series = serieTxt.replace(/[,.]/g, '');
     const repetitions = repetitionTxt.replace(/[,.]/g, '');
-
+    // Verificaçã ode campo vazio
     if (series === '' || repetitions === '') {
       return Alert.alert('Error', 'Informe o número de serie e de repetição.');
     }
-
+    //Verificação de campo não pode ser maior
     if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
       return Alert.alert('Error', 'Valor máximo para serie é 10 e repetição é 20.');
     }
-
+    //Prepara o obj se tem exercício
     if (exercise) {
       const newExercise: exercisesProps = {
         type: exercise?.type,
@@ -65,15 +75,16 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
         series: parseInt(series),
         repetition: parseInt(repetitions),
       }
+      //Fecha o modal e manda o exercício como props
       onExercise(newExercise);
       handleCloseModal();
     }
   }
-
+  //Função que deleta o exercício
   const handleDeleteExercise = (value: string) => {
     onDeleteExercise(value);
   }
-
+  //Função fecha o modal
   const handleCloseModal = () => {
     onClose();
   }
@@ -86,7 +97,9 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
     fetchExercise();
   }, [exercises]);
 
-  return (
+  return load ?
+    <Loading />
+    :
     <Container>
       <ButtonClose onPress={handleCloseModal}>
         <Image2 source={CloseImg} />
@@ -162,5 +175,4 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
         }
       </Main>
     </Container>
-  );
 }

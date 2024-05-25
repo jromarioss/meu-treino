@@ -70,13 +70,6 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   }
   //Division
   const onSetDivisionDatas = (data: divisionProps) => {
-    // const divisionExists = divisionDatas.find(item => item.division === data.division);
-
-    // if (divisionExists) {
-      
-    // }
-
-    // setDivisionDatas(state => [...state, data]);
     const divisionIndex = divisionDatas.findIndex(item => item.division === data.division);
 
     if (divisionIndex !== -1) {

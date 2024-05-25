@@ -1,12 +1,6 @@
 import styled from 'styled-components/native';
 import { ButtonProps } from '../../interfaces/buttonProps';
 
-export const TrainingArea = styled.View`
-  width: 100%;
-  height: 200px;
-  flex: 1;
-`;
-
 export const Div = styled.View`
   width: 100%;
   flex-direction: row;
@@ -35,4 +29,9 @@ export const ButtonDelete = styled.TouchableOpacity<ButtonProps>`
   align-items: center;
   justify-content: center;
   margin-left: 16px;
+`;
+
+export const AreaInput = styled.View`
+  width: 100%;
+  gap: 12px;
 `;

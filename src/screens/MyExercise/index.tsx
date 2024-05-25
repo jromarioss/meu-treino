@@ -77,6 +77,7 @@ export const MyExercise = () => {
             <ButtonArea>
               <ButtonTraining onPress={() => handleGoToMyExerciseOpen(item.name)}>
                 <Text text={item.name} fs={24} nol={1} />
+                <Text text={item.createdAt} fs={12} />
               </ButtonTraining>
 
                 <ButtonDelete
