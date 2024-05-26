@@ -45,7 +45,6 @@ export const CreateDivision = () => {
     const newDivision: divisionProps = {
       division: name.trim(),
       exercises: [],
-      done: false,
     }
 
     setDivisions(state => [...state, newDivision]);
@@ -83,6 +82,12 @@ export const CreateDivision = () => {
 
   const saveDivision = async (data: exerciseStorageDTO) => {
     try {
+      const noExerciseEmpty: boolean = data.divisions.every((item: divisionProps) => item.exercises.length > 0)
+
+      if (!noExerciseEmpty) {
+        return Alert.alert('Error', 'Todas suas divisões precisa ter pelo menos um exercício!')
+      }
+
       await exerciseCreate(data, _gym.trainingName);
 
       _gym.onCleanTrainingName();

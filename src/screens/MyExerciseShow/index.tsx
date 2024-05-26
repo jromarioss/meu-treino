@@ -15,10 +15,13 @@ import { exerciseDetailsProps, exercisesInfoProps } from '../../interfaces/exerc
 
 import { AreaImage, AreaText, AreaInfos, AreaInfosText, AreaButtons, ButtonSerie } from './styled';
 import { CheckBox } from '../../components/CheckBox';
+import { divisionProps } from '../../interfaces/divisionProps';
+import { ExerciseProps } from '../../interfaces/exerciseProps';
+import { exerciseStorageDTO, exerciseToEdit } from '../../storage';
 
 interface RouteParamsProps {
+  trainingName?: string;
   divisionName?: string;
-  divisionIndex?: number;
   exerciseName?: string;
 }
 
@@ -26,7 +29,7 @@ export const MyExerciseShow = () => {
   const _gym = useGym();
   const navigate = useNavigation();
   const route = useRoute();
-  const { divisionIndex, divisionName, exerciseName } = route.params as RouteParamsProps;
+  const { trainingName, divisionName, exerciseName } = route.params as RouteParamsProps;
 
   const [load, setLoad] = useState<boolean>(false);
 
@@ -62,29 +65,59 @@ export const MyExerciseShow = () => {
   }
 
   const handleMakeExerciseDone = () => {
-    // if (_gym.myExerciseShow?.done) {
-    //   return;
-    // }
+    if (_gym.myExerciseShow?.done) {
+      return;
+    }
 
     if (_gym.myExerciseShow?.series === series) {
       return Alert.alert('Exercício', 'Deseja tornar este exercício como feito?', [
         { text: 'Não', style: 'cancel' },
-        { text: 'Sim', onPress: makeExerciseDone }
+        { text: 'Sim', onPress: () => makeExerciseDone('check') }
       ]);
     } else {
-      return Alert.alert('Error', 'Só pode finalizar o exercício quando finalizar sua série!');
+      return Alert.alert('Error', 'Só pode finalizar o exercício quando finalizar suas séries!');
     }
   }
 
-  const makeExerciseDone = () => {
+  const makeExerciseDone = async (type: 'check' | 'unCheck') => {
     if (_gym.myExerciseShow) {
       const newValue = _gym.myExerciseShow;
-      newValue.done = true;
+      if (type === 'check') {
+        newValue.done = true;
+      } else {
+        newValue.done = false;
+      }
 
-      //agora falta fazer salvar no banco como feito o exercicio e nao so no local e pega os valroes do parametros
+      const divisionTemp = [..._gym.myDivisionsShow];
+      const findDivision = divisionTemp[0].divisions.find((item: divisionProps) => item.division === divisionName);
+      const findExercise = findDivision?.exercises.find((item) => item.title === exerciseName);
+
+      if (findExercise) {
+        if (type === 'check') {
+          findExercise.done = true;
+        } else {
+          findExercise.done = false;
+        }
+      }
+
+      const newObj: exerciseStorageDTO = {
+        id: _gym.myDivisionsShow[0].id,
+        training: _gym.myDivisionsShow[0].training,
+        divisions: _gym.myDivisionsShow[0].divisions
+      }
+
+      await exerciseToEdit(newObj, trainingName ?? '')
+
       _gym.onSetMyExerciseShow(newValue);
       fetchExercise();
     }
+  }
+
+  const handleMakeExerUnDone = () => {
+    return Alert.alert('Exercício', 'Deseja torna o exercício como não finalizado?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: () => makeExerciseDone('unCheck') }
+    ]);
   }
 
   const handleGoback = () => {
@@ -138,11 +171,18 @@ export const MyExerciseShow = () => {
         </AreaInfos>
 
         <AreaButtons>
-          <ButtonSerie onPress={handleAddSerie}>
-            <Text text={`${series} ${series <= 1 ? 'série' : 'séries'} concluída`} fs={24} />
-          </ButtonSerie>
+          {_gym.myExerciseShow?.done ?
+            <ButtonSerie onPress={handleMakeExerUnDone}>
+              <Text text='Desmarcar ' fs={24} />
+            </ButtonSerie>
+            :
+            <ButtonSerie onPress={handleAddSerie}>
+              <Text text={`${series} ${series <= 1 ? 'série' : 'séries'} concluída`} fs={24} />
+            </ButtonSerie>
+          }
 
           <CheckBox
+            w={36} h={36} wi={24} hi={24}
             onPress={handleMakeExerciseDone}
             onIsCheck={_gym.myExerciseShow?.done}
           />

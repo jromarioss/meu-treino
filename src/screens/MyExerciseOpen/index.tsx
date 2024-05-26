@@ -9,7 +9,7 @@ import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
 
 import { divisionProps, exercisesProps } from '../../interfaces/divisionProps';
-import { exerciseGetByTraining, exerciseStorageDTO } from '../../storage';
+import { exerciseGetByTraining, exerciseStorageDTO, exerciseToEdit } from '../../storage';
 import { AppError } from '../../utils';
 import { useGym } from '../../hooks/useGym';
 
@@ -18,6 +18,7 @@ import ArrowUpImg from '../../assets/up.png';
 
 import { DivisionButtonDrop, DivisionArea, EmptyArea, Division, DivisionOutSide, DivisionDroped, ButtonExercises } from './styled';
 import { Loading } from '../../components/Loading';
+import { CheckBox } from '../../components/CheckBox';
 
 interface RouteParamsProps {
   trainingName: string;
@@ -43,11 +44,10 @@ export const MyExerciseOpen = () => {
         _gym.onSetMyDivisionsShow(data);
         setDivisions(data[0].divisions);
 
-        const getAllExercises = data[0].divisions.map((item: divisionProps) => item.exercises);
-        const arrayOfBool = Array.from({ length: getAllExercises.length }, () => false);
+        const getAllExercises: exercisesProps[][] = data[0].divisions.map((item: divisionProps) => item.exercises);
+        const arrayOfBool: boolean[] = Array.from({ length: getAllExercises.length }, () => false);
         setDropExercisesIndex(arrayOfBool);
       }
-      _gym.onCleanMyExerciseShow();
 
       setLoad(false);
     } catch (error) {
@@ -92,9 +92,38 @@ export const MyExerciseOpen = () => {
     _gym.onSetMyExerciseShow(newObj);
     navigate('myExerciseShow', {
       divisionName: divisionName,
-      divisionIndex: divisionIndex,
+      trainingName: trainingName,
       exerciseName: exerciseName
     });
+  }
+
+  const handleUnCheckAll = (divisionName: string) => {
+    return Alert.alert('Exercício', 'Deseja marcar todos exercício com não feito?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: () => unCheckAll(divisionName) }
+    ]);
+  }
+
+  const unCheckAll = async (divisionName: string) => {
+    const divisionTemp = [..._gym.myDivisionsShow];
+
+    divisionTemp[0].divisions.forEach((division: divisionProps) => {
+      if (division.division === divisionName) {
+        division.exercises.forEach((exercise: exercisesProps) => {
+          exercise.done = false
+        });
+      }
+    });
+
+    const newObj: exerciseStorageDTO = {
+      id: _gym.myDivisionsShow[0].id,
+      training: _gym.myDivisionsShow[0].training,
+      divisions: _gym.myDivisionsShow[0].divisions
+    }
+
+    await exerciseToEdit(newObj, trainingName ?? '')
+
+    fetchTraining();
   }
 
   const handleGoback = () => {
@@ -105,48 +134,51 @@ export const MyExerciseOpen = () => {
     fetchTraining();
   }, []);
 
+  useEffect(() => {
+    if (_gym.myExerciseShow) {
+      fetchTraining();
+    }
+  }, [_gym.myExerciseShow]);
+
   return load ?
     <Loading />
     :
     <Container titleText={`Treino ${trainingName}`}>
-      <Main gap={16}>
+      <Main gap={16} ai='center'>
         <DivisionArea>
           {divisions.map((item: divisionProps, index: number) => {
             return (
               <DivisionOutSide key={index}>
                 <Division>
-                  <Text text={item.division} fs={24} nol={1} />
+                  <Text text={item.division} w={220} fs={24} nol={1} />
 
                   <DivisionButtonDrop onPress={() => handleDropExercisesIndex(index)}>
-                    {dropExercisesIndex[index] ? 
-                      <Image
-                        source={ArrowUpImg}
-                        contentFit='cover'
-                        style={{ width: 32, height: 32 }}
-                      />
-                      :
-                      <Image
-                        source={ArrowDownImg}
-                        contentFit='cover'
-                        style={{ width: 32, height: 32 }}
-                      />
-                    }
+                    <Image
+                      source={dropExercisesIndex[index] ?  ArrowUpImg : ArrowDownImg}
+                      contentFit='cover' style={{ width: 32, height: 32 }}
+                    />
                   </DivisionButtonDrop>
                 </Division>
                 {dropExercisesIndex[index] &&
                   <DivisionDroped>
+                    {item.exercises.every(item => item.done) &&
+                      <ButtonCreate
+                        bg={_gym.COLORS.GREEN_600} fs={14} fw={700} w={124} h={32} mt={12}
+                        text='Desmarca todos'
+                        onPress={() => handleUnCheckAll(item.division)}
+                      />
+                    }
                     {item.exercises.map((exercises: exercisesProps, indexInside: number) => {
                       return (
                         <ButtonExercises
                           key={indexInside}
                           onPress={() => handleGoToExercise(item.division, index, exercises.title)}
                         >
-                          <Text
-                            text={exercises.title}
-                            fs={18} nol={1}
-                            style={{
-                              textDecorationLine: (exercises.done ?? 0) ? 'line-through' : 'none'
-                            }}
+                          <Text w={224} text={exercises.title} fs={18} nol={1} />
+
+                          <CheckBox
+                            w={28} h={28} wi={18} hi={18}
+                            onIsCheck={exercises.done}
                           />
                         </ButtonExercises>
                       )
@@ -163,12 +195,14 @@ export const MyExerciseOpen = () => {
             </EmptyArea>
           }
         </DivisionArea>
-
-        <ButtonCreate
-          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
-          text='Voltar'
-          onPress={handleGoback}
-        />
+        
+        {!dropExercisesIndex.some((item: boolean) => item == true) &&
+          <ButtonCreate
+            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            text='Voltar'
+            onPress={handleGoback}
+          />
+        }
       </Main>
     </Container>
 }

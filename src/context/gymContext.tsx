@@ -28,7 +28,7 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   const onShowMenu = (value: boolean) => {
     setShowMenu(value);
   }
-  console.log(myDivisionsShow)
+
   const onSetShowDoubt = (value: boolean) => {
     setShowDoubt(value);
   }

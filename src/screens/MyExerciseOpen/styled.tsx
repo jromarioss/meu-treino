@@ -28,8 +28,10 @@ export const Division = styled.View`
 
 export const DivisionDroped = styled.View`
   width: 100%;
+  align-items: center;
+  justify-content: center;
   border-top-width: 1px;
-  gap: 4px;
+  gap: 12px;
   border-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
 `;
 
@@ -39,8 +41,11 @@ export const DivisionButtonDrop = styled.TouchableOpacity`
 `;
 
 export const ButtonExercises = styled.TouchableOpacity`
-  padding: 16px;
-  justify-content: center;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 8px 16px;
 `;
 
 export const EmptyArea = styled.View`

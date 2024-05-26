@@ -8,7 +8,7 @@ export declare global {
       createExercise: { divisionName: string; };
       myExercise: undefined;
       myExerciseOpen: { trainingName: string; };
-      myExerciseShow: { divisionName?: string; divisionIndex?: number; exerciseName?: string; };
+      myExerciseShow: { divisionName?: string; trainingName?: string; exerciseName?: string; };
       calculation: undefined;
       exerciseDetail: { type: string; exercise: string; };
     }

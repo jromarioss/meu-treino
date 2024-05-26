@@ -5,7 +5,7 @@ import { trainingGetAll, trainingStorageDTO } from '../training';
 export const exerciseGetAll = async () => {
   try {
     const storageTraining = await trainingGetAll();
-    console.log(storageTraining);
+
     const trainingFilter: trainingStorageDTO[] = storageTraining.filter((item) => item.name);
 
     const storagePromises = trainingFilter.map(async (item) => {
