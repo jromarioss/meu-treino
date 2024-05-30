@@ -10,6 +10,7 @@ import { MyExerciseOpen } from '../screens/MyExerciseOpen';
 import { CreateDivision } from '../screens/CreateDivision';
 import { CreateExercise } from '../screens/CreateExercise';
 import { MyExerciseShow } from '../screens/MyExerciseShow';
+import { MyExerciseEdit } from '../screens/MyExerciseEdit';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export function AppRouter() {
       <Screen name='myExercise' component={MyExercise} />
       <Screen name='myExerciseOpen' component={MyExerciseOpen} />
       <Screen name='myExerciseShow' component={MyExerciseShow} />
+      <Screen name='myExerciseEdit' component={MyExerciseEdit} />
       <Screen name='calculation' component={Calculation} />
       <Screen name='exerciseDetail' component={ExerciseDetail} />
     </Navigator>

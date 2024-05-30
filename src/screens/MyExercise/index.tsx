@@ -6,7 +6,7 @@ import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { Loading } from '../../components/Loading';
 import { Container} from '../../components/Container';
-import { ButtonDelete } from '../../components/ButtonDelete';
+import { ButtonCustom } from '../../components/ButtonCustom';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils';
@@ -26,6 +26,7 @@ export const MyExercise = () => {
       setLoad(true);
 
       _gym.onCleanMyDivisionsShow();
+      _gym.onCleanTrainingName();
 
       const data = await trainingGetAll();
       setTrainings(data);
@@ -66,6 +67,11 @@ export const MyExercise = () => {
     navigate('myExerciseOpen', { trainingName: trainingName });
   }
 
+  const handleGoToEditExercise = (trainingName: string) => {
+    _gym.onSetTrainingName(trainingName);
+    navigate('myExerciseEdit');
+  }
+
   useEffect(() => {
     fetchTraining();
   }, []);
@@ -85,7 +91,14 @@ export const MyExercise = () => {
                     <Text text={item.createdAt} fs={12} />
                   </ButtonTraining>
 
-                  <ButtonDelete
+                  <ButtonCustom
+                    h={36} w={36} ih={16} iw={16}
+                    ic='white' ei
+                    onPress={() => handleGoToEditExercise(item.name)}
+                    bg={_gym.COLORS.BLUE_600}
+                  />
+
+                  <ButtonCustom
                     h={36} w={36} ih={16} iw={16}
                     ic='white'
                     onPress={() => handleDeleteTraining(item.name)}

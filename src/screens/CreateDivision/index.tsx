@@ -6,7 +6,7 @@ import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
-import { ButtonDelete } from '../../components/ButtonDelete';
+import { ButtonCustom } from '../../components/ButtonCustom';
 import { Input } from '../../components/Input';
 
 import { useGym } from '../../hooks/useGym';
@@ -167,7 +167,7 @@ export const CreateDivision = () => {
                   </DivisionButton>
                 </Divisions>
 
-                <ButtonDelete
+                <ButtonCustom
                   h={36} w={36} ih={16} iw={16}
                   ic='white'
                   onPress={() => handleDeleteDivision(item.division)}

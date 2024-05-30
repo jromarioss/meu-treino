@@ -9,6 +9,7 @@ export declare global {
       myExercise: undefined;
       myExerciseOpen: { trainingName: string; };
       myExerciseShow: { divisionName?: string; trainingName?: string; exerciseName?: string; };
+      myExerciseEdit: undefined;
       calculation: undefined;
       exerciseDetail: { type: string; exercise: string; };
     }

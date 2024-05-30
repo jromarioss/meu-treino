@@ -38,6 +38,18 @@ export const theme = {
     ORANGE_900: '#7c2d12',
     ORANGE_950: '#431407',
 
+    BLUE_50: '#eff6ff',
+    BLUE_100: '#dbeafe',
+    BLUE_200: '#bfdbfe',
+    BLUE_300: '#93c5fd',
+    BLUE_400: '#60a5fa',
+    BLUE_500: '#3b82f6',
+    BLUE_600: '#2563eb',
+    BLUE_700: '#1d4ed8',
+    BLUE_800: '#1e40af',
+    BLUE_900: '#1e3a8a',
+    BLUE_950: '#172554',
+
     RED_50: '#fef2f2',
     RED_100: '#fee2e2',
     RED_200: '#fecaca',

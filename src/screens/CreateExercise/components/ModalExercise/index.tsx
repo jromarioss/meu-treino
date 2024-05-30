@@ -6,7 +6,7 @@ import { Text } from '../../../../components/Text';
 import { Input } from '../../../../components/Input';
 import { ButtonCreate } from '../../../../components/ButtonCreate';
 import { Main } from '../../../../components/Main';
-import { ButtonDelete } from '../../../../components/ButtonDelete';
+import { ButtonCustom } from '../../../../components/ButtonCustom';
 import { ButtonCloseModal } from '../../../../components/ButtonCloseModal';
 
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
@@ -161,7 +161,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
                   <ExerciseDiv>
                     <Text text={item} fs={16} cl={_gym.COLORS.GRAY_800} nol={1} fx1={1} />
 
-                    <ButtonDelete
+                    <ButtonCustom
                       w={32} h ={32} ih={18} iw={18} ic='white' bg={_gym.COLORS.RED_500}
                       onPress={() => handleDeleteExercise(item)}
                     />

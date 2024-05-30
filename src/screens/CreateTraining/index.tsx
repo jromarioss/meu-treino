@@ -8,7 +8,7 @@ import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
 import { Input } from '../../components/Input';
-import { ButtonDelete } from '../../components/ButtonDelete';
+import { ButtonDelete } from '../../components/ButtonCustom';
 import { Loading } from '../../components/Loading';
 
 import { useGym } from '../../hooks/useGym';
@@ -32,10 +32,10 @@ export const CreateTraining = () => {
   const fetchName = async (nameToFind: string) => {
     try {
       setLoad(true);
-      //Busca o nome que acabou de criar
+
       const data = await trainingGeByName(nameToFind);
       setTraining(data);
-      //E mostra o nome
+
       setLoad(false);
       setShowInfosToCreate(false);
     } catch (error) {
@@ -51,28 +51,27 @@ export const CreateTraining = () => {
 
   const handleSaveName = async () => {
     try {
-      //Verifica se o nome ta vazio
       if (nameTraining === '') {
         return Alert.alert('Error', 'Seu treino precisa ter um nome.');
       }
-      //Formata o nome e a data
+
       const nameFormated = nameTraining.trim();
       const newDate = dayjs(new Date()).format('DD/MM/YYYY');
-      //Prepara o obj
+
       const newTraining: trainingStorageDTO = {
         createdAt: newDate,
         name: nameFormated,
       }
-      //Busca os treinos para ver se já criou 6
+
       const allTraining = await trainingGetAll()
 
       if (allTraining.length > 5) {
         return Alert.alert('Error', 'Só pode ser criado no máximo 6 treinos.');
       }
-      //Salva no contexto e o nome no celular
+
       _gym.onSetTrainingName(nameFormated);
       await trainingCreate(newTraining);
-      //Reseta o input e mostra o treino
+
       setNameTraining('');
       fetchName(nameFormated);
     } catch (error) {
@@ -87,9 +86,8 @@ export const CreateTraining = () => {
   const deleteTraining = async () => {
     try {
       if (training !== null) {
-        //deleta no celular o treino
         await trainingToRemove(training.name);
-        //Reseta o treino e mostra as infos para criar outro treino
+
         setShowInfosToCreate(true);
         setTraining(null);
       }
@@ -112,6 +110,7 @@ export const CreateTraining = () => {
   const handleGoToCreateDivision = () => {
     _gym.onCleanDivisionDatas();
     _gym.onCleanDoubtType();
+
     navigate('createDivision');
   }
 

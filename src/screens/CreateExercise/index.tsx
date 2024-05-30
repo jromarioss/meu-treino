@@ -21,7 +21,7 @@ import { Loading } from '../../components/Loading';
 interface RouteParamsProps {
   divisionName: string,
 }
-/* lembrar finalizar a parte de adicione exerciios na divisao e depois salvar */
+
 export const CreateExercise = () => {
   const _gym = useGym();
   const { navigate } = useNavigation();
@@ -36,7 +36,7 @@ export const CreateExercise = () => {
   const [showButtonFinish, setShowButtonFinish] = useState<boolean>(false);
   const [exerciseSelectedToModal, setExerciseSelectedToModal] = useState<exerciseTypesProps | null>(null);
   const [load, setLoad] = useState<boolean>(false);
-  //Função que verifica se tem exercício criado
+
   const fetchExercisesFromDivision = () => {
     setLoad(true);
 
@@ -48,7 +48,7 @@ export const CreateExercise = () => {
 
     setLoad(false);
   }
-  //Função que busca o exercício selecionado
+
   const handleSelectBody = (value: string) => {
     const findExercise = exercise.find(item => item.title === value);
 
@@ -58,12 +58,12 @@ export const CreateExercise = () => {
 
     setButtonSelected(value);
   }
-  //Função que abre o modal com exercício selecionado
+
   const handleOpenModalExercise = (value: exerciseTypesProps) => {
     setExerciseSelectedToModal(value);
     setModalExercise(true);
   }
-  //Função para abrir o modal e verifica se é para add exercício ou ver e deletar exercício
+
   const handleOpenModalDelete = () => {
     if (exerciseArray.length <= 0) {
       return;
@@ -72,15 +72,14 @@ export const CreateExercise = () => {
       setModalExercise(true);
     }
   }
-  //Função quando fecha o modal adiciona o exercícios
+
   const handleAddExerciseArray = (value: exercisesProps) => {
-    //Verifica se já tem o exercício antes de add
     const exerciseArrayExists = exerciseArray.find(item => item.title === value.title);
 
     if (exerciseArrayExists) {
       return Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
     }
-    //Verifica só pode adicionar no máximo 8 exercícios
+
     if (exerciseArray.length > 7) {
       return Alert.alert('Error', 'Cada divisão pode ter no maxímo 8 exercícios.');
     }
@@ -93,27 +92,27 @@ export const CreateExercise = () => {
     setModalExercise(false);
     setModalDelete(false);
   }
-  //Função que deleta o exercício
+
   const deleteExerciseFromDivision = (value: string) => {
     _gym.onRemoveExercisesFromDivisionData(divisionName, value);
     const exercisesFilter = exerciseArray.filter(item => item.title !== value);
     setExerciseArray(exercisesFilter);
   }
-  //Função que quando fecha o modal deleta o exercício e chama deleteExerciseFromDivision
+
   const handleDeleteExerciseFromDivision = (value: string) => {
     Alert.alert('Excluir', `Deseja excluir o exercício ${value} da sua divisão?`, [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => deleteExerciseFromDivision(value) }
     ]);
   }
-  //Salva o exercício no contexto e limpa os campos no e local
+
   const finishDivision = (data: divisionProps) => {
     _gym.onSetDivisionDatas(data);
     _gym.onCleanDoubtType();
     setExerciseArray([]);
     navigate('createDivision');
   }
-  //Função que chama o Alert e finishDivision
+
   const handleAddExercisesToDivision = () => {
     const newExercise: divisionProps = {
       division: divisionName,
