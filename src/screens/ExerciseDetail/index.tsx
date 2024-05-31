@@ -22,7 +22,7 @@ interface RouteParamsProps {
 
 export const ExerciseDetail = () => {
   const _gym = useGym();
-  const navigate = useNavigation();
+  const { goBack } = useNavigation();
   const route = useRoute();
   const { type, exercise } = route.params as RouteParamsProps;
 
@@ -38,10 +38,6 @@ export const ExerciseDetail = () => {
     setExerciseInfo(findExerciseInfo);
 
     setLoad(false);
-  }
-
-  const handleGoback = () => {
-    navigate.goBack();
   }
 
   useEffect(() => {
@@ -74,9 +70,9 @@ export const ExerciseDetail = () => {
         </AreaText>
 
         <ButtonCreate
-          bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+          bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
           text='Voltar'
-          onPress={handleGoback}
+          onPress={goBack}
         />
       </Main>
     </Container>

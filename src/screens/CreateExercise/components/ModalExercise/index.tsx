@@ -2,11 +2,12 @@ import { Image } from 'expo-image';
 import { Alert, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 
+import { Main } from '../../../../components/Main';
 import { Text } from '../../../../components/Text';
 import { Input } from '../../../../components/Input';
-import { ButtonCreate } from '../../../../components/ButtonCreate';
-import { Main } from '../../../../components/Main';
+import { Loading } from '../../../../components/Loading';
 import { ButtonCustom } from '../../../../components/ButtonCustom';
+import { ButtonCreate } from '../../../../components/ButtonCreate';
 import { ButtonCloseModal } from '../../../../components/ButtonCloseModal';
 
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
@@ -16,7 +17,6 @@ import { useGym } from '../../../../hooks/useGym';
 import { exercisesProps } from '../../../../interfaces/divisionProps';
 
 import { Container, AreaFlat, ExerciseDiv, AreaImage, Form, LabelArea } from './styled';
-import { Loading } from '../../../../components/Loading';
 
 interface ModalExerciseProps {
   exercise: exerciseTypesProps | null,
@@ -78,16 +78,12 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
       }
 
       onExercise(newExercise);
-      handleCloseModal();
+      onClose();
     }
   }
 
   const handleDeleteExercise = (value: string) => {
     onDeleteExercise(value);
-  }
-
-  const handleCloseModal = () => {
-    onClose();
   }
 
   useEffect(() => {
@@ -102,7 +98,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
     <Loading />
     :
     <Container>
-      <ButtonCloseModal t={1} r={1} cl={'black'} onPress={handleCloseModal} />
+      <ButtonCloseModal t={1} r={1} cl={'black'} onPress={onClose} />
 
       <Main jc='space-between' ai='center' pd={0} >
         {!deleteExercise ?

@@ -10,6 +10,7 @@ export declare global {
       myExerciseOpen: { trainingName: string; };
       myExerciseShow: { divisionName?: string; trainingName?: string; exerciseName?: string; };
       myExerciseEdit: undefined;
+      myExerciseEditAdd: { divisionName: string; };
       calculation: undefined;
       exerciseDetail: { type: string; exercise: string; };
     }

@@ -8,17 +8,17 @@ import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
 import { Input } from '../../components/Input';
-import { ButtonDelete } from '../../components/ButtonCustom';
+import { ButtonCustom } from '../../components/ButtonCustom';
 import { Loading } from '../../components/Loading';
 
 import { useGym } from '../../hooks/useGym';
 import { AppError } from '../../utils/appError';
+import { trainingCreate, trainingGetAll } from '../../storage';
 import { trainingToRemove } from '../../storage/training/trainingToRemove';
 import { trainingGeByName } from '../../storage/training/trainingGetByName';
 import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 
 import { TrainingDiv, Div, ButtonTraining, AreaInput } from './styled';
-import { trainingCreate, trainingGetAll } from '../../storage';
 
 export const CreateTraining = () => {
   const _gym = useGym();
@@ -142,7 +142,7 @@ export const CreateTraining = () => {
               <Text text={training?.createdAt} fs={16} cl={_gym.COLORS.GRAY_100} />
             </TrainingDiv>
 
-            <ButtonDelete
+            <ButtonCustom
               h={36} w={36} ic='white' ih={16} iw={16} bg={_gym.COLORS.RED_600}
               onPress={handleDeleteTraining}
             />

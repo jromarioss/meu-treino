@@ -56,6 +56,8 @@ export const MyExerciseOpen = () => {
       } else {
         Alert.alert('Deletar treino', 'Não foi possível deletar o traino.');
       }
+    } finally {
+      setLoad(false);
     }
   }
 
@@ -126,10 +128,6 @@ export const MyExerciseOpen = () => {
     fetchTraining();
   }
 
-  const handleGoback = () => {
-    goBack();
-  }
-
   useEffect(() => {
     fetchTraining();
   }, []);
@@ -198,9 +196,9 @@ export const MyExerciseOpen = () => {
         
         {!dropExercisesIndex.some((item: boolean) => item == true) &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
             text='Voltar'
-            onPress={handleGoback}
+            onPress={goBack}
           />
         }
       </Main>

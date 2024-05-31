@@ -7,6 +7,7 @@ import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 import { ButtonCreate } from '../../components/ButtonCreate';
 import { ModalExercise } from './components/ModalExercise';
+import { Loading } from '../../components/Loading';
 
 import { useGym } from '../../hooks/useGym';
 import { exercise } from '../../utils/exercises';
@@ -16,7 +17,7 @@ import { divisionProps, exercisesProps } from '../../interfaces/divisionProps';
 
 import { theme } from '../../styles/theme';
 import { AreaButtonBody, AreaExercise, ButtonBody, ButtonExercise, ButtonDivisionName } from './styled';
-import { Loading } from '../../components/Loading';
+import { EmptyArea } from '../Exercises/styled';
 
 interface RouteParamsProps {
   divisionName: string,
@@ -60,6 +61,12 @@ export const CreateExercise = () => {
   }
 
   const handleOpenModalExercise = (value: exerciseTypesProps) => {
+    const exerciseArrayExists = exerciseArray.find(item => item.title === value.exercise);
+
+    if (exerciseArrayExists) {
+      return Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
+    }
+
     setExerciseSelectedToModal(value);
     setModalExercise(true);
   }
@@ -74,12 +81,6 @@ export const CreateExercise = () => {
   }
 
   const handleAddExerciseArray = (value: exercisesProps) => {
-    const exerciseArrayExists = exerciseArray.find(item => item.title === value.title);
-
-    if (exerciseArrayExists) {
-      return Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
-    }
-
     if (exerciseArray.length > 7) {
       return Alert.alert('Error', 'Cada divisão pode ter no maxímo 8 exercícios.');
     }
@@ -186,6 +187,11 @@ export const CreateExercise = () => {
                   </ButtonExercise>
                 )}
                 showsHorizontalScrollIndicator={false}
+                ListEmptyComponent={() => (
+                  <EmptyArea>
+                    <Text text="Selecione uma opção!" fs={24} nol={1} />
+                  </EmptyArea>
+                )}
               />
             </AreaExercise>
           </>

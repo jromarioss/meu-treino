@@ -26,6 +26,7 @@ export const MyExercise = () => {
       setLoad(true);
 
       _gym.onCleanMyDivisionsShow();
+      _gym.onCleanMyExerciseShow();
       _gym.onCleanTrainingName();
 
       const data = await trainingGetAll();

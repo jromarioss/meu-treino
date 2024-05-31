@@ -22,15 +22,15 @@ export const Division = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 export const DivisionRight = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
 `;
 
 export const DivisionDroped = styled.View`

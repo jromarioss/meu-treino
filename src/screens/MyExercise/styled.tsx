@@ -8,7 +8,7 @@ export const ButtonArea = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
   margin-bottom: 16px;
 `;
 

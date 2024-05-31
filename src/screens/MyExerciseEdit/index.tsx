@@ -23,7 +23,7 @@ import { DivisionButtonDrop, DivisionArea, EmptyArea, Division, DivisionOutSide,
 
 export const MyExerciseEdit = () => {
   const _gym = useGym();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   const [divisions, setDivisions] = useState<divisionProps[]>([]);
   const [load, setLoad] = useState<boolean>(false);
@@ -105,7 +105,6 @@ export const MyExerciseEdit = () => {
       }
     }
   }
-
   
   const handleDeleteExercise = (nameToDelete: string, index: number) => {
     Alert.alert('Excluir', `Deseja excluir o exercício ${nameToDelete}?`,[
@@ -186,8 +185,8 @@ export const MyExerciseEdit = () => {
     }
   }
 
-  const handleGoback = () => {
-    goBack();
+  const handleGoToAddExercise = (name: string) => {
+    navigate('myExerciseEditAdd', { divisionName: name });
   }
 
   useEffect(() => {
@@ -207,14 +206,14 @@ export const MyExerciseEdit = () => {
                   <Text text={item.division}  fs={24} nol={1} />
 
                   <DivisionRight>
-                   {/*  {!dropExercisesIndex.some((item: boolean) => item == true) &&
+                    {!dropExercisesIndex.some((item: boolean) => item == true) &&
                       <ButtonCustom
                         h={36} w={36} ih={16} iw={16}
                         ic='white' plus
-                        onPress={() => false}
+                        onPress={() => handleGoToAddExercise(item.division)}
                         bg={_gym.COLORS.GREEN_600}
                       />
-                    } */}
+                    }
                     {!dropExercisesIndex.some((item: boolean) => item == true) &&
                       <ButtonCustom
                         h={36} w={36} ih={16} iw={16}
@@ -277,10 +276,10 @@ export const MyExerciseEdit = () => {
         
         {!dropExercisesIndex.some((item: boolean) => item == true) &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
-            text='Voltar'
-            onPress={handleGoback}
-          />
+          bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
+          text='Voltar'
+          onPress={goBack}
+        />
         }
       </Main>
     </Container>
