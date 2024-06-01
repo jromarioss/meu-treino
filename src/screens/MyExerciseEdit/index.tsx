@@ -203,7 +203,7 @@ export const MyExerciseEdit = () => {
             return (
               <DivisionOutSide key={index}>
                 <Division>
-                  <Text text={item.division}  fs={24} nol={1} />
+                  <Text text={item.division} fs={24} nol={1} />
 
                   <DivisionRight>
                     {!dropExercisesIndex.some((item: boolean) => item == true) &&

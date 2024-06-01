@@ -14,10 +14,18 @@ export const Container = styled.View`
 export const ButtonMenu = styled.TouchableOpacity<ButtonProps>`
   width: 44px;
   height: 44px;
+  gap: 6px;
   align-items: center;
   justify-content: center;
-  border: 1px solid ${({ theme }: any) => theme.COLORS.GRAY_200};
+  border: 2px solid ${({ theme }: any) => theme.COLORS.GREEN_600};
   border-radius: 6px;
+`;
+
+export const MenuBarra = styled.View`
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: ${({ theme }: any) => theme.COLORS.GREEN_600};
 `;
 
 export const ButtonDoubt = styled.TouchableOpacity<ButtonProps>`

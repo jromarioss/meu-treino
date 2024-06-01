@@ -21,8 +21,8 @@ export const theme = {
     ZINC_400: '#a1a1aa',
     ZINC_500: '#71717a',
     ZINC_600: '#52525b',
-    ZINC_700: '#3f3f46',
-    ZINC_800: '#27272a',
+    ZINC_700: '#202024',
+    ZINC_800: '#121214',
     ZINC_900: '#18181b',
     ZINC_950: '#09090b',
 

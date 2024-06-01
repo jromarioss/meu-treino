@@ -49,7 +49,7 @@ export const ExerciseDetail = () => {
     :
     <Container titleText='Detalhe do exercício'>
       <Main gap={16} mb={16} ai='center'>
-        <Text text={exerciseInfo?.title} fs={32} ta='center' />
+        <Text text={exerciseInfo?.title} fs={24} ta='center' />
 
         <AreaImage>
           {exerciseInfo?.image &&
@@ -70,7 +70,7 @@ export const ExerciseDetail = () => {
         </AreaText>
 
         <ButtonCreate
-          bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
+          bg={_gym.COLORS.GREEN_700} fs={28} fw={700} h={48}
           text='Voltar'
           onPress={goBack}
         />

@@ -10,7 +10,7 @@ export const MenuContainer = styled(SafeAreaView)`
   gap: 54px;
   position: absolute;
   z-index: 2;
-  background-color: ${({ theme }: any) => theme.COLORS.ZINC_600};
+  background-color: ${({ theme }: any) => theme.COLORS.ZINC_700};
 `;
 
 export const Button = styled.TouchableOpacity<ButtonProps>`

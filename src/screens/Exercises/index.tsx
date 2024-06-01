@@ -43,9 +43,9 @@ export const Exercises = () => {
             renderItem={({ item }) => (
               <ButtonBody
                 onPress={() => handleSelectBody(item)}
-                style={{ borderColor: buttonSelected === item ? theme.COLORS.GREEN_400 : theme.COLORS.GRAY_100 }}
+                style={{ borderColor: buttonSelected === item ? theme.COLORS.GREEN_600 : theme.COLORS.GRAY_100 }}
               >
-                <Text text={item} fs={18} />
+                <Text text={item} fs={16} />
               </ButtonBody>
             )}
             horizontal
@@ -59,7 +59,7 @@ export const Exercises = () => {
             extraData={(item: exerciseTypesProps) => item}
             renderItem={({ item }) => (
               <ButtonExercise onPress={() => handleGoExerciseDetail(item)}>
-                <Text text={item.exercise} fs={24} />
+                <Text text={item.exercise} fs={22} />
               </ButtonExercise>
             )}
             showsHorizontalScrollIndicator={false}

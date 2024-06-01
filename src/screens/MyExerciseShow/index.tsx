@@ -1,23 +1,23 @@
 import { Image } from 'expo-image';
-import { Alert, ScrollView, View } from 'react-native';
+import { Alert} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
+import { CheckBox } from '../../components/CheckBox';
 import { ButtonCreate } from '../../components/ButtonCreate';
 import { Loading } from '../../components/Loading';
+import { ModalRest } from './components/ModalRest';
 
 import { exerciseDetails } from '../../utils';
 import { useGym } from '../../hooks/useGym';
+import { divisionProps } from '../../interfaces/divisionProps';
+import { exerciseStorageDTO, exerciseToEdit } from '../../storage';
 import { exerciseDetailsProps, exercisesInfoProps } from '../../interfaces/exerciseDetailsProps';
 
 import { AreaImage, AreaText, AreaInfos, AreaInfosText, AreaButtons, ButtonSerie } from './styled';
-import { CheckBox } from '../../components/CheckBox';
-import { divisionProps } from '../../interfaces/divisionProps';
-import { ExerciseProps } from '../../interfaces/exerciseProps';
-import { exerciseStorageDTO, exerciseToEdit } from '../../storage';
 
 interface RouteParamsProps {
   trainingName?: string;
@@ -32,7 +32,7 @@ export const MyExerciseShow = () => {
   const { trainingName, divisionName, exerciseName } = route.params as RouteParamsProps;
 
   const [load, setLoad] = useState<boolean>(false);
-
+  const [showModaRest, setShowModaRest] = useState<boolean>(false);
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
   const [series, setSeries] = useState<number>(0);
 
@@ -120,6 +120,14 @@ export const MyExerciseShow = () => {
     ]);
   }
 
+  const handleShowModalRest = () => {
+    setShowModaRest(true);
+  }
+
+  const handleCloseModalRest = () => {
+    setShowModaRest(false);
+  }
+
   useEffect(() => {
     fetchExercise();
   }, []);
@@ -129,74 +137,88 @@ export const MyExerciseShow = () => {
     :
     <Container titleText='Detalhe do exercício'>
       <Main gap={16} ai='center'>
-        <Text text={exerciseInfo?.title} fs={18} ta='center' />
+        {showModaRest ?
+          <ModalRest onClose={handleCloseModalRest} />
+          :
+          <>
+            <Text text={exerciseInfo?.title} fs={18} ta='center' />
 
-        <AreaImage>
-          {exerciseInfo?.image &&
-            <Image
-              source={exerciseInfo.image}
-              contentFit='cover'
-              style={{ width: '100%', height: '100%' }}
-            />
-          }
-        </AreaImage>
+            <AreaImage>
+              {exerciseInfo?.image &&
+                <Image
+                  source={exerciseInfo.image}
+                  contentFit='cover'
+                  style={{ width: '100%', height: '100%' }}
+                />
+              }
+            </AreaImage>
 
-        <AreaInfos>
-          <AreaInfosText>
-            <Text
-              text={`${(_gym.myExerciseShow?.series ?? 0) <= 1 ? 'Série' : 'Séries'}:`}
-              fs={24}
-              fw={700}
-            />
+            <AreaInfos>
+              <AreaInfosText>
+                <Text
+                  text={`${(_gym.myExerciseShow?.series ?? 0) <= 1 ? 'Série' : 'Séries'}:`}
+                  fs={24}
+                  fw={700}
+                />
 
-            <Text
-              text={`${_gym.myExerciseShow?.series}`}
-              fs={24}
-            />
-          </AreaInfosText>
+                <Text
+                  text={`${_gym.myExerciseShow?.series}`}
+                  fs={24}
+                />
+              </AreaInfosText>
 
-          <AreaInfosText>
-            <Text
-              text={`${(_gym.myExerciseShow?.repetition ?? 0) <= 1 ? 'Repetição' : 'Repetições'}:`}
-              fs={24}
-              fw={700}
-            />
+              <AreaInfosText>
+                <Text
+                  text={`${(_gym.myExerciseShow?.repetition ?? 0) <= 1 ? 'Repetição' : 'Repetições'}:`}
+                  fs={24}
+                  fw={700}
+                />
 
-            <Text text={`${_gym.myExerciseShow?.repetition}`} fs={24} />
-          </AreaInfosText>
-        </AreaInfos>
+                <Text text={`${_gym.myExerciseShow?.repetition}`} fs={24} />
+              </AreaInfosText>
+            </AreaInfos>
 
-        <AreaButtons>
-          {_gym.myExerciseShow?.done ?
-            <ButtonSerie onPress={handleMakeExerUnDone}>
-              <Text text='Desmarcar ' fs={24} />
-            </ButtonSerie>
-            :
-            <ButtonSerie onPress={handleAddSerie}>
-              <Text text={`${series} ${series <= 1 ? 'série' : 'séries'} concluída`} fs={24} />
-            </ButtonSerie>
-          }
+            <AreaButtons>
+              {_gym.myExerciseShow?.done ?
+                <ButtonSerie onPress={handleMakeExerUnDone}>
+                  <Text text='Desmarcar ' fs={24} />
+                </ButtonSerie>
+                :
+                <ButtonSerie onPress={handleAddSerie}>
+                  <Text text={`${series} ${series <= 1 ? 'série' : 'séries'} concluída`} fs={24} />
+                </ButtonSerie>
+              }
 
-          <CheckBox
-            w={36} h={36} wi={24} hi={24}
-            onPress={handleMakeExerciseDone}
-            onIsCheck={_gym.myExerciseShow?.done}
-          />
-        </AreaButtons>
+              <CheckBox
+                w={36} h={36} wi={24} hi={24}
+                onPress={handleMakeExerciseDone}
+                onIsCheck={_gym.myExerciseShow?.done}
+              />
+            </AreaButtons>
 
-        <AreaText>
-          {exerciseInfo?.description.map((text, index) => {
-            return (
-              <Text key={index} mt={(index ?? 0 === 0) && 16} text={`${index + 1}. ${text}`} fs={16} />
-            )
-          })}
-        </AreaText>
+            <AreaText>
+              {exerciseInfo?.description.map((text, index) => {
+                return (
+                  <Text key={index} mt={(index ?? 0 === 0) && 16} text={`${index + 1}. ${text}`} fs={16} />
+                )
+              })}
+            </AreaText>
 
-        <ButtonCreate
-          bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
-          text='Voltar'
-          onPress={goBack}
-        />
+            <AreaButtons>
+              <ButtonCreate
+                bg={_gym.COLORS.GREEN_700} fs={24} fw={700} w={160} h={48}
+                text='Voltar'
+                onPress={goBack}
+              />
+
+              <ButtonCreate
+                bg={_gym.COLORS.ORANGE_700} fs={24} fw={700} w={160} h={48}
+                text='Descanso'
+                onPress={handleShowModalRest}
+              />
+            </AreaButtons>
+          </>
+        }
       </Main>
     </Container>
 }

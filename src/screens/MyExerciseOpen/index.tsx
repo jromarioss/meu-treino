@@ -196,7 +196,7 @@ export const MyExerciseOpen = () => {
         
         {!dropExercisesIndex.some((item: boolean) => item == true) &&
           <ButtonCreate
-            bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
+            bg={_gym.COLORS.GREEN_700} fs={28} fw={700} h={48}
             text='Voltar'
             onPress={goBack}
           />

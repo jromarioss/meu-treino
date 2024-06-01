@@ -2,6 +2,7 @@ import { TouchableOpacityProps, Image } from 'react-native';
 
 import CloseBlackImg from '../../assets/closeBack.png';
 import CloseWhiteImg from '../../assets/closeImg.png';
+import XImg from '../../assets/x.png';
 
 import { ContainerButton } from './styled';
 
@@ -17,7 +18,7 @@ export const ButtonCloseModal = ({ cl, t, r, ...rest }: ButtonCloseModalProps) =
       top: t,
       right: r,
     }}>
-      <Image source={cl === 'black' ? CloseBlackImg : CloseWhiteImg} />
+      <Image source={XImg}/>
     </ContainerButton>
   );
 }

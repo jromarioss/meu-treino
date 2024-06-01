@@ -4,11 +4,11 @@ import { Text } from '../Text';
 
 import { useGym } from '../../hooks/useGym';
 
-import menuImg from '../../assets/menu.png';
 import arrowLeftImg from '../../assets/arrowLeft.png';
+import BackImg from '../../assets/back.png';
 
 import { theme } from '../../styles/theme';
-import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt } from './styled';
+import { Container, ButtonMenu, ButtonDoubt, ButtonDoubtTxt, MenuBarra } from './styled';
 
 type HeaderProps = {
   title: string,
@@ -35,7 +35,9 @@ export const Header = ({ title, hasButtonBack, hasButtonDoubt }: HeaderProps) =>
   return (
     <Container>
       <ButtonMenu onPress={handleMenu}>
-        <Image source={menuImg} />
+        <MenuBarra />
+        <MenuBarra />
+        <MenuBarra />
       </ButtonMenu>
       <Text fx1={1} cl={COLORS.GRAY_50} fs={24} text={title} ta='center' />
 

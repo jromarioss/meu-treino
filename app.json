@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#111827"
+      "backgroundColor": "#121214"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,14 +20,20 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#111827"
-      }
+        "backgroundColor": "#121214"
+      },
+      "package": "com.jromarioss.meutreino"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "440b14e7-81c3-47c3-b1fd-a34852e15133"
+      }
+    }
   }
 }

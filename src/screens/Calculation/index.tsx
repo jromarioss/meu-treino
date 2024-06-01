@@ -9,7 +9,7 @@ import { ButtonCreate } from '../../components/ButtonCreate';
 
 import { GymContext } from '../../context/gymContext';
 
-import { DivInput, Label, Form } from './styled';
+import { DivInput, Label, Form, Div } from './styled';
 
 export const Calculation = () => {
   const _gym = useContext(GymContext);
@@ -81,47 +81,51 @@ export const Calculation = () => {
     <Container titleText='Calculo IMC'>
       <Main>
         <Form>
-          <DivInput>
-            <Label>
-              <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
-              <Input
-                fs={18} h={36} w={150} br={4} pl={8}
-                placeholder='Quilo'
-                keyboardType='number-pad'
-                onChangeText={setWeight}
-                value={weight}
-                maxLength={8}
-              />
-            </Label>
+          <Div>
+            <DivInput>
+              <Label>
+                <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
+                <Input
+                  fs={18} h={36} w={150} br={4} pl={8}
+                  placeholder='Quilo'
+                  keyboardType='number-pad'
+                  onChangeText={setWeight}
+                  value={weight}
+                  maxLength={8}
+                />
+              </Label>
 
-            <Label>
-              <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
-              <Input
-                fs={18} h={36} w={150} br={4} pl={8}
-                placeholder='1.85cm'
-                keyboardType='number-pad'
-                onChangeText={setHeight}
-                value={height}
-                maxLength={8}
-              />
-            </Label>
-          </DivInput>
+              <Label>
+                <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
+                <Input
+                  fs={18} h={36} w={150} br={4} pl={8}
+                  placeholder='1.85cm'
+                  keyboardType='number-pad'
+                  onChangeText={setHeight}
+                  value={height}
+                  maxLength={8}
+                />
+              </Label>
+            </DivInput>
+
+            {resultImc &&
+              <>
+                <Text text={`Seu IMC = ${resultImc.toFixed(2)}`} fs={24} cl={_gym.COLORS.GRAY_100} />
+                <Text text={resultText != null ? resultText : ''} fs={24} cl={_gym.COLORS.GRAY_100} />
+              </>
+            }
+            {rightWeight &&
+              <Text text={`Peso ideal para você: ${idealWeight} KG`} fs={24} cl={_gym.COLORS.GRAY_100} />
+            }
+          </Div>
 
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            bg={_gym.COLORS.GREEN_700} fs={32} fw={700}
             text='Calcular'
             onPress={handleCalculateImc}
           />
         </Form>
-        {resultImc &&
-          <>
-            <Text text={`imc = ${resultImc.toFixed(2)}`} fs={18} cl={_gym.COLORS.GRAY_100} />
-            <Text text={resultText != null ? resultText : ''} fs={18} cl={_gym.COLORS.GRAY_100} />
-          </>
-        }
-        {rightWeight &&
-          <Text text={`Peso ideal para você: ${idealWeight} KG`} fs={18} cl={_gym.COLORS.GRAY_100} />
-        }
+       
       </Main>
     </Container>
   );
