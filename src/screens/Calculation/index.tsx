@@ -10,7 +10,7 @@ import { ButtonCreate } from '../../components/ButtonCreate';
 
 import { GymContext } from '../../context/gymContext';
 
-import { DivInput, Label, Form, Div } from './styled';
+import { DivInput, Label, Form, Div, DivSwitch } from './styled';
 
 interface formData {
   weight: string;
@@ -38,16 +38,16 @@ export const Calculation = () => {
   }
 
   const handleCalculateImc = async ({ height, weight }: formData) => {
-    const weightNumber = parseFloat(weight.replace(',', '.'));
-    const heightNumber = parseFloat(height.replace(',', '.'));
+    const weightNumber: number = parseFloat(weight.replace(',', '.'));
+    const heightNumber: number = parseFloat(height.replace(',', '.'));
 
-    const valueIMC = calculateIMC(weightNumber, heightNumber);
+    const valueIMC: number = calculateIMC(weightNumber, heightNumber);
     setResultImc(valueIMC);
 
-    const textIMC = verifyIMC(valueIMC);
+    const textIMC: string = verifyIMC(valueIMC);
     setResultText(textIMC);
 
-    let valueIdealWeight = 0;
+    let valueIdealWeight: number = 0;
     const heightWithoutDot = Math.floor(heightNumber * 100);
 
     if (isMen) {
@@ -57,16 +57,15 @@ export const Calculation = () => {
     }
 
     setIdealWeight(valueIdealWeight.toString());
-    reset();
   }
 
   const calculateIMC = (weightValue: number, heightValue: number): number => {
-    const imc = weightValue / (heightValue * heightValue);
+    const imc: number = weightValue / (heightValue * heightValue);
     return imc;
   }
 
   const verifyIMC = (value: number): string => {
-    let text = '';
+    let text: string = '';
     if (value < 18.5) {
       text = 'Seu peso está muito baixo';
       setRightWeight(true);
@@ -142,7 +141,7 @@ export const Calculation = () => {
                 />
               </Label>
             </DivInput>
-            <DivInput style={{ width: 200, alignItems: 'center'}}>
+            <DivSwitch>
               <Text text='Mulher' fs={18} cl={_gym.COLORS.GRAY_100} />
               <Switch
                 trackColor={{ false: '#fecaca', true: '#60a5fa' }}
@@ -152,7 +151,7 @@ export const Calculation = () => {
                 value={isMen}
               />
               <Text text='Homen' fs={18} cl={_gym.COLORS.GRAY_100} />
-            </DivInput>
+            </DivSwitch>
             {resultImc &&
               <>
                 <Text text={`Seu IMC = ${resultImc.toFixed(2)}`} fs={24} cl={_gym.COLORS.GRAY_100} />
@@ -165,7 +164,7 @@ export const Calculation = () => {
           </Div>
 
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_700} fs={32} fw={700}
+            bg={_gym.COLORS.GREEN_700}
             text='Calcular'
             onPress={handleSubmit(handleCalculateImc)}
           />

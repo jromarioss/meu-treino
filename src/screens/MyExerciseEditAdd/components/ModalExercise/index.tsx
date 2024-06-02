@@ -145,7 +145,7 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
         </Form>
 
         <ButtonCreate
-          bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
+          bg={_gym.COLORS.GREEN_600}
           text='Salvar'
           onPress={handleSubmit(handleAddExercise)}
         />

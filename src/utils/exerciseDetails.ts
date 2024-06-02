@@ -26,10 +26,15 @@ import BicepsIMG10 from '../assets/gif/biceps/rosca-scott-com-halteres.gif';
 import CostaIMG0 from '../assets/gif/costa/costas-remada-unilateral-com-halter-serrote-no-banco.gif';
 import CostaIMG1 from '../assets/gif/costa/remada-sentado-com-cabos-e-triangulo-para-costas.gif';
 import CostaIMG2 from '../assets/gif/costa/costas-barra-fixa-fechada-chinup.gif';
-import CostaIMG3 from '../assets/gif/costa/costas-barra-fixa-pegada-aberta-palma-para-tras-chinup.gif';
+import CostaIMG3 from '../assets/gif/costa/costas-barra-fixa-pegada-aberta-palma-para-frente-chinup.gif';
 import CostaIMG4 from '../assets/gif/costa/costas-remada-em-pe-com-barra-T.gif';
 import CostaIMG5 from '../assets/gif/costa/corpo-texto-costas-remada-no-smith-com-pegada-invertida.gif';
 import CostaIMG6 from '../assets/gif/costa/puxada-com-pegada-fechada-no-pulley.gif';
+import CostaIMG7 from '../assets/gif/costa/costas-remada-curvada.gif';
+import CostaIMG8 from '../assets/gif/costa/costas-remada-curvada-com-pegada-invertida.gif';
+import CostaIMG9 from '../assets/gif/costa/costas-remada-no-banco-inclinado-com-halteres.gif';
+import CostaIMG10 from '../assets/gif/costa/costas-puxada-para-frente-no-pulley-com-triangulo.gif';
+import CostaIMG11 from '../assets/gif/costa/costas-puxada-aberta-com-barra-no-pulley.gif';
 
 import GluteosIMG0 from '../assets/gif/gluteos/passaro-cachorro-360.gif';
 import GluteosIMG1 from '../assets/gif/gluteos/levantamento-terra-deadlift-stiff-com-halteres-1.gif';
@@ -39,7 +44,6 @@ import GluteosIMG4 from '../assets/gif/gluteos/quatro-apoios-com-elevacao-da-per
 import GluteosIMG5 from '../assets/gif/gluteos/extensao-de-quadril-com-perna-dobrada-e-apoio-da-barra.gif';
 import GluteosIMG6 from '../assets/gif/gluteos/ponte-com-uma-perna-elevada-e-reta.gif';
 import GluteosIMG7 from '../assets/gif/gluteos/coice-no-cabo.gif';
-
 
 import OmbroIMG0 from '../assets/gif/ombro/ombros-remada-alta-no-cabo.gif';
 import OmbroIMG1 from '../assets/gif/ombro/ombros-remada-alta-em-pe-com-halteres.gif';
@@ -383,6 +387,36 @@ export const exerciseDetails: exerciseDetailsProps[] = [
         ]
       },
       {
+        title: 'Remada curvada com barra e pegada pronada',
+        image: CostaIMG7,
+        description: [
+          'Para começar, pegue a barra com os pesos e mantenha as mãos paralelas aos ombros.',
+          'Em seguida, incline o tronco para frente, formando um ângulo de 45º em relação ao chão.',
+          'Depois, puxe a barra para cima, no sentido vertical, até que ela toque a parte inferior do peito. Durante esse movimento, mantenha a coluna reta e os joelhos levemente dobrados.',
+          'Então, abaixe a barra até a posição em que os braços fiquem estendidos. Um cuidado importante referente a esse exercício é nunca curvar a lombar para levantar mais a barra, pois isso pode causar uma lesão.',
+        ]
+      },
+      {
+        title: 'Remada curvada com barra e pegada invertida supinada',
+        image: CostaIMG8,
+        description: [
+          'Para começar, fique em pé, com as pernas afastadas e os joelhos levemente flexionados. Segure uma barra reta com as mãos paralelas aos ombros e com as palmas viradas para a frente.',
+          'Em seguida, deixe a coluna reta e encaixe os ombros, incline o tronco para a frente, jogando o quadril para trás. Mantenha os cotovelos estendidos até que a barra fique na altura das coxas, e contraia os bíceps.',
+          'Então, puxe a barra até a cintura, ao mesmo tempo em que flexiona os cotovelos.',
+          'Depois, segure a contração por um momento e retorne à posição inicial.',
+        ]
+      },
+      {
+        title: 'Remada no banco inclinado com halteres',
+        image: CostaIMG9,
+        description: [
+          'Para começar, ajuste o banco em um ângulo de 45º e deite nele, com um halter em cada uma das mãos. A pegada deve ser pronada, com as palmas viradas para baixo, ou neutra, com as palmas viradas para o lado de dentro.',
+          'Em seguida, contraia os bíceps e o latíssimo do dorso e leve os pesos para cima, de forma intensa. O core (região central do corpo) deve permanecer firme e o peito deve ser pressionado contra o banco durante todo o momento.',
+          'Então, ao chegar à parte alta do movimento, contraia as escápulas por um segundo.',
+          'Depois, desça os pesos e volte à posição inicial.',
+        ]
+      },
+      {
         title: 'Remada sentado com cabo e triângulo',
         image: CostaIMG1,
         description: [
@@ -402,6 +436,16 @@ export const exerciseDetails: exerciseDetailsProps[] = [
         ]
       },
       {
+        title: 'Puxada com barra no pulley',
+        image: CostaIMG11,
+        description: [
+          'Primeiro, sente-se em uma máquina pulley, e ajuste o equipamento conforme a sua altura.',
+          'Em seguida, segure a barra com uma pegada aberta, em uma distância maior que a largura dos ombros, com as mãos direcionadas para fora. Uma outra forma de executar o exercícios é segurar a barra na mesma largura dos ombros.',
+          'Depois, com os braços estendidos na sua frente, leve o tronco para trás formando um ângulo em torno de 30º, ao mesmo tempo em que cria uma leve curvatura na região lombar e estufa o peito.',
+          'Então, exale o ar e traga a barra para baixo, até que ela toque a parte superior do peito. Ao atingir a posição de contração total, comprima os músculos das costas.',
+        ]
+      },
+      {
         title: 'Puxada com pegada fechada no pulley',
         image: CostaIMG6,
         description: [
@@ -411,6 +455,16 @@ export const exerciseDetails: exerciseDetailsProps[] = [
           'Incline levemente o tronco para trás, solte o ar e puxe a barra em direção ao peito enquanto flexiona os cotovelos. Faça uma pausa rápida, puxe o ar e volte para a posição inicial lentamente até seus braços ficarem totalmente estendidos.',
         ]
       },
+      {
+        title: 'Puxada pela frente com o triângulo no pulley',
+        image: CostaIMG10,
+        description: [
+          'Para começar, sente-se na máquina com os quadris encaixados no acolchoado do equipamento.',
+          'Em seguida, pegue o triângulo com as mãos, que devem estar a uma distância menor do que a largura dos ombros, e as palmas das mãos devem apontar para seu corpo. Além disso, o corpo deve estar na vertical e os braços retos, acima da cabeça.',
+          'Então, estufe o peito, faça um pequena curva na região da lombar e leve a carga até o peito, inclinando-se ligeira e suavemente enquanto a puxa. Na parte baixa do movimento, as escápulas devem estar comprimidas.',
+          'Depois, volte ao posicionamento original, levantando a carga lentamente.',
+        ]
+      }
     ]
   },
   {

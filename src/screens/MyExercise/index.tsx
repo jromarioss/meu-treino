@@ -29,7 +29,7 @@ export const MyExercise = () => {
       _gym.onCleanMyExerciseShow();
       _gym.onCleanTrainingName();
 
-      const data = await trainingGetAll();
+      const data: trainingStorageDTO[] = await trainingGetAll();
       setTrainings(data);
 
       setLoad(false);

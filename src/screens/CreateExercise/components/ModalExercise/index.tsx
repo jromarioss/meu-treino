@@ -11,7 +11,7 @@ import { ButtonCustom } from '../../../../components/ButtonCustom';
 import { ButtonCreate } from '../../../../components/ButtonCreate';
 import { ButtonCloseModal } from '../../../../components/ButtonCloseModal';
 
-import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
+import { exerciseDetailsProps, exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
 import { exerciseDetails } from '../../../../utils/exerciseDetails';
 import { exerciseTypesProps } from '../../../../interfaces/exerciseProps';
 import { useGym } from '../../../../hooks/useGym';
@@ -51,8 +51,9 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
     if (!deleteExercise) {
       setLoad(true);
 
-      const findExerciseType = exerciseDetails.find(item => item.type === exercise?.type);
-      const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.exercise);
+      const findExerciseType: exerciseDetailsProps | undefined = exerciseDetails.find((item: exerciseDetailsProps) => item.type === exercise?.type);
+      const findExerciseInfo: exercisesInfoProps | undefined = findExerciseType?.exercises.find((item: exercisesInfoProps) => item.title === exercise?.exercise);
+
       setExerciseInfo(findExerciseInfo);
 
       setLoad(false);
@@ -60,7 +61,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
       setLoad(true);
       
       setExercisesName([]);
-      const exercisesToAdd = exercises.map(exercise => exercise.title);
+      const exercisesToAdd: string[] = exercises.map((exercise: exercisesProps) => exercise.title);
       setExercisesName(exercisesToAdd);
 
       setLoad(false);
@@ -68,8 +69,8 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
   }
 
   const handleAddExercise = ({ repetitionTxt, serieTxt }: formData) => {
-    const series = serieTxt.replace(/[,.]/g, '');
-    const repetitions = repetitionTxt.replace(/[,.]/g, '');
+    const series: string = serieTxt.replace(/[,.]/g, '');
+    const repetitions: string = repetitionTxt.replace(/[,.]/g, '');
 
     if (parseInt(series) <= 0 || parseInt(repetitions) <= 0) {
       return Alert.alert('Error', 'Valor minímo para serie e repetição é 1.');
@@ -170,7 +171,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
             </Form>
 
             <ButtonCreate
-              bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
+              bg={_gym.COLORS.GREEN_600}
               text='Adicionar'
               onPress={handleSubmit(handleAddExercise)}
             />

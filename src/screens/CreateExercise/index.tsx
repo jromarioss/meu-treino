@@ -41,7 +41,7 @@ export const CreateExercise = () => {
   const fetchExercisesFromDivision = () => {
     setLoad(true);
 
-    const filterDivisionFromName = _gym.divisionDatas.find(item => item.division === divisionName);
+    const filterDivisionFromName: divisionProps | undefined = _gym.divisionDatas.find((item: divisionProps) => item.division === divisionName);
     
     if (filterDivisionFromName) {
       setExerciseArray(filterDivisionFromName?.exercises)
@@ -51,7 +51,7 @@ export const CreateExercise = () => {
   }
 
   const handleSelectBody = (value: string) => {
-    const findExercise = exercise.find(item => item.title === value);
+    const findExercise: ExerciseProps | undefined = exercise.find((item: ExerciseProps) => item.title === value);
 
     if (findExercise) {
       setExerciseSelected(findExercise)
@@ -61,7 +61,7 @@ export const CreateExercise = () => {
   }
 
   const handleOpenModalExercise = (value: exerciseTypesProps) => {
-    const exerciseArrayExists = exerciseArray.find(item => item.title === value.exercise);
+    const exerciseArrayExists: exercisesProps | undefined = exerciseArray.find((item: exercisesProps) => item.title === value.exercise);
 
     if (exerciseArrayExists) {
       return Alert.alert('Error', 'Este exercício já foi adicionado na sua divisão.');
@@ -97,7 +97,7 @@ export const CreateExercise = () => {
   const deleteExerciseFromDivision = (value: string) => {
     _gym.onRemoveExercisesFromDivisionData(divisionName, value);
 
-    const exercisesFilter = exerciseArray.filter(item => item.title !== value);
+    const exercisesFilter: exercisesProps[] = exerciseArray.filter((item: exercisesProps) => item.title !== value);
     setExerciseArray(exercisesFilter);
   }
 
@@ -201,7 +201,7 @@ export const CreateExercise = () => {
         
         {(!modalExercise && showButtonFinish) &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
+            bg={_gym.COLORS.GREEN_600}
             text='Finalizar'
             onPress={handleAddExercisesToDivision}
           />

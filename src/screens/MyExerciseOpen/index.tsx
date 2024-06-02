@@ -161,7 +161,7 @@ export const MyExerciseOpen = () => {
                   <DivisionDroped>
                     {item.exercises.every(item => item.done) &&
                       <ButtonCreate
-                        bg={_gym.COLORS.GREEN_600} fs={14} fw={700} w={124} h={32} mt={12}
+                        bg={_gym.COLORS.GREEN_600} fs={14} w={124} h={32} mt={12}
                         text='Desmarca todos'
                         onPress={() => handleUnCheckAll(item.division)}
                       />
@@ -196,7 +196,7 @@ export const MyExerciseOpen = () => {
         
         {!dropExercisesIndex.some((item: boolean) => item == true) &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_700} fs={28} fw={700} h={48}
+            bg={_gym.COLORS.GREEN_700}
             text='Voltar'
             onPress={goBack}
           />

@@ -42,9 +42,14 @@ export const exercise: ExerciseProps[] = [
       { id: 2, type: 'Costa', exercise: 'Barra fixa chin up com pegada fechada' },
       { id: 5, type: 'Costa', exercise: 'Desenvolvendo as costas e o tronco em V' },
       { id: 4, type: 'Costa', exercise: 'Remada cavalinho' },
+      { id: 7, type: 'Costa', exercise: 'Remada curvada com barra e pegada pronada' },
+      { id: 8, type: 'Costa', exercise: 'Remada curvada com barra e pegada invertida supinada' },
+      { id: 9, type: 'Costa', exercise: 'Remada no banco inclinado com halteres' },
       { id: 1, type: 'Costa', exercise: 'Remada sentado com cabo e triângulo' },
       { id: 0, type: 'Costa', exercise: 'Remada unilateral com halter serrote no banco' },
+      { id: 11, type: 'Costa', exercise: 'Puxada com barra no pulley' },
       { id: 6, type: 'Costa', exercise: 'Puxada com pegada fechada no pulley' },
+      { id: 10, type: 'Costa', exercise: 'Puxada pela frente com o triângulo no pulley' },
     ]
   },
   {

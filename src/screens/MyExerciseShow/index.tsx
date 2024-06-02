@@ -206,13 +206,13 @@ export const MyExerciseShow = () => {
 
             <AreaButtons>
               <ButtonCreate
-                bg={_gym.COLORS.GREEN_700} fs={24} fw={700} w={160} h={48}
+                bg={_gym.COLORS.GREEN_700} fs={24} w={160}
                 text='Voltar'
                 onPress={goBack}
               />
 
               <ButtonCreate
-                bg={_gym.COLORS.ORANGE_700} fs={24} fw={700} w={160} h={48}
+                bg={_gym.COLORS.ORANGE_700} fs={24} w={160}
                 text='Descanso'
                 onPress={handleShowModalRest}
               />

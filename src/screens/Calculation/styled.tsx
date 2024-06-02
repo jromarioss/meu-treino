@@ -16,6 +16,14 @@ export const Div = styled.View`
   gap: 16px;
 `;
 
+export const DivSwitch = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+`;
+
 export const Label = styled.View`
   gap: 4px;
 `;

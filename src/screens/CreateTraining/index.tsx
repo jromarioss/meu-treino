@@ -43,7 +43,7 @@ export const CreateTraining = () => {
     try {
       setLoad(true);
 
-      const data = await trainingGeByName(nameToFind);
+      const data: trainingStorageDTO | null = await trainingGeByName(nameToFind);
       setTraining(data);
 
       setLoad(false);
@@ -61,15 +61,15 @@ export const CreateTraining = () => {
 
   const handleSaveName = async ({ nameTraining }: formData) => {
     try {
-      const nameFormated = nameTraining.trim();
-      const newDate = dayjs(new Date()).format('DD/MM/YYYY');
+      const nameFormated: string = nameTraining.trim();
+      const newDate: string = dayjs(new Date()).format('DD/MM/YYYY');
 
       const newTraining: trainingStorageDTO = {
         createdAt: newDate,
         name: nameFormated,
       }
     
-      const allTraining = await trainingGetAll()
+      const allTraining: trainingStorageDTO[] = await trainingGetAll()
 
       if (allTraining.length > 5) {
         return Alert.alert('Error', 'Só pode ser criado no máximo 6 treinos.');
@@ -167,7 +167,7 @@ export const CreateTraining = () => {
         
         {showInfosToCreate &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700} h={54}
+            bg={_gym.COLORS.GREEN_700}
             text='Salvar'
             onPress={handleSubmit(handleSaveName)}
           />

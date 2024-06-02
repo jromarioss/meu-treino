@@ -6,7 +6,6 @@ import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
 import { Main } from '../../components/Main';
 
-
 import { exercise, partOfBody } from '../../utils';
 import { ExerciseProps, exerciseTypesProps } from '../../interfaces/exerciseProps';
 
@@ -20,7 +19,7 @@ export const Exercises = () => {
   const [exerciseSelected, setExerciseSelected] = useState<ExerciseProps | null>(null);
 
   const handleSelectBody = (value: string) => {
-    const findExercise = exercise.find(item => item.title === value);
+    const findExercise: ExerciseProps | undefined = exercise.find((item: ExerciseProps) => item.title === value);
 
     if (findExercise) {
       setExerciseSelected(findExercise)

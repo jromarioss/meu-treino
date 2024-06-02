@@ -41,7 +41,7 @@ export const CreateDivision = () => {
       return Alert.alert('Error', 'Cada treino pode ter no maxímo 5 divisões.');
     }
 
-    const divisionExists = divisions.find(item => item.division === name);
+    const divisionExists: divisionProps | undefined = divisions.find(item => item.division === name);
 
     if (divisionExists) {
       reset();
@@ -62,7 +62,7 @@ export const CreateDivision = () => {
   const deleteDivision = (name: string) => {
     _gym.onRemoveDivisionDatas(name);
 
-    const filterDivision = divisions.filter(item => item.division !== name);
+    const filterDivision: divisionProps[] = divisions.filter((item: divisionProps) => item.division !== name);
     setDivisions(filterDivision);
   }
 
@@ -157,14 +157,14 @@ export const CreateDivision = () => {
           />
 
           <ButtonCreate
-            w={100} h={42} bg={_gym.COLORS.GREEN_600} fs={24} fw={700}
+            bg={_gym.COLORS.GREEN_600} fs={24} w={100} h={42}
             text='Criar'
             onPress={handleSubmit(handleCreateDivisionName)}
           />
         </AreaInput>
 
         <AreaDivision>
-          {divisions.map((item, index) => {
+          {divisions.map((item: divisionProps, index: number) => {
             return (
               <Division key={index}>
                 <Divisions>
@@ -186,7 +186,7 @@ export const CreateDivision = () => {
 
         {showButtonFinish &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            bg={_gym.COLORS.GREEN_600}
             text='Finalizar'
             onPress={handleSaveDivision}
           />

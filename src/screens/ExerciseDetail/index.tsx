@@ -1,5 +1,4 @@
 import { Image } from 'expo-image';
-import { ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
@@ -27,7 +26,6 @@ export const ExerciseDetail = () => {
   const { type, exercise } = route.params as RouteParamsProps;
 
   const [load, setLoad] = useState<boolean>(false);
-
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
 
   const fetchExercise = () => {
@@ -48,7 +46,7 @@ export const ExerciseDetail = () => {
     <Loading />
     :
     <Container titleText='Detalhe do exercício'>
-      <Main gap={16} mb={16} ai='center'>
+      <Main gap={16} ai='center'>
         <Text text={exerciseInfo?.title} fs={24} ta='center' />
 
         <AreaImage>
@@ -70,7 +68,7 @@ export const ExerciseDetail = () => {
         </AreaText>
 
         <ButtonCreate
-          bg={_gym.COLORS.GREEN_700} fs={28} fw={700} h={48}
+          bg={_gym.COLORS.GREEN_700}
           text='Voltar'
           onPress={goBack}
         />

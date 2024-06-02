@@ -10,7 +10,7 @@ interface TitleProps extends TouchableOpacityProps {
   bg?: string;
   w?: number;
   h?: number;
-  fs: number;
+  fs?: number;
   fw?: number;
   mt?: number;
 }
@@ -20,12 +20,12 @@ export const ButtonCreate = ({ text, w, h, fs, mt, fw, bg, ...rest }: TitleProps
 
   return (
     <ContainerButton {...rest} style={{
-      width: w ? w : '100%',
-      height: h ? h : 64,
-      backgroundColor: bg ? bg : 'transparent',
+      width: w ?? '100%',
+      height: h ?? 48,
+      backgroundColor: bg ?? 'transparent',
       marginTop: mt
     }}>
-      <Text text={text} fs={fs} fw={fw} cl={`${COLORS.GRAY_100}`} />
+      <Text text={text} fs={fs ?? 28} fw={fw ?? 700} cl={`${COLORS.GRAY_100}`} />
     </ContainerButton>
   );
 }
