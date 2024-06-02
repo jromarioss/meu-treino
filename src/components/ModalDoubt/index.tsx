@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 
 import { Text } from '../Text';
 import { ButtonCloseModal } from '../ButtonCloseModal';
@@ -42,23 +42,23 @@ export const ModalDoubt = () => {
         fs={24}
         fw={700}
         ta='center'
-        cl={`${_gym.COLORS.GRAY_800}`}
+        cl={`${_gym.COLORS.GRAY_100}`}
       />
 
-      <Main>
-        <FlatList
-          data={doubtInfoData?.infos.texts}
-          extraData={(item: string) => item}
-          renderItem={({ item, index }: any) => (
-            <Text
-              key={item}
-              text={`${index + 1} - ${item}`}
-              fs={18}
-              cl={`${_gym.COLORS.GRAY_800}`}
-            />
-          )}
-        />
-      </Main>
+      <ScrollView>
+        <Main gap={16}>
+          {doubtInfoData?.infos.texts.map((item: any, index: number) => {
+            return (
+              <Text
+                key={index}
+                text={`${index + 1} - ${item}`}
+                fs={18}
+                cl={`${_gym.COLORS.GRAY_100}`}
+              />
+            )
+          })}
+        </Main>
+      </ScrollView>
     </Container>
   );
 }

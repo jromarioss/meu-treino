@@ -100,7 +100,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
       <ButtonCloseModal t={1} r={1} cl={'black'} onPress={handleCloseModal} />
 
       <Main jc='space-between' ai='center' pd={0} >
-        <Text text={exercise?.title} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
+        <Text text={exercise?.title} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_100} />
 
         <AreaImage>
           {exerciseInfo?.image &&
@@ -114,7 +114,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
 
         <Form>
           <LabelArea>
-            <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
+            <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_100} />
             <Controller
               control={control}
               name='serieTxt'
@@ -123,7 +123,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
               }}
               render={({ field: { onChange, value }}) => (
                 <Input
-                    br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                    br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_100}
                     keyboardType='number-pad'
                     onChangeText={onChange}
                     value={value}
@@ -134,7 +134,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
           </LabelArea>
           
           <LabelArea>
-            <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
+            <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_100} />
             <Controller
               control={control}
               name='repetitionTxt'
@@ -143,7 +143,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
               }}
               render={({ field: { onChange, value }}) => (
                 <Input
-                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_100}
                   keyboardType='number-pad'
                   onChangeText={onChange}
                   value={value}

@@ -116,7 +116,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
       <Main jc='space-between' ai='center' pd={0} >
         {!deleteExercise ?
           <>
-            <Text text={exercise?.exercise} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
+            <Text text={exercise?.exercise} mt={20} ta='center' fs={18} fw={700} cl={_gym.COLORS.GRAY_100} />
 
             <AreaImage>
               {exerciseInfo?.image &&
@@ -130,7 +130,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
 
             <Form>
               <LabelArea>
-                <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
+                <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_100} />
                 <Controller
                   control={control}
                   name='serieTxt'
@@ -139,7 +139,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
                   }}
                   render={({ field: { onChange, value }}) => (
                     <Input
-                      br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                      br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_100}
                       keyboardType='number-pad'
                       onChangeText={onChange}
                       value={value}
@@ -150,7 +150,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
               </LabelArea>
               
               <LabelArea>
-                <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
+                <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_100} />
                 <Controller
                   control={control}
                   name='repetitionTxt'
@@ -159,7 +159,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
                   }}
                   render={({ field: { onChange, value }}) => (
                     <Input
-                      br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                      br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_100}
                       keyboardType='number-pad'
                       onChangeText={onChange}
                       value={value}
@@ -178,13 +178,13 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
           </>
           :
           <>
-            <Text text='Exercícios' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
+            <Text text='Exercícios' fs={18} fw={700} cl={_gym.COLORS.GRAY_100} />
 
             <AreaFlat>
              {exercisesaName.map((item: string, index: number) => {
               return (
                 <ExerciseDiv key={index}>
-                  <Text text={item} fs={16} cl={_gym.COLORS.GRAY_800} nol={1} fx1={1} />
+                  <Text text={item} fs={16} cl={_gym.COLORS.GRAY_100} nol={1} fx1={1} />
                   <ButtonCustom
                     w={32} h ={32} ih={18} iw={18} ic='white' bg={_gym.COLORS.RED_500}
                     onPress={() => handleDeleteExercise(item)}

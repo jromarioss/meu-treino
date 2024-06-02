@@ -6,5 +6,5 @@ export const Container = styled.View`
   align-items: center;
   padding: 16px;
   gap: 1px;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+  background-color: ${({ theme }: any) => theme.COLORS.ZINC_800};
 `;

@@ -33,11 +33,11 @@ export const ButtonDoubt = styled.TouchableOpacity<ButtonProps>`
   height: 44px;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_200};
+  border: 2px solid ${({ theme }: any) => theme.COLORS.GREEN_700};
   border-radius: 6px;
 `;
 
 export const ButtonDoubtTxt = styled.Text`
   font-size: 32px;
-  color: ${({ theme }: any) => theme.COLORS.GRAY_800};
+  color: ${({ theme }: any) => theme.COLORS.GREEN_700};
 `;

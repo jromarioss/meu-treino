@@ -8,7 +8,7 @@ export const Container = styled.View`
   position: absolute;
   top: 16px;
   border-radius: 8px;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+  background-color: ${({ theme }: any) => theme.COLORS.ZINC_600};
 `;
 
 export const AreaImage = styled.View`

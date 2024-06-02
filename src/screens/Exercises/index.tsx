@@ -58,7 +58,7 @@ export const Exercises = () => {
             extraData={(item: exerciseTypesProps) => item}
             renderItem={({ item }) => (
               <ButtonExercise onPress={() => handleGoExerciseDetail(item)}>
-                <Text text={item.exercise} fs={22} />
+                <Text text={item.exercise} fs={20} />
               </ButtonExercise>
             )}
             showsHorizontalScrollIndicator={false}

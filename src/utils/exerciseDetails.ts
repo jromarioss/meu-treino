@@ -54,6 +54,8 @@ import OmbroIMG5 from '../assets/gif/ombro/ombros-voador-invertido-na-maquina.gi
 import OmbroIMG6 from '../assets/gif/ombro/ombros-desenvolvimento-de-ombros-frontal-com-barra.gif';
 import OmbroIMG7 from '../assets/gif/ombro/ombros-desenvolvimento-arnold-para-ombros.gif';
 import OmbroIMG8 from '../assets/gif/ombro/desenvolvimento-para-ombros-com-halteres.gif';
+import OmbroIMG9 from '../assets/gif/ombro/ombro-encolhimento-halteres.gif';
+import OmbroIMG10 from '../assets/gif/ombro/ombros-envolhimento-barra.gif';
 
 import PeitoIMG0 from '../assets/gif/peito/supino_reto_com_barra.gif';
 import PeitoIMG1 from '../assets/gif/peito/flexao-de-bracos-inclinada.gif';
@@ -596,6 +598,24 @@ export const exerciseDetails: exerciseDetailsProps[] = [
           'Em seguida, arrume a sua postura mantendo o peito aberto, os cotovelos para os lados, dobrados em um ângulo de 90 graus, o core firme e o olhar para a frente.',
           'Então, com cuidado para não inclinar o corpo, expire o ar enquanto estica os cotovelos para cima para levantar os pesos até os braços ficarem retos. Depois disso, volte lentamente à posição inicial inspirando o ar.',
           'Ao fazer o desenvolvimento para ombros nesta posição sentada, é possível levantar mais peso, já que os músculos estabilizadores que sustentam o tronco não precisam trabalhar tanto.',
+        ]
+      },
+      {
+        title: 'Encolhimento com Barra',
+        image: OmbroIMG10,
+        description: [
+          'Fique em pé com os pés afastados na largura dos ombros e segure os halteres com uma pegada neutra, com as palmas das mãos voltadas para o seu corpo.',
+          'Puxe os ombros para cima sem mover nenhuma outra parte do seu corpo. Os cotovelos naturalmente terão uma leve flexão para acomodar a amplitude total de movimento, mas não deixe que eles dobrem demais ou você estará permitindo que o bíceps faça parte do movimento.',
+          'Levante até onde conseguir e contraia o trapézio por alguns segundos no topo do movimento. Em seguida, sem pressa e resistindo à ação da gravidade, retorne à posição inicial.',
+        ]
+      },
+      {
+        title: 'Encolhimento com halteres',
+        image: OmbroIMG9,
+        description: [
+          'Fique em pé com os pés afastados na largura dos ombros e segure os halteres com uma pegada neutra, com as palmas das mãos voltadas para o seu corpo.',
+          'Puxe os ombros para cima sem mover nenhuma outra parte do seu corpo. Os cotovelos naturalmente terão uma leve flexão para acomodar a amplitude total de movimento, mas não deixe que eles dobrem demais ou você estará permitindo que o bíceps faça parte do movimento.',
+          'Levante até onde conseguir e contraia o trapézio por alguns segundos no topo do movimento. Em seguida, sem pressa e resistindo à ação da gravidade, retorne à posição inicial.',
         ]
       },
       {

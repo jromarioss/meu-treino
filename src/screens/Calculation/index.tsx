@@ -56,7 +56,7 @@ export const Calculation = () => {
       valueIdealWeight = (45.5 + 0.9 * (heightWithoutDot - 152));
     }
 
-    setIdealWeight(valueIdealWeight.toString());
+    setIdealWeight(valueIdealWeight.toFixed(0).toString());
   }
 
   const calculateIMC = (weightValue: number, heightValue: number): number => {
@@ -154,12 +154,12 @@ export const Calculation = () => {
             </DivSwitch>
             {resultImc &&
               <>
-                <Text text={`Seu IMC = ${resultImc.toFixed(2)}`} fs={24} cl={_gym.COLORS.GRAY_100} />
-                <Text text={resultText != null ? resultText : ''} fs={24} cl={_gym.COLORS.GRAY_100} />
+                <Text text={`Seu IMC = ${resultImc.toFixed(2)}`} fs={20} cl={_gym.COLORS.GRAY_100} />
+                <Text text={resultText != null ? resultText : ''} fs={20} cl={_gym.COLORS.GRAY_100} />
               </>
             }
             {rightWeight &&
-              <Text text={`Peso ideal para você: ${idealWeight} KG`} fs={24} cl={_gym.COLORS.GRAY_100} />
+              <Text text={`Peso ideal para você: ${idealWeight} KG`} fs={20} cl={_gym.COLORS.GRAY_100} />
             }
           </Div>
 

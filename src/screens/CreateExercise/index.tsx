@@ -183,7 +183,7 @@ export const CreateExercise = () => {
                 renderItem={({ item }) => (
                   <ButtonExercise onPress={() => handleOpenModalExercise(item)}>
                     <Text
-                      fs={24} cl={_gym.COLORS.GRAY_100}
+                      fs={20} cl={_gym.COLORS.GRAY_100}
                       text={item.exercise}
                     />
                   </ButtonExercise>

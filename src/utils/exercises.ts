@@ -79,6 +79,8 @@ export const exercise: ExerciseProps[] = [
       { id: 6, type: 'Ombro', exercise: 'Remada alta no cabo' },
       { id: 7, type: 'Ombro', exercise: 'Remada alta no Smith' },
       { id: 8, type: 'Ombro', exercise: 'Voador invertido na máquina peck deck' },
+      { id: 9, type: 'Ombro', exercise: 'Encolhimento com Barra' },
+      { id: 10, type: 'Ombro', exercise: 'Encolhimento com halteres' },
     ]
   },
   {

@@ -6,7 +6,7 @@ export const Container = styled.View`
   padding: 16px;
   z-index: 2;
   border-radius: 8px;
-  background-color: ${({ theme }: any) => theme.COLORS.GRAY_100};
+  background-color: ${({ theme }: any) => theme.COLORS.ZINC_600};
 `;
 
 export const AreaImage = styled.View`
