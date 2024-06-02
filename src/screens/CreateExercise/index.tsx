@@ -96,6 +96,7 @@ export const CreateExercise = () => {
 
   const deleteExerciseFromDivision = (value: string) => {
     _gym.onRemoveExercisesFromDivisionData(divisionName, value);
+
     const exercisesFilter = exerciseArray.filter(item => item.title !== value);
     setExerciseArray(exercisesFilter);
   }
@@ -110,6 +111,7 @@ export const CreateExercise = () => {
   const finishDivision = (data: divisionProps) => {
     _gym.onSetDivisionDatas(data);
     _gym.onCleanDoubtType();
+
     setExerciseArray([]);
     navigate('createDivision');
   }

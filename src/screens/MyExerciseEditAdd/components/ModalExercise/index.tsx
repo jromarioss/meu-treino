@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { Alert } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Main } from '../../../../components/Main';
 import { Text } from '../../../../components/Text';
@@ -23,13 +24,23 @@ interface ModalExerciseProps {
   onClose: () => void,
 }
 
+interface formData {
+  serieTxt: string;
+  repetitionTxt: string;
+}
+
 export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExerciseProps) => {
   const _gym = useGym();
 
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
-  const [serieTxt, setSerieTxt] = useState<string>('');
-  const [repetitionTxt, setRepetitionTxt] = useState<string>('');
   const [load, setLoad] = useState<boolean>(false);
+
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      repetitionTxt: '',
+      serieTxt: ''
+    }
+  });
 
   const fetchExercise = () => {
     setLoad(true);
@@ -41,12 +52,12 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
     setLoad(false);
   }
 
-  const handleAddExercise = () => {
+  const handleAddExercise = ({ repetitionTxt, serieTxt }: formData) => {
     const series = serieTxt.replace(/[,.]/g, '');
     const repetitions = repetitionTxt.replace(/[,.]/g, '');
 
-    if (series === '' || repetitions === '') {
-      return Alert.alert('Error', 'Informe o número de serie e de repetição.');
+    if (parseInt(series) <= 0 || parseInt(repetitions) <= 0) {
+      return Alert.alert('Error', 'Valor minímo para serie e repetição é 1.');
     }
 
     if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
@@ -64,6 +75,7 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
 
       onExercise(newExercise);
       onClose();
+      reset();
     }
   }
 
@@ -93,23 +105,41 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
         <Form>
           <LabelArea>
             <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
-            <Input
-              br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-              keyboardType='number-pad'
-              onChangeText={setSerieTxt}
-              value={serieTxt}
-              maxLength={2}
+            <Controller
+              control={control}
+              name='serieTxt'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange, value }}) => (
+                <Input
+                    br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                    keyboardType='number-pad'
+                    onChangeText={onChange}
+                    value={value}
+                    maxLength={2}
+                  />
+              )}
             />
           </LabelArea>
           
           <LabelArea>
             <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
-            <Input
-              br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-              keyboardType='number-pad'
-              onChangeText={setRepetitionTxt}
-              value={repetitionTxt}
-              maxLength={2}
+            <Controller
+              control={control}
+              name='repetitionTxt'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange, value }}) => (
+                <Input
+                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                  keyboardType='number-pad'
+                  onChangeText={onChange}
+                  value={value}
+                  maxLength={2}
+                />
+              )}
             />
           </LabelArea>
         </Form>
@@ -117,7 +147,7 @@ export const ModalExercise = ({ exercise, onExercise, onClose }: ModalExercisePr
         <ButtonCreate
           bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
           text='Salvar'
-          onPress={handleAddExercise}
+          onPress={handleSubmit(handleAddExercise)}
         />
       </Main>
     </Container>

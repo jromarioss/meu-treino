@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Alert, FlatList } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
@@ -17,29 +18,34 @@ import { exerciseStorageDTO } from '../../storage/exercise/exerciseStorageDTO';
 
 import { AreaInput, AreaDivision, Division, Divisions, DivisionButton } from './styled';
 
+interface formData {
+  name: string;
+}
+
 export const CreateDivision = () => {
   const _gym = useGym();
   const { navigate } = useNavigation();
 
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      name: ''
+    }
+  });
+
   const [divisions, setDivisions] = useState<divisionProps[]>([]);
-  const [name, setName] = useState<string>('');
   const [showButtonFinish, setShowButtonFinish] = useState<boolean>(false);
 
-  const handleCreateDivisionName = () => {
-    if (name === '') {
-      return Alert.alert('Error', 'Você precisa dar um nome para sua divisão.');
-    }
-
+  const handleCreateDivisionName = ({ name }: formData) => {
     if (divisions.length > 4) {
-      setName('');
+      reset();
       return Alert.alert('Error', 'Cada treino pode ter no maxímo 5 divisões.');
     }
 
     const divisionExists = divisions.find(item => item.division === name);
 
     if (divisionExists) {
-      setName('');
-      return Alert.alert('Error', 'Já existe um divisão com esse nome.');
+      reset();
+      return Alert.alert('Error', 'Já existe uma divisão com este nome.');
     }
 
     const newDivision: divisionProps = {
@@ -50,25 +56,17 @@ export const CreateDivision = () => {
     setDivisions(state => [...state, newDivision]);
     _gym.onSetDivisionDatas(newDivision);
 
-    setName('');
+    reset();
   }
 
-  const deleteDivision = async (name: string) => {
-    try {
-      _gym.onRemoveDivisionDatas(name);
+  const deleteDivision = (name: string) => {
+    _gym.onRemoveDivisionDatas(name);
 
-      const filterDivision = divisions.filter(item => item.division !== name);
-      setDivisions(filterDivision);
-    } catch (error) {
-      if (error instanceof AppError) {
-        Alert.alert('Deletar divisão', error.message);
-      } else {
-        Alert.alert('Deletar divisão', 'Não foi possível deletar essa divisão.');
-      }
-    }
+    const filterDivision = divisions.filter(item => item.division !== name);
+    setDivisions(filterDivision);
   }
 
-  const handleDeleteDivision= async (name: string) => {
+  const handleDeleteDivision = (name: string) => {
     Alert.alert('Deletar divisão', `Deseja deletar a divisão ${name}?`, [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => deleteDivision(name) }
@@ -85,7 +83,7 @@ export const CreateDivision = () => {
       const noExerciseEmpty: boolean = data.divisions.every((item: divisionProps) => item.exercises.length > 0)
 
       if (!noExerciseEmpty) {
-        return Alert.alert('Error', 'Todas suas divisões precisa ter pelo menos um exercício!')
+        return Alert.alert('Error', 'Cada divisão precisa ter pelo menos um exercício!')
       }
 
       await exerciseCreate(data, _gym.trainingName);
@@ -105,7 +103,7 @@ export const CreateDivision = () => {
     }
   }
 
-  const handleSaveDivision = async () => {
+  const handleSaveDivision = () => {
     const id = String(new Date().getTime())
 
     const newExercise: exerciseStorageDTO = {
@@ -114,7 +112,7 @@ export const CreateDivision = () => {
       divisions: _gym.divisionDatas,
     }
 
-    Alert.alert('Divisão', `Deseja finalizar a criação de divisão?`, [
+    Alert.alert('Divisão', `Deseja salvar?`, [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => saveDivision(newExercise) }
     ]);
@@ -140,27 +138,35 @@ export const CreateDivision = () => {
     <Container titleText='Criar divisão' doubt>
       <Main gap={16} ai='center'>
         <AreaInput>
-          <Input
-            fx1={1} h={42} fs={18} br={6} pl={8}
-            placeholder='Nome da divisão'
-            onChangeText={setName}
-            value={name}
-            maxLength={24}
+          <Controller
+            control={control}
+            name='name'
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, value }}) => (
+              <Input
+                fx1={1} h={42} fs={18} br={6} pl={8}
+                placeholder='Nome da divisão'
+                onChangeText={onChange}
+                value={value}
+                onSubmitEditing={handleSubmit(handleCreateDivisionName)}
+                maxLength={18}
+              />
+            )}
           />
 
           <ButtonCreate
             w={100} h={42} bg={_gym.COLORS.GREEN_600} fs={24} fw={700}
             text='Criar'
-            onPress={handleCreateDivisionName}
+            onPress={handleSubmit(handleCreateDivisionName)}
           />
         </AreaInput>
 
         <AreaDivision>
-          <FlatList 
-            data={divisions}
-            extraData={(item: divisionProps) => item}
-            renderItem={({ item }) => (
-              <Division>
+          {divisions.map((item, index) => {
+            return (
+              <Division key={index}>
                 <Divisions>
                   <DivisionButton onPress={() => handleGoToExercises(item.division)}>
                     <Text text={item.division} fs={24} cl={_gym.COLORS.GRAY_100} nol={1} />
@@ -174,8 +180,8 @@ export const CreateDivision = () => {
                   bg={_gym.COLORS.RED_600}
                 />
               </Division>
-            )}
-          />
+            )
+          })}
         </AreaDivision>
 
         {showButtonFinish &&

@@ -1,5 +1,6 @@
-import { Alert } from 'react-native';
 import { useContext, useState } from 'react';
+import { Switch } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Input} from '../../components/Input';
 import { Container} from '../../components/Container';
@@ -11,21 +12,32 @@ import { GymContext } from '../../context/gymContext';
 
 import { DivInput, Label, Form, Div } from './styled';
 
+interface formData {
+  weight: string;
+  height: string;
+}
+
 export const Calculation = () => {
   const _gym = useContext(GymContext);
 
-  const [weight, setWeight] = useState<string>('');
-  const [height, setHeight] = useState<string>('');
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      weight: '',
+      height: ''
+    }
+  });
+
   const [idealWeight, setIdealWeight] = useState<string>('');
   const [resultImc, setResultImc] = useState<number | null>(null);
   const [resultText, setResultText] = useState<string | null>(null);
   const [rightWeight, setRightWeight] = useState<boolean>(false);
+  const [isMen, setIsMen] = useState<boolean>(false);
 
-  const handleCalculateImc = () => {
-    if (weight === '' || height === '') {
-      return Alert.alert("Error", "Informe o peso e a altura!");
-    }
+  const toggleSwitch = () => {
+    setIsMen(!isMen);
+  }
 
+  const handleCalculateImc = async ({ height, weight }: formData) => {
     const weightNumber = parseFloat(weight.replace(',', '.'));
     const heightNumber = parseFloat(height.replace(',', '.'));
 
@@ -35,17 +47,22 @@ export const Calculation = () => {
     const textIMC = verifyIMC(valueIMC);
     setResultText(textIMC);
 
-    const valueIdealWeight = calculateIdealWeight(heightNumber);
+    let valueIdealWeight = 0;
+    const heightWithoutDot = Math.floor(heightNumber * 100);
+
+    if (isMen) {
+      valueIdealWeight = (50 + 0.9 * (heightWithoutDot - 152));
+    } else {
+      valueIdealWeight = (45.5 + 0.9 * (heightWithoutDot - 152));
+    }
+
     setIdealWeight(valueIdealWeight.toString());
+    reset();
   }
 
   const calculateIMC = (weightValue: number, heightValue: number): number => {
     const imc = weightValue / (heightValue * heightValue);
     return imc;
-  }
-
-  const calculateIdealWeight = (heightValue: number): number => {
-    return Math.abs(Math.floor(heightValue - 100 - ((heightValue - 150) / 4)));
   }
 
   const verifyIMC = (value: number): string => {
@@ -85,29 +102,57 @@ export const Calculation = () => {
             <DivInput>
               <Label>
                 <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
-                <Input
-                  fs={18} h={36} w={150} br={4} pl={8}
-                  placeholder='Quilo'
-                  keyboardType='number-pad'
-                  onChangeText={setWeight}
-                  value={weight}
-                  maxLength={8}
+                <Controller
+                  control={control}
+                  name='weight'
+                  rules={{
+                    required: true
+                  }}
+                  render={({ field: { onChange, value }}) => (
+                    <Input
+                      fs={18} h={36} w={150} br={4} pl={8}
+                      placeholder='Quilo'
+                      keyboardType='number-pad'
+                      onChangeText={onChange}
+                      value={value}
+                      maxLength={8}
+                    />
+                  )}
                 />
               </Label>
 
               <Label>
-                <Text text='Informe o peso' fs={18} cl={_gym.COLORS.GRAY_100} />
-                <Input
-                  fs={18} h={36} w={150} br={4} pl={8}
-                  placeholder='1.85cm'
-                  keyboardType='number-pad'
-                  onChangeText={setHeight}
-                  value={height}
-                  maxLength={8}
+                <Text text='Informe a Altura' fs={18} cl={_gym.COLORS.GRAY_100} />
+                <Controller
+                  control={control}
+                  name='height'
+                  rules={{
+                    required: true
+                  }}
+                  render={({ field: { onChange, value }}) => (
+                    <Input
+                      fs={18} h={36} w={150} br={4} pl={8}
+                      placeholder='1.85cm'
+                      keyboardType='number-pad'
+                      onChangeText={onChange}
+                      value={value}
+                      maxLength={8}
+                    />
+                  )}
                 />
               </Label>
             </DivInput>
-
+            <DivInput style={{ width: 200, alignItems: 'center'}}>
+              <Text text='Mulher' fs={18} cl={_gym.COLORS.GRAY_100} />
+              <Switch
+                trackColor={{ false: '#fecaca', true: '#60a5fa' }}
+                thumbColor={isMen ? "#f4f3f4" : "#f4f3f4"}
+                ios_backgroundColor='#f9f5f5'
+                onValueChange={toggleSwitch}
+                value={isMen}
+              />
+              <Text text='Homen' fs={18} cl={_gym.COLORS.GRAY_100} />
+            </DivInput>
             {resultImc &&
               <>
                 <Text text={`Seu IMC = ${resultImc.toFixed(2)}`} fs={24} cl={_gym.COLORS.GRAY_100} />
@@ -122,10 +167,9 @@ export const Calculation = () => {
           <ButtonCreate
             bg={_gym.COLORS.GREEN_700} fs={32} fw={700}
             text='Calcular'
-            onPress={handleCalculateImc}
+            onPress={handleSubmit(handleCalculateImc)}
           />
         </Form>
-       
       </Main>
     </Container>
   );

@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
-import { Alert, FlatList } from 'react-native';
+import { Alert } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Main } from '../../../../components/Main';
 import { Text } from '../../../../components/Text';
@@ -27,13 +28,23 @@ interface ModalExerciseProps {
   onDeleteExercise: (value: string) => void,
 }
 
+interface formData {
+  serieTxt: string;
+  repetitionTxt: string;
+}
+
 export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise, onClose, onDeleteExercise }: ModalExerciseProps) => {
   const _gym = useGym();
 
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      repetitionTxt: '',
+      serieTxt: ''
+    }
+  });
+
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
-  const [serieTxt, setSerieTxt] = useState<string>('');
   const [exercisesaName, setExercisesName] = useState<string[]>([]);
-  const [repetitionTxt, setRepetitionTxt] = useState<string>('');
   const [load, setLoad] = useState<boolean>(false);
 
   const fetchExercise = () => {
@@ -56,12 +67,12 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
     }
   }
 
-  const handleAddExercise = () => {
+  const handleAddExercise = ({ repetitionTxt, serieTxt }: formData) => {
     const series = serieTxt.replace(/[,.]/g, '');
     const repetitions = repetitionTxt.replace(/[,.]/g, '');
 
-    if (series === '' || repetitions === '') {
-      return Alert.alert('Error', 'Informe o número de serie e de repetição.');
+    if (parseInt(series) <= 0 || parseInt(repetitions) <= 0) {
+      return Alert.alert('Error', 'Valor minímo para serie e repetição é 1.');
     }
 
     if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
@@ -78,6 +89,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
       }
 
       onExercise(newExercise);
+      reset();
       onClose();
     }
   }
@@ -118,23 +130,41 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
             <Form>
               <LabelArea>
                 <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
-                <Input
-                  br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-                  keyboardType='number-pad'
-                  onChangeText={setSerieTxt}
-                  value={serieTxt}
-                  maxLength={2}
+                <Controller
+                  control={control}
+                  name='serieTxt'
+                  rules={{
+                    required: true
+                  }}
+                  render={({ field: { onChange, value }}) => (
+                    <Input
+                      br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                      keyboardType='number-pad'
+                      onChangeText={onChange}
+                      value={value}
+                      maxLength={2}
+                    />
+                  )}
                 />
               </LabelArea>
               
               <LabelArea>
                 <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
-                <Input
-                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-                  keyboardType='number-pad'
-                  onChangeText={setRepetitionTxt}
-                  value={repetitionTxt}
-                  maxLength={2}
+                <Controller
+                  control={control}
+                  name='repetitionTxt'
+                  rules={{
+                    required: true
+                  }}
+                  render={({ field: { onChange, value }}) => (
+                    <Input
+                      br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                      keyboardType='number-pad'
+                      onChangeText={onChange}
+                      value={value}
+                      maxLength={2}
+                    />
+                  )}
                 />
               </LabelArea>
             </Form>
@@ -142,7 +172,7 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
             <ButtonCreate
               bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
               text='Adicionar'
-              onPress={handleAddExercise}
+              onPress={handleSubmit(handleAddExercise)}
             />
           </>
           :
@@ -150,21 +180,17 @@ export const ModalExercise = ({ exercise, exercises, deleteExercise, onExercise,
             <Text text='Exercícios' fs={18} fw={700} cl={_gym.COLORS.GRAY_800} />
 
             <AreaFlat>
-              <FlatList
-                data={exercisesaName}      
-                extraData={(item: string) => item}
-                renderItem={({ item }) => (
-                  <ExerciseDiv>
-                    <Text text={item} fs={16} cl={_gym.COLORS.GRAY_800} nol={1} fx1={1} />
-
-                    <ButtonCustom
-                      w={32} h ={32} ih={18} iw={18} ic='white' bg={_gym.COLORS.RED_500}
-                      onPress={() => handleDeleteExercise(item)}
-                    />
-                  </ExerciseDiv>
-                )}
-                showsHorizontalScrollIndicator={false}
-              />
+             {exercisesaName.map((item: string, index: number) => {
+              return (
+                <ExerciseDiv key={index}>
+                  <Text text={item} fs={16} cl={_gym.COLORS.GRAY_800} nol={1} fx1={1} />
+                  <ButtonCustom
+                    w={32} h ={32} ih={18} iw={18} ic='white' bg={_gym.COLORS.RED_500}
+                    onPress={() => handleDeleteExercise(item)}
+                  />
+                </ExerciseDiv>
+              )
+             })} 
             </AreaFlat>
           </>
         }

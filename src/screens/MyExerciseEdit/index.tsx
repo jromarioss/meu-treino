@@ -276,10 +276,10 @@ export const MyExerciseEdit = () => {
         
         {!dropExercisesIndex.some((item: boolean) => item == true) &&
           <ButtonCreate
-          bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
-          text='Voltar'
-          onPress={goBack}
-        />
+            bg={_gym.COLORS.ORANGE_600} fs={32} fw={700} h={54}
+            text='Voltar'
+            onPress={goBack}
+          />
         }
       </Main>
     </Container>

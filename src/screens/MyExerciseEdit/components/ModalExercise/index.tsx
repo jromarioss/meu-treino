@@ -1,12 +1,12 @@
 import { Image } from 'expo-image';
-import { Alert, FlatList } from 'react-native';
+import { Alert } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Text } from '../../../../components/Text';
 import { Input } from '../../../../components/Input';
 import { ButtonCreate } from '../../../../components/ButtonCreate';
 import { Main } from '../../../../components/Main';
-import { ButtonCustom } from '../../../../components/ButtonCustom';
 import { ButtonCloseModal } from '../../../../components/ButtonCloseModal';
 
 import { exercisesInfoProps } from '../../../../interfaces/exerciseDetailsProps';
@@ -14,7 +14,7 @@ import { exerciseDetails } from '../../../../utils/exerciseDetails';
 import { useGym } from '../../../../hooks/useGym';
 import { exercisesProps } from '../../../../interfaces/divisionProps';
 
-import { Container, AreaFlat, ExerciseDiv, AreaImage, Form, LabelArea } from './styled';
+import { Container, AreaImage, Form, LabelArea } from './styled';
 import { Loading } from '../../../../components/Loading';
 
 interface ModalExerciseProps {
@@ -23,8 +23,20 @@ interface ModalExerciseProps {
   onClose: () => void;
 }
 
+interface formData {
+  serieTxt: string;
+  repetitionTxt: string;
+}
+
 export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerciseProps) => {
   const _gym = useGym();
+
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      serieTxt: exercise?.series.toString(),
+      repetitionTxt: exercise?.repetition.toString()
+    }
+  });
 
   const [exerciseInfo, setExerciseInfo] = useState<exercisesInfoProps | null | undefined>(null);
   const [serieTxt, setSerieTxt] = useState<string>('');
@@ -40,19 +52,17 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
       const findExerciseInfo = findExerciseType?.exercises.find(item => item.title === exercise?.title);
 
       setExerciseInfo(findExerciseInfo);
-      setSerieTxt(exercise?.series.toString());
-      setRepetitionTxt(exercise?.repetition.toString());
     }
 
     setLoad(false);
   }
 
-  const handleEditExercise = () => {
+  const handleEditExercise = ({ repetitionTxt, serieTxt }: formData) => {
     const series = serieTxt.replace(/[,.]/g, '');
     const repetitions = repetitionTxt.replace(/[,.]/g, '');
 
-    if (series === '' || repetitions === '') {
-      return Alert.alert('Error', 'Informe o número de serie e de repetição.');
+    if (parseInt(series) <= 0 || parseInt(repetitions) <= 0) {
+      return Alert.alert('Error', 'Valor minímo para serie e repetição é 1.');
     }
 
     if (parseInt(series) > 10 || parseInt(repetitions) > 20) {
@@ -69,6 +79,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
       }
 
       onExerciseEdit(newExercise);
+      reset();
       handleCloseModal();
     }
   }
@@ -104,23 +115,41 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
         <Form>
           <LabelArea>
             <Text text='Serie' fs={18} cl={_gym.COLORS.GRAY_800} />
-            <Input
-              br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-              keyboardType='number-pad'
-              onChangeText={setSerieTxt}
-              value={serieTxt}
-              maxLength={2}
+            <Controller
+              control={control}
+              name='serieTxt'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange, value }}) => (
+                <Input
+                    br={6} pl={12} h={44} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                    keyboardType='number-pad'
+                    onChangeText={onChange}
+                    value={value}
+                    maxLength={2}
+                  />
+              )}
             />
           </LabelArea>
           
           <LabelArea>
             <Text text='Repetição' fs={18} cl={_gym.COLORS.GRAY_800} />
-            <Input
-              br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
-              keyboardType='number-pad'
-              onChangeText={setRepetitionTxt}
-              value={repetitionTxt}
-              maxLength={2}
+            <Controller
+              control={control}
+              name='repetitionTxt'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange, value }}) => (
+                <Input
+                  br={6} pl={12} h={42} fs={20} bw={1} bc={_gym.COLORS.GRAY_800}
+                  keyboardType='number-pad'
+                  onChangeText={onChange}
+                  value={value}
+                  maxLength={2}
+                />
+              )}
             />
           </LabelArea>
         </Form>
@@ -128,7 +157,7 @@ export const ModalExercise = ({ exercise, onExerciseEdit, onClose }: ModalExerci
         <ButtonCreate
           bg={_gym.COLORS.GREEN_600} h={54} fs={32} fw={700}
           text='Salvar'
-          onPress={handleEditExercise}
+          onPress={handleSubmit(handleEditExercise)}
         />
       </Main>
     </Container>

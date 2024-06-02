@@ -31,22 +31,3 @@ export const Form = styled.View`
 export const LabelArea = styled.View`
   flex: 1;
 `;
-
-export const AreaFlat = styled.View`
-  flex: 1;
-  width: 100%;
-  margin-top: 16px;
-`;
-
-export const ExerciseDiv = styled.View`
-  width: 100%;
-  height: 48px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding-left: 12px;
-  border-bottom-width: 1px;
-  border-color: ${({ theme }: any) => theme.COLORS.GRAY_800};
-`;

@@ -1,7 +1,8 @@
 import { Alert } from 'react-native';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 import { Container} from '../../components/Container';
 import { Text } from '../../components/Text';
@@ -20,12 +21,21 @@ import { trainingStorageDTO } from '../../storage/training/trainingStorageDTO';
 
 import { TrainingDiv, Div, ButtonTraining, AreaInput } from './styled';
 
+interface formData {
+  nameTraining: string;
+}
+
 export const CreateTraining = () => {
   const _gym = useGym();
   const { navigate } = useNavigation();
 
+  const { control, handleSubmit, reset } = useForm<formData>({
+    defaultValues: {
+      nameTraining: ''
+    }
+  });
+
   const [training, setTraining] = useState<trainingStorageDTO | null>(null);
-  const [nameTraining, setNameTraining] = useState<string>('');
   const [showInfosToCreate, setShowInfosToCreate] = useState<boolean>(true);
   const [load, setLoad] = useState<boolean>(false);
 
@@ -49,12 +59,8 @@ export const CreateTraining = () => {
     }
   }
 
-  const handleSaveName = async () => {
+  const handleSaveName = async ({ nameTraining }: formData) => {
     try {
-      if (nameTraining === '') {
-        return Alert.alert('Error', 'Seu treino precisa ter um nome.');
-      }
-
       const nameFormated = nameTraining.trim();
       const newDate = dayjs(new Date()).format('DD/MM/YYYY');
 
@@ -62,7 +68,7 @@ export const CreateTraining = () => {
         createdAt: newDate,
         name: nameFormated,
       }
-
+    
       const allTraining = await trainingGetAll()
 
       if (allTraining.length > 5) {
@@ -72,7 +78,7 @@ export const CreateTraining = () => {
       _gym.onSetTrainingName(nameFormated);
       await trainingCreate(newTraining);
 
-      setNameTraining('');
+      reset();
       fetchName(nameFormated);
     } catch (error) {
       if (error instanceof AppError) {
@@ -95,7 +101,7 @@ export const CreateTraining = () => {
       if (error instanceof AppError) {
         Alert.alert('Deletar treino', error.message);
       } else {
-        Alert.alert('Deletar treino', 'Não foi possível deletar o traino.');
+        Alert.alert('Deletar treino', 'Não foi possível deletar este treino.');
       }
     }
   }
@@ -126,11 +132,21 @@ export const CreateTraining = () => {
         {showInfosToCreate ?
           <AreaInput>
             <Text text='Informe um nome para o seu treino.' fs={18} cl={_gym.COLORS.GRAY_100} />
-            <Input
-              fs={18} bg={_gym.COLORS.GRAY_100} h={42} w='100%' br={4} pl={16}
-              onChangeText={setNameTraining}
-              value={nameTraining}
-              maxLength={30}
+            <Controller
+              control={control}
+              rules={{
+                required: true
+              }}
+              name='nameTraining'
+              render={({ field: { onChange, value }}) => (
+                <Input
+                  fs={18} bg={_gym.COLORS.GRAY_100} h={42} w='100%' br={4} pl={16}
+                  onChangeText={onChange}
+                  value={value}
+                  maxLength={18}
+                  onSubmitEditing={handleSubmit(handleSaveName)}
+                />
+              )}
             />
           </AreaInput>
           :
@@ -151,9 +167,9 @@ export const CreateTraining = () => {
         
         {showInfosToCreate &&
           <ButtonCreate
-            bg={_gym.COLORS.GREEN_600} fs={32} fw={700}
+            bg={_gym.COLORS.GREEN_600} fs={32} fw={700} h={54}
             text='Salvar'
-            onPress={handleSaveName}
+            onPress={handleSubmit(handleSaveName)}
           />
         }
       </Main>
