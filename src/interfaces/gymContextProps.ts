@@ -9,6 +9,7 @@ export interface GymContextDataProps {
   divisionSelected: string;
   doubtType: string;
   showMenu: boolean;
+  pix: boolean;
   myExerciseShow: exercisesProps | null;
   showDoubt: boolean;
   divisionDatas: divisionProps[];
@@ -16,6 +17,7 @@ export interface GymContextDataProps {
   trainingToCreate: exerciseStorageDTO | null;
   onShowMenu: (value: boolean) => void;
   onSetShowDoubt: (value: boolean) => void;
+  onSetPix: (value: boolean) => void;
   onSetDivisionDatas: (data: divisionProps) => void;
   onCleanDivisionDatas: () => void;
   onSetTrainingToCreate: (value: exerciseStorageDTO) => void;

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Keyboard, Image, BackHandler } from 'react-native';
+import { Keyboard, BackHandler } from 'react-native';
 
 import { useGym } from '../../hooks/useGym';
 
@@ -18,6 +18,7 @@ export const Menu = () => {
     { label: 'Criar Treino', value: 'createTraining' },
     { label: 'Meus Treinos', value: 'myExercise' },
     { label: 'Calculo IMC', value: 'calculation' },
+    { label: 'Pix', value: 'pix' },
     { label: 'Sair', value: 'exit' },
   ]
 
@@ -25,7 +26,7 @@ export const Menu = () => {
     _gym.onShowMenu(!_gym.showMenu);
 
     if (goTo == 'home') {
-      navigate('home');
+      navigate('home',);
     } else if (goTo == 'exercise') {
       navigate('exercise');
     } else if (goTo == 'createTraining') {
@@ -34,6 +35,9 @@ export const Menu = () => {
       navigate('myExercise');
     } else if (goTo == 'calculation') {
       navigate('calculation')
+    } else if (goTo == 'pix') {
+      _gym.onSetPix(true);
+      navigate('home');
     } else {
       BackHandler.exitApp();
     }

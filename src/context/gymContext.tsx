@@ -10,6 +10,8 @@ export const GymContext = createContext<GymContextDataProps>({} as GymContextDat
 
 export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   const { COLORS } = theme;
+
+  const [pix, setPix] = useState<boolean>(false);
   //Header
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showDoubt, setShowDoubt] = useState<boolean>(false);
@@ -24,6 +26,10 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
   //My exercise
   const [myExerciseShow, setMyExerciseShow] = useState<exercisesProps | null>(null);
   const [myDivisionsShow, setMyDivisionsShow] = useState<exerciseStorageDTO[]>([]);
+
+  const onSetPix = (value: boolean) => {
+    setPix(value);
+  }
   //Header
   const onShowMenu = (value: boolean) => {
     setShowMenu(value);
@@ -142,6 +148,7 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
       COLORS,
       showDoubt,
       divisionDatas,
+      pix,
       trainingToCreate,
       trainingName,
       trainingSelected,
@@ -158,6 +165,7 @@ export const GymContextProvider = ({ children }: GymContextProviderProps) => {
       onSetTrainingName,
       onSetMyDivisionsShow,
       onCleanTrainingName,
+      onSetPix,
       onSetMyExerciseShow,
       onSetTrainingSelected,
       onCleanMyExerciseShow,
