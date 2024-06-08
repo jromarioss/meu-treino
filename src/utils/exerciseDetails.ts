@@ -11,6 +11,12 @@ import AbdominalIMG7 from '../assets/gif/abdominal/abdominal-padrao-na-bola-de-e
 import AbdominalIMG8 from '../assets/gif/abdominal/abdominal-no-chao-com-elevacao-de-pernas-semi-dobradas.gif';
 import AbdominalIMG9 from '../assets/gif/abdominal/abdominal-em-V-na-maquina.gif';
 
+import AntebracoIMG0 from '../assets/gif/antebraco/antebraco-rosca-punho-barra-tras-costa.gif';
+import AntebracoIMG1 from '../assets/gif/antebraco/antebraco-rosca-inversa-punho-um-braco.gif';
+import AntebracoIMG2 from '../assets/gif/antebraco/antebraco-rosca-punho-barra.gif';
+import AntebracoIMG3 from '../assets/gif/antebraco/antebraco-rosca-punho-halteres.gif';
+import AntebracoIMG4 from '../assets/gif/antebraco/antebraco-rosca-punho-neutra-halteres.gif';
+
 import BicepsIMG0 from '../assets/gif/biceps/rosca-biceps-com-halteres-no-banco-inclinado.gif';
 import BicepsIMG1 from '../assets/gif/biceps/biceps-rosca-biceps-no-banco-scott-com-barra-W.gif';
 import BicepsIMG2 from '../assets/gif/biceps/rosca-biceps-no-cabo.gif';
@@ -224,6 +230,62 @@ export const exerciseDetails: exerciseDetailsProps[] = [
   },
   {
     id: 2,
+    type: 'Antebraço',
+    exercises: [
+      {
+        title: 'Rosca Inversa de Punho com Halter em Banco com um Braço',
+        image: AntebracoIMG1,
+        description: [
+          'Pegue um halter (peso) com uma mão, Sente-se em um banco plano. Posicione o antebraço do braço que está segurando o halter em cima do banco, de modo que o pulso esteja fora da borda do banco.',
+          'A palma da mão deve estar voltada para baixo (pegada pronada). Mantenha o punho ligeiramente abaixo do nível do banco,o braço deve estar estável e o punho livre para se move',
+          'Flexione o pulso para cima, levantando o halter o mais alto possível. Faça uma pequena pausa no topo do movimento, sentindo a contração nos músculos do antebraço.',
+          'Abaixe o halter lentamente, controlando o movimento até que o pulso esteja novamente ligeiramente abaixo do nível do banco.',
+        ]
+      },
+      {
+        title: 'Rosca punho com barra',
+        image: AntebracoIMG2,
+        description: [
+          'Pegue uma barra com as duas mãos, utilizando uma pegada supinada (palmas das mãos voltadas para cima). Sente-se em um banco plano, posicione os antebraços sobre os joelhos ou sobre uma superfície plana, com os punhos fora da borda do banco ou dos joelhos.',
+          'Mantenha os antebraços estáveis e a barra segurada firmemente. Deixe os punhos ligeiramente abaixo do nível dos joelhos ou da superfície plana. A barra deve estar segura apenas pelos dedos, com os polegares ao redor da barra.',
+          'Flexione os punhos para cima, rolando a barra até que esteja firmemente segurada nas palmas das mãos. Faça uma pequena pausa no topo do movimento, sentindo a contração nos músculos do antebraço.',
+          'Abaixe a barra lentamente, controlando o movimento até que os punhos estejam novamente ligeiramente abaixo do nível dos joelhos ou da superfície plana.'
+        ]
+      },
+      {
+        title: 'Rosca punho com barra atrás da costa',
+        image: AntebracoIMG0,
+        description: [
+          'Primeiro você fica em pé. Suas pernas estão afastadas na largura do quadril. O olhar é para a frente e a região lombar é arqueada para proteger a coluna.',
+          'Agora vocêpega uma barra. Estes estão atrás da costa, os braços estão totalmente estendidos e os pulsos estão apontando para baixo com os dedos abertos.',
+          'Ao expirar, dobre ligeiramente os dedos para cima. Os antebraços não se movem.',
+          'Ao mesmo tempo, os pulsos permanecem bastante estáveis. Em seguida, abaixe os dedos levemente novomante até que estejam na posição inicial suspensa.'
+        ]
+      },
+      {
+        title: 'Rosca punho com halter',
+        image: AntebracoIMG3,
+        description: [
+          'Pegue um halter em cada mão, utilizando uma pegada supinada (palmas das mãos voltadas para cima). Sente-se em um banco plano, posicione os antebraços sobre os joelhos ou sobre uma superfície plana, com os punhos fora da borda do banco ou dos joelhos.',
+          'Mantenha os antebraços estáveis e os halteres segurados firmemente, deixe os punhos ligeiramente abaixo do nível dos joelhos ou da superfície plana. Os halteres devem estar seguros apenas pelos dedos, com os polegares ao redor dos halteres.',
+          'Flexione os punhos para cima, rolando os halteres até que estejam firmemente segurados nas palmas das mãos. Faça uma pequena pausa no topo do movimento, sentindo a contração nos músculos do antebraço.',
+          'Abaixe os halteres lentamente, controlando o movimento até que os punhos estejam novamente ligeiramente abaixo do nível dos joelhos ou da superfície plana.'
+        ]
+      },
+      {
+        title: 'Rosca punho Neutra com Halter Sentado, com um braço',
+        image: AntebracoIMG4,
+        description: [
+          'Pegue um halter com uma mão, utilizando uma pegada neutra (polegar voltado para cima e palma da mão voltada para o corpo). Sente-se em um banco plano, posicione o antebraço do braço que está segurando o halter em cima do joelho ou de uma superfície plana, com o pulso fora da borda do joelho ou da superfície.',
+          'Mantenha o antebraço estável e o halter segurado firmemente. Deixe o punho ligeiramente abaixo do nível do joelho ou da superfície plana. A barra do halter deve estar na mesma linha do antebraço, com a mão na posição neutra.',
+          'Flexione o punho para cima, levantando o halter o mais alto possível. Faça uma pequena pausa no topo do movimento, sentindo a contração nos músculos do antebraço.',
+          'Abaixe o halter lentamente, controlando o movimento até que o punho esteja novamente ligeiramente abaixo do nível do joelho ou da superfície plana.'
+        ]
+      },
+    ]
+  },
+  {
+    id: 3,
     type: 'Bíceps',
     exercises: [
       {
@@ -345,7 +407,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     type: 'Costa',
     exercises: [
       {
@@ -470,7 +532,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     type: 'Glúteos',
     exercises: [
       {
@@ -556,7 +618,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     type: 'Ombro',
     exercises: [
       {
@@ -668,7 +730,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     type: 'Panturrilha',
     exercises: [
       {
@@ -783,7 +845,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 7,
+    id: 8,
     type: 'Peito',
     exercises: [
       {
@@ -914,7 +976,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 8,
+    id: 9,
     type: 'Perna',
     exercises: [
       {
@@ -1180,7 +1242,7 @@ export const exerciseDetails: exerciseDetailsProps[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     type: 'Tríceps',
     exercises: [
       {

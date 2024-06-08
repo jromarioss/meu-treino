@@ -9,7 +9,7 @@ export const MenuContainer = styled(SafeAreaView)`
   justify-content: center;
   gap: 54px;
   position: absolute;
-  z-index: 2;
+  z-index: 100;
   background-color: ${({ theme }: any) => theme.COLORS.ZINC_700};
 `;
 

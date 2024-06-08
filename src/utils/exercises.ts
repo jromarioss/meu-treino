@@ -19,6 +19,17 @@ export const exercise: ExerciseProps[] = [
   },
   {
     id: 2,
+    title: 'Antebraço',
+    types: [
+      { id: 0, type: 'Antebraço', exercise: 'Rosca Inversa de Punho com Halter em Banco com um Braço' },
+      { id: 1, type: 'Antebraço', exercise: 'Rosca punho com barra' },
+      { id: 2, type: 'Antebraço', exercise: 'Rosca punho com barra atrás da costa' },
+      { id: 3, type: 'Antebraço', exercise: 'Rosca punho com halter' },
+      { id: 4, type: 'Antebraço', exercise: 'Rosca punho Neutra com Halter Sentado, com um braço' }
+    ]
+  },
+  {
+    id: 3,
     title: 'Bíceps',
     types: [
       { id: 0, type: 'Bíceps', exercise: 'Rosca aberta na barra com pegada aberta' },
@@ -35,7 +46,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     title: 'Costa',
     types: [
       { id: 3, type: 'Costa', exercise: 'Barra fixa chin up com pegada aberta supinada' },
@@ -53,7 +64,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     title: 'Glúteos',
     types: [
       { id: 0, type: 'Glúteos', exercise: 'Coice no cabo' },
@@ -67,7 +78,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     title: 'Ombro',
     types: [
       { id: 0, type: 'Ombro', exercise: 'Crucifixo invertido com halteres' },
@@ -84,7 +95,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     title: 'Panturrilha',
     types: [
       { id: 0, type: 'Panturrilha', exercise: 'Panturrilha apoiado no banco' },
@@ -101,7 +112,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 7,
+    id: 8,
     title: 'Peito',
     types: [
       { id: 0, type: 'Peito', exercise: 'Crucifixo reto' },
@@ -120,7 +131,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 8,
+    id: 9,
     title: 'Perna',
     types: [
       { id: 0, type: 'Perna', exercise: 'Abdução de pernas deitado no solo e elevando a perna' },
@@ -153,7 +164,7 @@ export const exercise: ExerciseProps[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     title: 'Tríceps',
     types: [
       { id: 0, type: 'Tríceps', exercise: 'Flexão de braços com apoio do antebraço no chão' },
